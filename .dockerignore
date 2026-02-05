@@ -1,0 +1,40 @@
+# Git-related files
+.git/
+.gitignore
+.python-version
+
+# IDE-specific files
+.idea/
+
+# Docker-related files (not needed in the final image)
+Dockerfile
+docker-compose.yml
+docker-compose-sertbot.yml
+docker-compose-ssl.yml
+# Сам себя тоже можно игнорировать
+.dockerignore
+
+# Python development artifacts
+# Ваше локальное виртуальное окружение
+.venv/
+# Файлы кэша Python
+__pycache__/
+# Скомпилированные Python-файлы
+*.pyc
+*.egg-info/
+# Кэш pytest
+.pytest_cache/
+# Отчеты о покрытии кода
+htmlcov/
+
+# Project documentation/metadata (not needed for runtime)
+DOCS/
+Reame.md
+.env
+# Database files (local development SQLite)
+#db.sqlite3         # Если вы используете SQLite локально, но PostgreSQL в Docker
+
+# Log files
+logs/
+
+nginx/
