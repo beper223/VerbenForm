@@ -1,5 +1,5 @@
 from django.db import models
-from src.common.choices import VerbType, Pronoun, Tense, AuxiliaryVerb
+from src.common.choices import VerbType, Pronoun, Tense, AuxiliaryVerb, CEFRLevel
 
 
 class Verb(models.Model):
@@ -9,8 +9,13 @@ class Verb(models.Model):
         max_length=10,
         choices=VerbType.choices(),
         default=VerbType.REGULAR)
+    level = models.CharField(
+        max_length=2,
+        choices=CEFRLevel.choices(),
+        default=CEFRLevel.A1
+    )
 
-    # только для Perfekt
+    # nur für Perfekt
     auxiliary = models.CharField(
         max_length=10,
         choices=AuxiliaryVerb.choices(),

@@ -37,3 +37,15 @@ class AuxiliaryVerb(Enum):
     @classmethod
     def choices(cls):
         return [(i.value, i.value) for i in cls]
+
+class CEFRLevel(Enum):
+    A1 = "A1"
+    A2 = "A2"
+    B1 = "B1"
+    B2 = "B2"
+    C1 = "C1"
+    C2 = "C2"
+
+    @classmethod
+    def choices(cls):
+        return [(i.value, i.value) for i in cls]

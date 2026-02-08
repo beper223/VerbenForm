@@ -2,4 +2,5 @@ from django.apps import AppConfig
 
 
 class PersonalFormsConfig(AppConfig):
-    name = 'personal_forms'
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'src.personal_forms'
