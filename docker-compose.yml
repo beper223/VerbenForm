@@ -1,0 +1,33 @@
+services:
+#  web:
+#    build: .
+#    image: ipay2_web:latest
+#    container_name: ipay2_app
+#    command: >
+#      bash -c "
+#        python manage.py migrate &&
+#        python manage.py collectstatic --noinput &&
+#        gunicorn core.wsgi:application --bind 0.0.0.0:8000 --workers=3"
+#    volumes:
+#      - static_volume:/app/staticfiles
+#      # - media_volume:/app/mediafiles # Если используете
+#    expose:
+#      - "8000"
+#    env_file:
+#      - .env
+#    depends_on:
+#      - db
+
+  db:
+    image: postgres:18.1
+    container_name: verben_db
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - verben_postgres_data:/var/lib/postgresql
+    ports:
+      - "5432:5432"
+
+volumes:
+  verben_postgres_data:
