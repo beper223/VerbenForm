@@ -1,6 +1,3 @@
-from typing import List, Dict
-from typing import Optional, Type
-
 from django.contrib import admin
 from django.forms.models import BaseInlineFormSet
 
@@ -8,21 +5,37 @@ from src.personal_forms.models import Verb, VerbForm, LearningUnit
 from src.common.choices import Tense, Pronoun
 
 
-class VerbFormInlineFormSet(BaseInlineFormSet):
+# Константы для единого порядка везде
+TENSE_ORDER = [Tense.PRAESENS.value, Tense.PRAETERITUM.value]
+PRONOUN_ORDER = [p.value for p in Pronoun]
 
+class VerbFormInlineFormSet(BaseInlineFormSet):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not self.is_bound:
+            # Сортируем формы по времени и местоимению перед отрисовкой
+            self.forms.sort(key=self.get_form_sort_key)
+
+    @staticmethod
+    def get_form_sort_key(form):
+        # Определяем значения для сортировки (из БД или из initial)
+        val = (form.instance.tense, form.instance.pronoun) if form.instance.pk \
+               else (form.initial.get('tense'), form.initial.get('pronoun'))
+        try:
+            return TENSE_ORDER.index(val[0]), PRONOUN_ORDER.index(val[1])
+        except (ValueError, KeyError):
+            return 99, 99
+
+    @staticmethod
+    def _should_save(form):
+        return bool(form.cleaned_data.get("form"))
 
     def save_new(self, form, commit=True):
-        # сохраняем только если поле form заполнено
-        if form.cleaned_data.get("form"):
-            return super().save_new(form, commit=commit)
-        return None
+        return super().save_new(form, commit) if self._should_save(form) else None
 
     def save_existing(self, form, instance, commit=True):
-        # если поле form заполнено — сохраняем
-        if form.cleaned_data.get("form"):
-            return super().save_existing(form, instance, commit=commit)
-
-        # если очищено — удаляем объект
+        if self._should_save(form):
+            return super().save_existing(form, instance, commit)
         if instance.pk:
             instance.delete()
         return None
@@ -30,73 +43,37 @@ class VerbFormInlineFormSet(BaseInlineFormSet):
 class VerbFormInline(admin.TabularInline):
     model = VerbForm
     formset = VerbFormInlineFormSet
-    extra = 0
     can_delete = True
     fields = ("tense", "pronoun", "form")
+    extra = 0
 
-    # Сортировка существующих VerbForm
-    def get_queryset(self, request):
-        qs = super().get_queryset(request)
-        # сортируем по tense и по порядку местоимений
-        pronoun_order = [p.value for p in Pronoun]
+    @staticmethod
+    def get_missing_forms(obj):
+        full_set = [{"tense": t, "pronoun": p} for t in TENSE_ORDER for p in PRONOUN_ORDER]
+        if not obj: return full_set
+        existing = set(obj.forms.values_list("tense", "pronoun"))
+        return [f for f in full_set if (f["tense"], f["pronoun"]) not in existing]
 
-        # Простой способ сортировки: сначала Präsens, потом Präteritum
-        tense_sort = {"Präsens": 0, "Präteritum": 1}
+    def get_extra(self, request, obj=None, **kwargs):
+        return len(self.get_missing_forms(obj))
 
-        # Сортируем в Python, а не через Case/When
-        qs = sorted(
-            qs,
-            key=lambda x: (tense_sort[x.tense], pronoun_order.index(x.pronoun))
-        )
+    def get_formset(self, request, obj=None, **kwargs):
+        form_set = super().get_formset(request, obj, **kwargs)
+        missing_data = self.get_missing_forms(obj)
 
-        return qs
+        class VerbFormDefaultInitialFormSet(form_set):
+            def __init__(self, *args, **inner_kwargs):
+                if not args and 'initial' not in inner_kwargs:
+                    inner_kwargs['initial'] = missing_data
+                super().__init__(*args, **inner_kwargs)
+        return VerbFormDefaultInitialFormSet
 
-    def get_formset(self, request, obj: Optional[Verb] = None, **kwargs)-> Type[BaseInlineFormSet]:
-        all_combinations = [
-            (tense.value, pronoun.value)
-            for tense in (Tense.PRAESENS, Tense.PRAETERITUM)
-            for pronoun in Pronoun
-        ]
-
-        # СОЗДАНИЕ НОВОГО VERB
-        if obj is None:
-            kwargs["extra"] = len(all_combinations)
-            kwargs["initial"] = [
-                {"tense": tense, "pronoun": pronoun}
-                for tense, pronoun in all_combinations
-            ]
-            return super().get_formset(request, obj, **kwargs)
-
-        # РЕДАКТИРОВАНИЕ СУЩЕСТВУЮЩЕГО VERB
-
-        # Получаем уже существующие формы
-        existing = set(
-            obj.forms.values_list("tense", "pronoun")
-        )
-
-        # Вычисляем недостающие комбинации
-        missing = [
-            (tense, pronoun)
-            for tense, pronoun in all_combinations
-            if (tense, pronoun) not in existing
-        ]
-
-        kwargs["extra"] = len(missing)
-        kwargs["initial"] = [
-            {"tense": tense, "pronoun": pronoun}
-            for tense, pronoun in missing
-        ]
-
-        return super().get_formset(request, obj, **kwargs)
-
-    # Ограничиваем выбор tense в Inline, убираем Perfekt
     def formfield_for_choice_field(self, db_field, request, **kwargs):
+        if db_field.name in ["tense", "pronoun"]:
+            kwargs["disabled"] = True  # Это делает поля недоступными для редактирования
+
         if db_field.name == "tense":
-            # Берём только Präsens и Präteritum
-            kwargs["choices"] = [
-                (Tense.PRAESENS.value, Tense.PRAESENS.value),
-                (Tense.PRAETERITUM.value, Tense.PRAETERITUM.value)
-            ]
+            kwargs["choices"] = [(t, t) for t in TENSE_ORDER]
         return super().formfield_for_choice_field(db_field, request, **kwargs)
 
 @admin.register(Verb)
