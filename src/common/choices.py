@@ -1,9 +1,39 @@
 from enum import Enum
 
+
+class Tense(Enum):
+    PRAESENS = "Präsens"
+    PRAETERITUM = "Präteritum"
+    PERFEKT = "Perfekt"
+
+    @classmethod
+    def choices(cls):
+        return [(i.value, i.value) for i in cls]
+
 class VerbType(Enum):
     REGULAR = "regular"
     STRONG = "strong"
     MIXED = "mixed"
+
+    @classmethod
+    def choices(cls):
+        return [(i.value, i.value) for i in cls]
+
+class CEFRLevel(Enum):
+    A1 = "A1"
+    A2 = "A2"
+    B1 = "B1"
+    B2 = "B2"
+    C1 = "C1"
+    C2 = "C2"
+
+    @classmethod
+    def choices(cls):
+        return [(i.value, i.value) for i in cls]
+
+class AuxiliaryVerb(Enum):
+    HABEN = "haben"
+    SEIN = "sein"
 
     @classmethod
     def choices(cls):
@@ -21,31 +51,37 @@ class Pronoun(Enum):
     def choices(cls):
         return [(i.value, i.value) for i in cls]
 
-class Tense(Enum):
-    PRAESENS = "Präsens"
-    PRAETERITUM = "Präteritum"
-    PERFEKT = "Perfekt"
+    @classmethod
+    def get_attr_by_value(cls, value: str):
+        for attr in cls:
+            if attr.value == value:
+                return attr
+        return None
 
     @classmethod
-    def choices(cls):
-        return [(i.value, i.value) for i in cls]
+    def get_available_values(cls):
+        return [attr.value for attr in cls]
 
-class AuxiliaryVerb(Enum):
-    HABEN = "haben"
-    SEIN = "sein"
+class AuxiliaryConjugation:
+    _forms = {
+        AuxiliaryVerb.HABEN: {
+            Pronoun.ICH: "habe",
+            Pronoun.DU: "hast",
+            Pronoun.ER: "hat",
+            Pronoun.WIR: "haben",
+            Pronoun.IHR: "habt",
+            Pronoun.SIE: "haben",
+        },
+        AuxiliaryVerb.SEIN: {
+            Pronoun.ICH: "bin",
+            Pronoun.DU: "bist",
+            Pronoun.ER: "ist",
+            Pronoun.WIR: "sind",
+            Pronoun.IHR: "seid",
+            Pronoun.SIE: "sind",
+        }
+    }
 
     @classmethod
-    def choices(cls):
-        return [(i.value, i.value) for i in cls]
-
-class CEFRLevel(Enum):
-    A1 = "A1"
-    A2 = "A2"
-    B1 = "B1"
-    B2 = "B2"
-    C1 = "C1"
-    C2 = "C2"
-
-    @classmethod
-    def choices(cls):
-        return [(i.value, i.value) for i in cls]
+    def get(cls, auxiliary: AuxiliaryVerb, pronoun: Pronoun) -> str:
+        return cls._forms[auxiliary][pronoun]
