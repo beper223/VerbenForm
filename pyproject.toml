@@ -8,4 +8,5 @@ dependencies = [
     "Django==6.0.1",
     "django-environ>=0.12.0",
     "psycopg2-binary>=2.9.11",
+    "requests>=2.32.5",
 ]
