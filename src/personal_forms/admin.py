@@ -40,12 +40,30 @@ class VerbFormInlineFormSet(BaseInlineFormSet):
             instance.delete()
         return None
 
-class VerbFormInline(admin.TabularInline):
+class BaseVerbFormInline(admin.TabularInline):
     model = VerbForm
     formset = VerbFormInlineFormSet
     can_delete = True
-    fields = ("tense", "pronoun", "form")
+    fields = ("pronoun", "form")
     extra = 0
+
+    def formfield_for_choice_field(self, db_field, request, **kwargs):
+        if db_field.name == "pronoun":
+            kwargs["disabled"] = True
+        return super().formfield_for_choice_field(db_field, request, **kwargs)
+
+    def get_queryset(self, request):
+        # Сортировка внутри каждой группы только по местоимению
+        qs = super().get_queryset(request).filter(tense=self.tense_value)
+        pronoun_order = [p.value for p in Pronoun]
+        from django.db.models import Case, When, IntegerField
+        whens = [When(pronoun=p, then=i) for i, p in enumerate(pronoun_order)]
+        return qs.annotate(sort_id=Case(*whens, output_field=IntegerField())).order_by("sort_id")
+
+    def get_extra(self, request, obj=None, **kwargs):
+        if not obj: return 6
+        existing_count = obj.forms.filter(tense=self.tense_value).count()
+        return max(0, 6 - existing_count)
 
     @staticmethod
     def get_missing_forms(obj):
@@ -54,27 +72,50 @@ class VerbFormInline(admin.TabularInline):
         existing = set(obj.forms.values_list("tense", "pronoun"))
         return [f for f in full_set if (f["tense"], f["pronoun"]) not in existing]
 
-    def get_extra(self, request, obj=None, **kwargs):
-        return len(self.get_missing_forms(obj))
-
     def get_formset(self, request, obj=None, **kwargs):
         form_set = super().get_formset(request, obj, **kwargs)
-        missing_data = self.get_missing_forms(obj)
+        # Генерируем начальные данные только для конкретного времени
+        existing = [] if not obj else list(obj.forms.filter(tense=self.tense_value).values_list("pronoun", flat=True))
+        missing_data = [{"pronoun": p, "tense": self.tense_value} for p in PRONOUN_ORDER if p not in existing]
 
-        class VerbFormDefaultInitialFormSet(form_set):
+        class CustomFormSet(form_set):
             def __init__(self, *args, **inner_kwargs):
                 if not args and 'initial' not in inner_kwargs:
                     inner_kwargs['initial'] = missing_data
                 super().__init__(*args, **inner_kwargs)
-        return VerbFormDefaultInitialFormSet
 
-    def formfield_for_choice_field(self, db_field, request, **kwargs):
-        if db_field.name in ["tense", "pronoun"]:
-            kwargs["disabled"] = True  # Это делает поля недоступными для редактирования
+            # Автоматически проставляем нужное время при сохранении новых форм
+            def save_new(self, form, commit=True):
+                if form.cleaned_data.get("form"):
+                    instance = form.save(commit=False)
+                    instance.tense = self.instance_tense_value  # передаем из инлайна
+                    if commit: instance.save()
+                    return instance
 
-        if db_field.name == "tense":
-            kwargs["choices"] = [(t, t) for t in TENSE_ORDER]
-        return super().formfield_for_choice_field(db_field, request, **kwargs)
+        CustomFormSet.instance_tense_value = self.tense_value
+        return CustomFormSet
+
+
+
+class PraeteritumVerbForm(VerbForm):
+    class Meta:
+        proxy = True  # Это не создает новую таблицу, просто дает Django "псевдоним"
+        verbose_name = "Form (Präteritum)"
+        verbose_name_plural = "Konjugation: Präteritum"
+
+# --- ДВА РАЗНЫХ ИНЛАЙНА ---
+
+class PraesensInline(BaseVerbFormInline):
+    model = VerbForm
+    verbose_name = "Präsens"
+    verbose_name_plural = "Konjugation: Präsens"
+    tense_value = Tense.PRAESENS.value
+
+class PraeteritumInline(BaseVerbFormInline):
+    model = PraeteritumVerbForm # Используем Proxy модель!
+    verbose_name = "Präteritum"
+    verbose_name_plural = "Konjugation: Präteritum"
+    tense_value = Tense.PRAETERITUM.value
 
 @admin.register(Verb)
 class VerbAdmin(admin.ModelAdmin):
@@ -99,7 +140,7 @@ class VerbAdmin(admin.ModelAdmin):
 
     ordering = ("infinitive",)
 
-    inlines = [VerbFormInline]
+    inlines = [PraesensInline, PraeteritumInline] #[VerbFormInline]
 
     fieldsets = (
         ("Grundform", {
