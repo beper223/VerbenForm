@@ -62,6 +62,7 @@ class BaseVerbFormInline(admin.TabularInline):
     can_delete = False
     fields = ("pronoun", "form")
     extra = 0
+    tense_value = Tense.PRAESENS.value
 
     def get_queryset(self, request):
         # Сортировка внутри каждой группы только по местоимению
@@ -140,6 +141,9 @@ class VerbAdmin(admin.ModelAdmin):
         "infinitive",
         "level",
         "verb_type",
+        "reflexivitaet",
+        "is_trennbare",
+        "case",
         "auxiliary",
         "participle_ii",
     )
@@ -161,7 +165,14 @@ class VerbAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ("Grundform", {
-            "fields": ("infinitive", "level", "verb_type")
+            "fields": (
+                "infinitive",
+                "level",
+                "verb_type",
+                "reflexivitaet",
+                "is_trennbare",
+                "case"
+            )
         }),
         ("Perfekt", {
             "fields": ("auxiliary", "participle_ii"),

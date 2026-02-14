@@ -19,6 +19,15 @@ class VerbType(Enum):
     def choices(cls):
         return [(i.value, i.value) for i in cls]
 
+class Reflexiv(Enum):
+    NREFL = "nicht reflexiv"
+    REFL = "unechte reflexiv"
+    EREFL = "echte reflexiv"
+
+    @classmethod
+    def choices(cls):
+        return [(i.value, i.value) for i in cls]
+
 class CEFRLevel(Enum):
     A1 = "A1"
     A2 = "A2"

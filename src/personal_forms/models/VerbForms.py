@@ -8,26 +8,39 @@ from src.common.choices import (
     CEFRLevel,
     GermanCase,
     PrepositionCaseRequirement,
+    Reflexiv
 )
 
 
 class Verb(models.Model):
 
-    infinitive = models.CharField(max_length=50, unique=True)
+    infinitive = models.CharField(
+        _("Infinitivform"),
+        max_length=50,
+        unique=True
+    )
     verb_type = models.CharField(
+        _("Konjugation"),
         max_length=10,
         choices=VerbType.choices(),
-        default=VerbType.REGULAR)
+        default=VerbType.REGULAR
+    )
     level = models.CharField(
+        _("Niveau"),
         max_length=2,
         choices=CEFRLevel.choices(),
         default=CEFRLevel.A1
     )
-
-    is_reflexive = models.BooleanField(default=False)
-    is_trennbare = models.BooleanField(default=False)
+    reflexivitaet = models.CharField(
+        _("Reflexivität"),
+        max_length=16,
+        choices=Reflexiv.choices(),
+        default=Reflexiv.NREFL
+    )
+    is_trennbare = models.BooleanField(_("Trennbarkeit"),default=False)
     case = models.CharField(
-        max_length=3,
+        _("Kasusrektion"),
+        max_length=9,
         choices=GermanCase.choices(),
         blank=True,
         null=True,
@@ -35,11 +48,12 @@ class Verb(models.Model):
 
     # nur für Perfekt
     auxiliary = models.CharField(
+        _("Hilfsverb"),
         max_length=10,
         choices=AuxiliaryVerb.choices(),
         blank=True,
         null=True)  # 'haben' oder 'sein'
-    participle_ii = models.CharField(max_length=50, blank=True, null=True)  # Beispel 'gegangen'
+    participle_ii = models.CharField(_("Partizip 2"),max_length=50, blank=True, null=True)  # Beispel 'gegangen'
 
     class Meta:
         verbose_name = _("Verb")
