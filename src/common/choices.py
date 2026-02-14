@@ -11,9 +11,9 @@ class Tense(Enum):
         return [(i.value, i.value) for i in cls]
 
 class VerbType(Enum):
-    REGULAR = "regular"
-    STRONG = "strong"
-    MIXED = "mixed"
+    REGULAR = "schwach"
+    STRONG = "stark"
+    MIXED = "gemischt"
 
     @classmethod
     def choices(cls):
@@ -30,6 +30,26 @@ class CEFRLevel(Enum):
     @classmethod
     def choices(cls):
         return [(i.value, i.value) for i in cls]
+
+class GermanCase(Enum):
+    NOM = "Nominativ"
+    AKK = "Akkusativ"
+    DAT = "Dativ"
+    GEN = "Genitiv"
+
+    @classmethod
+    def choices(cls):
+        return [(i.name, i.value) for i in cls]
+
+class PrepositionCaseRequirement(Enum):
+    AKK = "Akkusativ"
+    DAT = "Dativ"
+    GEN = "Genitiv"
+    MIXED = "gemischt"
+
+    @classmethod
+    def choices(cls):
+        return [(i.name, i.value) for i in cls]
 
 class AuxiliaryVerb(Enum):
     HABEN = "haben"

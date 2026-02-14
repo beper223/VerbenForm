@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from src.common.choices import Tense, CEFRLevel
 from src.personal_forms.models import Verb
 
@@ -21,3 +22,7 @@ class LearningUnit(models.Model):
         blank=True,
         related_name="learning_units"
     )
+
+    class Meta:
+        verbose_name = _("Lerneinheit")
+        verbose_name_plural = _("Lerneinheiten")

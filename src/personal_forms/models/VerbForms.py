@@ -1,5 +1,14 @@
 from django.db import models
-from src.common.choices import VerbType, Pronoun, Tense, AuxiliaryVerb, CEFRLevel
+from django.utils.translation import gettext_lazy as _
+from src.common.choices import (
+    VerbType,
+    Pronoun,
+    Tense,
+    AuxiliaryVerb,
+    CEFRLevel,
+    GermanCase,
+    PrepositionCaseRequirement,
+)
 
 
 class Verb(models.Model):
@@ -15,6 +24,15 @@ class Verb(models.Model):
         default=CEFRLevel.A1
     )
 
+    is_reflexive = models.BooleanField(default=False)
+    is_trennbare = models.BooleanField(default=False)
+    case = models.CharField(
+        max_length=3,
+        choices=GermanCase.choices(),
+        blank=True,
+        null=True,
+    )
+
     # nur für Perfekt
     auxiliary = models.CharField(
         max_length=10,
@@ -22,6 +40,10 @@ class Verb(models.Model):
         blank=True,
         null=True)  # 'haben' oder 'sein'
     participle_ii = models.CharField(max_length=50, blank=True, null=True)  # Beispel 'gegangen'
+
+    class Meta:
+        verbose_name = _("Verb")
+        verbose_name_plural = _("Verben")
 
     def __str__(self):
         return self.infinitive
@@ -43,6 +65,8 @@ class VerbForm(models.Model):
     form = models.CharField(max_length=50)  # фактическая спряжённая форма
 
     class Meta:
+        verbose_name = _("Personalform")
+        verbose_name_plural = _("Personalformen")
         unique_together = ("verb", "tense", "pronoun")
 
     def __str__(self):
@@ -59,7 +83,53 @@ class VerbTranslation(models.Model):
     translation = models.CharField(max_length=100)
 
     class Meta:
+        verbose_name = _("Translation")
+        verbose_name_plural = _("Translations")
         unique_together = ("verb", "language_code")
 
     def __str__(self):
         return f"{self.verb.infinitive} [{self.language_code}]: {self.translation}"
+
+
+class Preposition(models.Model):
+    text = models.CharField(max_length=20, unique=True)
+    case_requirement = models.CharField(
+        max_length=5,
+        choices=PrepositionCaseRequirement.choices(),
+    )
+
+    class Meta:
+        verbose_name = _("Präposition")
+        verbose_name_plural = _("Präpositionen")
+
+    def __str__(self):
+        return self.text
+
+
+class VerbPreposition(models.Model):
+    verb = models.ForeignKey(
+        Verb,
+        on_delete=models.CASCADE,
+        related_name="prepositions",
+    )
+    preposition = models.ForeignKey(
+        Preposition,
+        on_delete=models.CASCADE,
+        related_name="verbs",
+    )
+    case = models.CharField(
+        max_length=3,
+        choices=GermanCase.choices(),
+        blank=True,
+        null=True,
+    )
+
+    class Meta:
+        verbose_name = _("Verb mit Präposition")
+        verbose_name_plural = _("Verben mit Präposition")
+        unique_together = ("verb", "preposition", "case")
+
+    def __str__(self):
+        if self.case:
+            return f"{self.verb.infinitive} + {self.preposition.text} ({self.case})"
+        return f"{self.verb.infinitive} + {self.preposition.text}"
