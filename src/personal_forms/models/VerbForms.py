@@ -47,3 +47,19 @@ class VerbForm(models.Model):
 
     def __str__(self):
         return f"{self.verb.infinitive} - {self.tense} - {self.pronoun}: {self.form}"
+
+
+class VerbTranslation(models.Model):
+    verb = models.ForeignKey(
+        Verb,
+        on_delete=models.CASCADE,
+        related_name="translations",
+    )
+    language_code = models.CharField(max_length=10)
+    translation = models.CharField(max_length=100)
+
+    class Meta:
+        unique_together = ("verb", "language_code")
+
+    def __str__(self):
+        return f"{self.verb.infinitive} [{self.language_code}]: {self.translation}"

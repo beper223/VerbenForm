@@ -11,8 +11,8 @@ from pathlib import Path
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
-from src.common.choices import AuxiliaryVerb, Pronoun, Tense, VerbType
-from src.personal_forms.models import Verb, VerbForm
+from src.common.choices import AuxiliaryVerb, CEFRLevel, Pronoun, Tense, VerbType
+from src.personal_forms.models import Verb, VerbForm, VerbTranslation
 
 
 class Command(BaseCommand):
@@ -58,11 +58,14 @@ class Command(BaseCommand):
         allowed_tenses = {Tense.PRAESENS.value, Tense.PRAETERITUM.value}
         allowed_aux = {a.value for a in AuxiliaryVerb}
         allowed_verb_types = {t.value for t in VerbType}
+        allowed_levels = {l.value for l in CEFRLevel}
 
         created_verbs = 0
         updated_verbs = 0
         created_forms = 0
         updated_forms = 0
+        created_translations = 0
+        updated_translations = 0
         skipped = 0
 
         for idx, item in enumerate(verbs, start=1):
@@ -100,6 +103,26 @@ class Command(BaseCommand):
                         if debug:
                             self.stdout.write(
                                 f"SKIP verb.verb_type for '{infinitive}': already set ({verb.verb_type})"
+                            )
+
+                level = item.get("level")
+                if level is not None:
+                    level = str(level).strip()
+                    if level and level not in allowed_levels:
+                        raise CommandError(
+                            f"Invalid level '{level}' for verb '{infinitive}'. "
+                            f"Allowed: {sorted(allowed_levels)}"
+                        )
+
+                    if force or verb_created:
+                        if level and level != verb.level:
+                            verb.level = level
+                            verb_changed = True
+                    else:
+                        skipped += 1
+                        if debug:
+                            self.stdout.write(
+                                f"SKIP verb.level for '{infinitive}': already set ({verb.level})"
                             )
 
                 perfekt = item.get("perfekt") or {}
@@ -201,6 +224,52 @@ class Command(BaseCommand):
                                     f"SKIP VerbForm for '{infinitive}' ({tense_name}, {pronoun_value}): already set ({vf.form})"
                                 )
 
+                translations = item.get("translations")
+                if translations is not None:
+                    if not isinstance(translations, dict):
+                        raise CommandError(
+                            f"Invalid verb entry '{infinitive}': 'translations' must be an object (language_code -> translation)"
+                        )
+
+                    for language_code, translation_value in translations.items():
+                        language_code = str(language_code).strip()
+                        if not language_code:
+                            raise CommandError(
+                                f"Invalid translation language_code for verb '{infinitive}': empty"
+                            )
+                        translation_value = "" if translation_value is None else str(translation_value).strip()
+                        if not translation_value:
+                            raise CommandError(
+                                f"Empty translation for verb '{infinitive}', language '{language_code}'"
+                            )
+
+                        vt, vt_created = VerbTranslation.objects.get_or_create(
+                            verb=verb,
+                            language_code=language_code,
+                            defaults={"translation": translation_value},
+                        )
+                        if vt_created:
+                            created_translations += 1
+                            continue
+
+                        if force:
+                            if vt.translation != translation_value:
+                                vt.translation = translation_value
+                                vt.save(update_fields=["translation"])
+                                updated_translations += 1
+                            continue
+
+                        if not vt.translation:
+                            vt.translation = translation_value
+                            vt.save(update_fields=["translation"])
+                            updated_translations += 1
+                        else:
+                            skipped += 1
+                            if debug:
+                                self.stdout.write(
+                                    f"SKIP VerbTranslation for '{infinitive}' ({language_code}): already set ({vt.translation})"
+                                )
+
                 if verb_changed:
                     verb.save()
                     updated_verbs += 1
@@ -211,6 +280,7 @@ class Command(BaseCommand):
                     f"Imported from: {json_path}",
                     f"Verbs: created={created_verbs}, updated={updated_verbs}",
                     f"Forms: created={created_forms}, updated={updated_forms}",
+                    f"Translations: created={created_translations}, updated={updated_translations}",
                     f"Skipped={skipped} (use --debug for details)",
                 ]
             )

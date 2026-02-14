@@ -4,7 +4,7 @@ from django.forms.widgets import HiddenInput
 from django.forms.models import BaseInlineFormSet
 from django.db.models import Case, When, IntegerField
 
-from src.personal_forms.models import Verb, VerbForm, LearningUnit
+from src.personal_forms.models import Verb, VerbForm, VerbTranslation, LearningUnit
 from src.common.choices import Tense, Pronoun
 
 
@@ -129,6 +129,11 @@ class PraeteritumInline(BaseVerbFormInline):
     verbose_name_plural = "Konjugation: Präteritum"
     tense_value = Tense.PRAETERITUM.value
 
+
+class VerbTranslationInline(admin.TabularInline):
+    model = VerbTranslation
+    extra = 0
+
 @admin.register(Verb)
 class VerbAdmin(admin.ModelAdmin):
     list_display = (
@@ -152,7 +157,7 @@ class VerbAdmin(admin.ModelAdmin):
 
     ordering = ("infinitive",)
 
-    inlines = [PraesensInline, PraeteritumInline] #[VerbFormInline]
+    inlines = [PraesensInline, PraeteritumInline, VerbTranslationInline] #[VerbFormInline]
 
     fieldsets = (
         ("Grundform", {
@@ -188,6 +193,22 @@ class VerbFormAdmin(admin.ModelAdmin):
         "verb__infinitive",
         "tense",
         "pronoun",
+    )
+
+
+@admin.register(VerbTranslation)
+class VerbTranslationAdmin(admin.ModelAdmin):
+    list_display = (
+        "verb",
+        "language_code",
+        "translation",
+    )
+    list_filter = (
+        "language_code",
+    )
+    search_fields = (
+        "verb__infinitive",
+        "translation",
     )
 
 @admin.register(LearningUnit)

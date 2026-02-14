@@ -1,4 +1,4 @@
-from src.personal_forms.models.VerbForms import VerbForm, Verb
+from src.personal_forms.models.VerbForms import VerbForm, Verb, VerbTranslation
 from src.personal_forms.models.learning import LearningUnit
 
-__all__ = ["VerbForm", "Verb", "LearningUnit"]
+__all__ = ["VerbForm", "Verb", "VerbTranslation", "LearningUnit"]
