@@ -1,0 +1,153 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-15 12:13+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != "
+"11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % "
+"100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
+"(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+
+#: .\src\common\choices.py:22
+msgid "schwach"
+msgstr "слабке"
+
+#: .\src\common\choices.py:23
+msgid "stark"
+msgstr "сильне"
+
+#: .\src\common\choices.py:24
+msgid "gemischt"
+msgstr "змішане"
+
+#: .\src\common\choices.py:35
+msgid "nicht reflexiv"
+msgstr "незворотне"
+
+#: .\src\common\choices.py:36
+msgid "unechte reflexiv"
+msgstr "неістинно зворотне"
+
+#: .\src\common\choices.py:37
+msgid "echte reflexiv"
+msgstr "істинно зворотне"
+
+#: .\src\personal_forms\admin.py:112 .\src\personal_forms\admin.py:118
+#: .\src\personal_forms\models\VerbForms.py:23
+msgid "Konjugation"
+msgstr "Дієвідміна"
+
+#: .\src\personal_forms\admin.py:155
+msgid "Grundform"
+msgstr "Основна форма"
+
+#: .\src\personal_forms\admin.py:165
+msgid "Perfekt"
+msgstr "Перфект"
+
+#: .\src\personal_forms\admin.py:167
+msgid "Nur für Perfekt erforderlich"
+msgstr "Потрібно лише для Perfekt"
+
+#: .\src\personal_forms\apps.py:8 .\src\personal_forms\models\VerbForms.py:88
+msgid "Personalformen"
+msgstr "Особові форми"
+
+#: .\src\personal_forms\models\VerbForms.py:18
+msgid "Infinitivform"
+msgstr "Інфінітив"
+
+#: .\src\personal_forms\models\VerbForms.py:29
+msgid "Niveau"
+msgstr "Рівень"
+
+#: .\src\personal_forms\models\VerbForms.py:35
+msgid "Reflexivität"
+msgstr "Зворотність"
+
+#: .\src\personal_forms\models\VerbForms.py:40
+msgid "Trennbarkeit"
+msgstr "Відокремлюваність"
+
+#: .\src\personal_forms\models\VerbForms.py:42
+msgid "Kasusrektion"
+msgstr "Відмінкове керування"
+
+#: .\src\personal_forms\models\VerbForms.py:51
+msgid "Hilfsverb"
+msgstr "Допоміжне дієслово"
+
+#: .\src\personal_forms\models\VerbForms.py:56
+msgid "Partizip 2"
+msgstr "Дієприкметник II"
+
+#: .\src\personal_forms\models\VerbForms.py:59
+msgid "Verb"
+msgstr "Дієслово"
+
+#: .\src\personal_forms\models\VerbForms.py:60
+msgid "Verben"
+msgstr "Дієслова"
+
+#: .\src\personal_forms\models\VerbForms.py:72
+msgid "Zeitform"
+msgstr "Час"
+
+#: .\src\personal_forms\models\VerbForms.py:77
+msgid "Pronomen"
+msgstr "Займенник"
+
+#: .\src\personal_forms\models\VerbForms.py:82
+#: .\src\personal_forms\models\VerbForms.py:87
+msgid "Personalform"
+msgstr "Особова форма"
+
+#: .\src\personal_forms\models\VerbForms.py:102
+msgid "Sprache"
+msgstr "Мова"
+
+#: .\src\personal_forms\models\VerbForms.py:106
+#: .\src\personal_forms\models\VerbForms.py:111
+msgid "Übersetzung"
+msgstr "Переклад"
+
+#: .\src\personal_forms\models\VerbForms.py:112
+msgid "Übersetzungen"
+msgstr "Переклади"
+
+#: .\src\personal_forms\models\VerbForms.py:127
+msgid "Präposition"
+msgstr "Прийменник"
+
+#: .\src\personal_forms\models\VerbForms.py:128
+msgid "Präpositionen"
+msgstr "Прийменники"
+
+#: .\src\personal_forms\models\VerbForms.py:153
+msgid "Verb mit Präposition"
+msgstr "Дієслово з прийменником"
+
+#: .\src\personal_forms\models\VerbForms.py:154
+msgid "Verben mit Präposition"
+msgstr "Дієслова з прийменником"
+
+#: .\src\personal_forms\models\learning.py:27
+msgid "Lerneinheit"
+msgstr "Навчальний модуль"
+
+#: .\src\personal_forms\models\learning.py:28
+msgid "Lerneinheiten"
+msgstr "Навчальні модулі"

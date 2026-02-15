@@ -3,6 +3,8 @@ from django.forms import ModelForm
 from django.forms.widgets import HiddenInput
 from django.forms.models import BaseInlineFormSet
 from django.db.models import Case, When, IntegerField
+from django.utils.translation import gettext_lazy as _
+from django.utils.text import format_lazy
 
 from src.personal_forms.models import Verb, VerbForm, VerbTranslation, LearningUnit
 from src.common.choices import Tense, Pronoun
@@ -102,32 +104,18 @@ class BaseVerbFormInline(admin.TabularInline):
         CustomFormSet.instance_tense_value = self.tense_value
         return CustomFormSet
 
-
-
-class PraesensVerbForm(VerbForm):
-    class Meta:
-        proxy = True  # Это не создает новую таблицу, просто дает Django "псевдоним"
-        verbose_name = "Form (Präsens)"
-        verbose_name_plural = "Konjugation: Präsens"
-
-class PraeteritumVerbForm(VerbForm):
-    class Meta:
-        proxy = True  # Это не создает новую таблицу, просто дает Django "псевдоним"
-        verbose_name = "Form (Präteritum)"
-        verbose_name_plural = "Konjugation: Präteritum"
-
 # --- ДВА РАЗНЫХ ИНЛАЙНА ---
 
 class PraesensInline(BaseVerbFormInline):
-    model = PraesensVerbForm
+    model = VerbForm
     verbose_name = "Präsens"
-    verbose_name_plural = "Konjugation: Präsens"
+    verbose_name_plural = format_lazy("{}: {}", _("Konjugation"), "Präsens")
     tense_value = Tense.PRAESENS.value
 
 class PraeteritumInline(BaseVerbFormInline):
-    model = PraeteritumVerbForm # Используем Proxy модель!
+    model = VerbForm # Используем Proxy модель!
     verbose_name = "Präteritum"
-    verbose_name_plural = "Konjugation: Präteritum"
+    verbose_name_plural = format_lazy("{}: {}", _("Konjugation"), "Präteritum")
     tense_value = Tense.PRAETERITUM.value
 
 
@@ -161,10 +149,10 @@ class VerbAdmin(admin.ModelAdmin):
 
     ordering = ("infinitive",)
 
-    inlines = [PraesensInline, PraeteritumInline, VerbTranslationInline] #[VerbFormInline]
+    inlines = [PraesensInline, PraeteritumInline, VerbTranslationInline]
 
     fieldsets = (
-        ("Grundform", {
+        (_("Grundform"), {
             "fields": (
                 "infinitive",
                 "level",
@@ -174,9 +162,9 @@ class VerbAdmin(admin.ModelAdmin):
                 "case"
             )
         }),
-        ("Perfekt", {
+        (_("Perfekt"), {
             "fields": ("auxiliary", "participle_ii"),
-            "description": "Nur für Perfekt erforderlich",
+            "description": _("Nur für Perfekt erforderlich"),
         }),
     )
 

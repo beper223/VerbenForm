@@ -69,14 +69,19 @@ class VerbForm(models.Model):
         related_name="forms"
     )
     tense = models.CharField(
+        _("Zeitform"),
         max_length=15,
         choices=Tense.choices(),
     )
     pronoun = models.CharField(
+        _("Pronomen"),
         max_length=20,
         choices=Pronoun.choices(),
     )
-    form = models.CharField(max_length=50)  # фактическая спряжённая форма
+    form = models.CharField(
+        _("Personalform"),
+        max_length=50,
+    )  # фактическая спряжённая форма
 
     class Meta:
         verbose_name = _("Personalform")
@@ -93,12 +98,18 @@ class VerbTranslation(models.Model):
         on_delete=models.CASCADE,
         related_name="translations",
     )
-    language_code = models.CharField(max_length=10)
-    translation = models.CharField(max_length=100)
+    language_code = models.CharField(
+        _("Sprache"),
+        max_length=10,
+    )
+    translation = models.CharField(
+        _("Übersetzung"),
+        max_length=100,
+    )
 
     class Meta:
-        verbose_name = _("Translation")
-        verbose_name_plural = _("Translations")
+        verbose_name = _("Übersetzung")
+        verbose_name_plural = _("Übersetzungen")
         unique_together = ("verb", "language_code")
 
     def __str__(self):

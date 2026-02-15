@@ -1,4 +1,5 @@
 from enum import Enum
+from django.utils.translation import gettext_lazy as _
 
 
 class Tense(Enum):
@@ -11,22 +12,30 @@ class Tense(Enum):
         return [(i.value, i.value) for i in cls]
 
 class VerbType(Enum):
-    REGULAR = "schwach"
-    STRONG = "stark"
-    MIXED = "gemischt"
+    REGULAR = "reg"
+    STRONG = "str"
+    MIXED = "mix"
 
     @classmethod
     def choices(cls):
-        return [(i.value, i.value) for i in cls]
+        return [
+            (cls.REGULAR.value, _("schwach")),
+            (cls.STRONG.value, _("stark")),
+            (cls.MIXED.value, _("gemischt")),
+        ]
 
 class Reflexiv(Enum):
-    NREFL = "nicht reflexiv"
-    REFL = "unechte reflexiv"
-    EREFL = "echte reflexiv"
+    NREFL = "nrefl"
+    REFL = "refl"
+    EREFL = "erefl"
 
     @classmethod
     def choices(cls):
-        return [(i.value, i.value) for i in cls]
+        return [
+            (cls.NREFL.value, _("nicht reflexiv")),
+            (cls.REFL.value, _("unechte reflexiv")),
+            (cls.EREFL.value, _("echte reflexiv")),
+        ]
 
 class CEFRLevel(Enum):
     A1 = "A1"
