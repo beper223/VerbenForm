@@ -8,7 +8,8 @@ from src.common.choices import (
     CEFRLevel,
     GermanCase,
     PrepositionCaseRequirement,
-    Reflexiv
+    Reflexiv,
+    LanguageCode
 )
 
 
@@ -100,7 +101,8 @@ class VerbTranslation(models.Model):
     )
     language_code = models.CharField(
         _("Sprache"),
-        max_length=10,
+        max_length=2,
+        choices=LanguageCode.choices(),
     )
     translation = models.CharField(
         _("Übersetzung"),
@@ -113,7 +115,7 @@ class VerbTranslation(models.Model):
         unique_together = ("verb", "language_code")
 
     def __str__(self):
-        return f"{self.verb.infinitive} [{self.language_code}]: {self.translation}"
+        return f"{self.verb.infinitive} - {self.translation}"
 
 
 class Preposition(models.Model):

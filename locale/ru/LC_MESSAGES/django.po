@@ -3,16 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-15 12:13+0100\n"
+"POT-Creation-Date: 2026-02-15 14:50+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,126 +19,138 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\src\common\choices.py:22
+#: .\src\common\choices.py:13
+msgid "Englisch"
+msgstr "Английский"
+
+#: .\src\common\choices.py:14
+msgid "Russisch"
+msgstr "Русский"
+
+#: .\src\common\choices.py:15
+msgid "Ukrainisch"
+msgstr "Украинский"
+
+#: .\src\common\choices.py:40
 msgid "schwach"
 msgstr "слабый"
 
-#: .\src\common\choices.py:23
+#: .\src\common\choices.py:41
 msgid "stark"
 msgstr "сильный"
 
-#: .\src\common\choices.py:24
+#: .\src\common\choices.py:42
 msgid "gemischt"
 msgstr "смешанный"
 
-#: .\src\common\choices.py:35
+#: .\src\common\choices.py:57
 msgid "nicht reflexiv"
 msgstr "невозвратный"
 
-#: .\src\common\choices.py:36
+#: .\src\common\choices.py:58
 msgid "unechte reflexiv"
 msgstr "неистинно возвратный"
 
-#: .\src\common\choices.py:37
+#: .\src\common\choices.py:59
 msgid "echte reflexiv"
 msgstr "истинно возвратный"
 
-#: .\src\personal_forms\admin.py:112 .\src\personal_forms\admin.py:118
-#: .\src\personal_forms\models\VerbForms.py:23
+#: .\src\personal_forms\admin.py:113 .\src\personal_forms\admin.py:119
+#: .\src\personal_forms\models\VerbForms.py:24
 msgid "Konjugation"
 msgstr "Спряжение"
 
-#: .\src\personal_forms\admin.py:155
+#: .\src\personal_forms\admin.py:241
 msgid "Grundform"
 msgstr "Основная форма"
 
-#: .\src\personal_forms\admin.py:165
+#: .\src\personal_forms\admin.py:251
 msgid "Perfekt"
 msgstr "Перфект"
 
-#: .\src\personal_forms\admin.py:167
+#: .\src\personal_forms\admin.py:253
 msgid "Nur für Perfekt erforderlich"
 msgstr "Требуется только для Perfekt"
 
-#: .\src\personal_forms\apps.py:8 .\src\personal_forms\models\VerbForms.py:88
+#: .\src\personal_forms\apps.py:8 .\src\personal_forms\models\VerbForms.py:89
 msgid "Personalformen"
 msgstr "Личные формы"
 
-#: .\src\personal_forms\models\VerbForms.py:18
+#: .\src\personal_forms\models\VerbForms.py:19
 msgid "Infinitivform"
 msgstr "Инфинитив"
 
-#: .\src\personal_forms\models\VerbForms.py:29
+#: .\src\personal_forms\models\VerbForms.py:30
 msgid "Niveau"
 msgstr "Уровень"
 
-#: .\src\personal_forms\models\VerbForms.py:35
+#: .\src\personal_forms\models\VerbForms.py:36
 msgid "Reflexivität"
 msgstr "Возвратность"
 
-#: .\src\personal_forms\models\VerbForms.py:40
+#: .\src\personal_forms\models\VerbForms.py:41
 msgid "Trennbarkeit"
 msgstr "Отделяемость"
 
-#: .\src\personal_forms\models\VerbForms.py:42
+#: .\src\personal_forms\models\VerbForms.py:43
 msgid "Kasusrektion"
 msgstr "Падежное управление"
 
-#: .\src\personal_forms\models\VerbForms.py:51
+#: .\src\personal_forms\models\VerbForms.py:52
 msgid "Hilfsverb"
 msgstr "Вспомогательный глагол"
 
-#: .\src\personal_forms\models\VerbForms.py:56
+#: .\src\personal_forms\models\VerbForms.py:57
 msgid "Partizip 2"
 msgstr "Причастие II"
 
-#: .\src\personal_forms\models\VerbForms.py:59
+#: .\src\personal_forms\models\VerbForms.py:60
 msgid "Verb"
 msgstr "Глагол"
 
-#: .\src\personal_forms\models\VerbForms.py:60
+#: .\src\personal_forms\models\VerbForms.py:61
 msgid "Verben"
 msgstr "Глаголы"
 
-#: .\src\personal_forms\models\VerbForms.py:72
+#: .\src\personal_forms\models\VerbForms.py:73
 msgid "Zeitform"
 msgstr "Временная форма"
 
-#: .\src\personal_forms\models\VerbForms.py:77
+#: .\src\personal_forms\models\VerbForms.py:78
 msgid "Pronomen"
 msgstr "Местоимение"
 
-#: .\src\personal_forms\models\VerbForms.py:82
-#: .\src\personal_forms\models\VerbForms.py:87
+#: .\src\personal_forms\models\VerbForms.py:83
+#: .\src\personal_forms\models\VerbForms.py:88
 msgid "Personalform"
 msgstr "Личная форма"
 
-#: .\src\personal_forms\models\VerbForms.py:102
+#: .\src\personal_forms\models\VerbForms.py:103
 msgid "Sprache"
 msgstr "Язык"
 
-#: .\src\personal_forms\models\VerbForms.py:106
-#: .\src\personal_forms\models\VerbForms.py:111
+#: .\src\personal_forms\models\VerbForms.py:108
+#: .\src\personal_forms\models\VerbForms.py:113
 msgid "Übersetzung"
 msgstr "Перевод"
 
-#: .\src\personal_forms\models\VerbForms.py:112
+#: .\src\personal_forms\models\VerbForms.py:114
 msgid "Übersetzungen"
 msgstr "Переводы"
 
-#: .\src\personal_forms\models\VerbForms.py:127
+#: .\src\personal_forms\models\VerbForms.py:129
 msgid "Präposition"
 msgstr "Предлог"
 
-#: .\src\personal_forms\models\VerbForms.py:128
+#: .\src\personal_forms\models\VerbForms.py:130
 msgid "Präpositionen"
 msgstr "Предлоги"
 
-#: .\src\personal_forms\models\VerbForms.py:153
+#: .\src\personal_forms\models\VerbForms.py:155
 msgid "Verb mit Präposition"
 msgstr "Глагол с предлогом"
 
-#: .\src\personal_forms\models\VerbForms.py:154
+#: .\src\personal_forms\models\VerbForms.py:156
 msgid "Verben mit Präposition"
 msgstr "Глаголы с предлогом"
 

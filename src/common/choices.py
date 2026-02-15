@@ -2,6 +2,24 @@ from enum import Enum
 from django.utils.translation import gettext_lazy as _
 
 
+class LanguageCode(Enum):
+    EN = "en"
+    RU = "ru"
+    UK = "uk"
+
+    @classmethod
+    def choices(cls):
+        return [
+            (cls.EN.value, _("Englisch")),
+            (cls.RU.value, _("Russisch")),
+            (cls.UK.value, _("Ukrainisch")),
+        ]
+
+    @classmethod
+    def get_available_values(cls):
+        return [attr.value for attr in cls]
+
+
 class Tense(Enum):
     PRAESENS = "Präsens"
     PRAETERITUM = "Präteritum"
@@ -24,6 +42,10 @@ class VerbType(Enum):
             (cls.MIXED.value, _("gemischt")),
         ]
 
+    @classmethod
+    def get_available_values(cls):
+        return [attr.value for attr in cls]
+
 class Reflexiv(Enum):
     NREFL = "nrefl"
     REFL = "refl"
@@ -36,6 +58,10 @@ class Reflexiv(Enum):
             (cls.REFL.value, _("unechte reflexiv")),
             (cls.EREFL.value, _("echte reflexiv")),
         ]
+
+    @classmethod
+    def get_available_values(cls):
+        return [attr.value for attr in cls]
 
 class CEFRLevel(Enum):
     A1 = "A1"

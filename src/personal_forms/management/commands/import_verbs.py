@@ -11,7 +11,7 @@ from pathlib import Path
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
-from src.common.choices import AuxiliaryVerb, CEFRLevel, Pronoun, Tense, VerbType
+from src.common.choices import AuxiliaryVerb, CEFRLevel, Pronoun, Tense, VerbType, LanguageCode
 from src.personal_forms.models import Verb, VerbForm, VerbTranslation
 
 
@@ -59,6 +59,7 @@ class Command(BaseCommand):
         allowed_aux = {a.value for a in AuxiliaryVerb}
         allowed_verb_types = {t.value for t in VerbType}
         allowed_levels = {l.value for l in CEFRLevel}
+        allowed_language_codes = set(LanguageCode.get_available_values())
 
         created_verbs = 0
         updated_verbs = 0
@@ -236,6 +237,11 @@ class Command(BaseCommand):
                         if not language_code:
                             raise CommandError(
                                 f"Invalid translation language_code for verb '{infinitive}': empty"
+                            )
+                        if language_code not in allowed_language_codes:
+                            raise CommandError(
+                                f"Invalid translation language_code '{language_code}' for verb '{infinitive}'. "
+                                f"Allowed: {sorted(allowed_language_codes)}"
                             )
                         translation_value = "" if translation_value is None else str(translation_value).strip()
                         if not translation_value:

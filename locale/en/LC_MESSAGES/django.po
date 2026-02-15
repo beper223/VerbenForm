@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-15 12:13+0100\n"
+"POT-Creation-Date: 2026-02-15 14:50+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,126 +18,138 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\src\common\choices.py:22
+#: .\src\common\choices.py:13
+msgid "Englisch"
+msgstr "English"
+
+#: .\src\common\choices.py:14
+msgid "Russisch"
+msgstr "Russian"
+
+#: .\src\common\choices.py:15
+msgid "Ukrainisch"
+msgstr "Ukrainian"
+
+#: .\src\common\choices.py:40
 msgid "schwach"
 msgstr "weak"
 
-#: .\src\common\choices.py:23
+#: .\src\common\choices.py:41
 msgid "stark"
 msgstr "strong"
 
-#: .\src\common\choices.py:24
+#: .\src\common\choices.py:42
 msgid "gemischt"
 msgstr "mixed"
 
-#: .\src\common\choices.py:35
+#: .\src\common\choices.py:57
 msgid "nicht reflexiv"
 msgstr "not reflexive"
 
-#: .\src\common\choices.py:36
+#: .\src\common\choices.py:58
 msgid "unechte reflexiv"
 msgstr "semi-reflexive"
 
-#: .\src\common\choices.py:37
+#: .\src\common\choices.py:59
 msgid "echte reflexiv"
 msgstr "truly reflexive"
 
-#: .\src\personal_forms\admin.py:112 .\src\personal_forms\admin.py:118
-#: .\src\personal_forms\models\VerbForms.py:23
+#: .\src\personal_forms\admin.py:113 .\src\personal_forms\admin.py:119
+#: .\src\personal_forms\models\VerbForms.py:24
 msgid "Konjugation"
 msgstr "Conjugation"
 
-#: .\src\personal_forms\admin.py:155
+#: .\src\personal_forms\admin.py:241
 msgid "Grundform"
 msgstr "Base form"
 
-#: .\src\personal_forms\admin.py:165
+#: .\src\personal_forms\admin.py:251
 msgid "Perfekt"
 msgstr "Perfect"
 
-#: .\src\personal_forms\admin.py:167
+#: .\src\personal_forms\admin.py:253
 msgid "Nur für Perfekt erforderlich"
 msgstr "Required only for the perfect"
 
-#: .\src\personal_forms\apps.py:8 .\src\personal_forms\models\VerbForms.py:88
+#: .\src\personal_forms\apps.py:8 .\src\personal_forms\models\VerbForms.py:89
 msgid "Personalformen"
 msgstr "Personal forms"
 
-#: .\src\personal_forms\models\VerbForms.py:18
+#: .\src\personal_forms\models\VerbForms.py:19
 msgid "Infinitivform"
 msgstr "Infinitive"
 
-#: .\src\personal_forms\models\VerbForms.py:29
+#: .\src\personal_forms\models\VerbForms.py:30
 msgid "Niveau"
 msgstr "Level"
 
-#: .\src\personal_forms\models\VerbForms.py:35
+#: .\src\personal_forms\models\VerbForms.py:36
 msgid "Reflexivität"
 msgstr "Reflexivity"
 
-#: .\src\personal_forms\models\VerbForms.py:40
+#: .\src\personal_forms\models\VerbForms.py:41
 msgid "Trennbarkeit"
 msgstr "Separability"
 
-#: .\src\personal_forms\models\VerbForms.py:42
+#: .\src\personal_forms\models\VerbForms.py:43
 msgid "Kasusrektion"
 msgstr "Case government"
 
-#: .\src\personal_forms\models\VerbForms.py:51
+#: .\src\personal_forms\models\VerbForms.py:52
 msgid "Hilfsverb"
 msgstr "Auxiliary verb"
 
-#: .\src\personal_forms\models\VerbForms.py:56
+#: .\src\personal_forms\models\VerbForms.py:57
 msgid "Partizip 2"
 msgstr "Past participle"
 
-#: .\src\personal_forms\models\VerbForms.py:59
+#: .\src\personal_forms\models\VerbForms.py:60
 msgid "Verb"
 msgstr "Verb"
 
-#: .\src\personal_forms\models\VerbForms.py:60
+#: .\src\personal_forms\models\VerbForms.py:61
 msgid "Verben"
 msgstr "Verbs"
 
-#: .\src\personal_forms\models\VerbForms.py:72
+#: .\src\personal_forms\models\VerbForms.py:73
 msgid "Zeitform"
 msgstr "Tense"
 
-#: .\src\personal_forms\models\VerbForms.py:77
+#: .\src\personal_forms\models\VerbForms.py:78
 msgid "Pronomen"
 msgstr "Pronoun"
 
-#: .\src\personal_forms\models\VerbForms.py:82
-#: .\src\personal_forms\models\VerbForms.py:87
+#: .\src\personal_forms\models\VerbForms.py:83
+#: .\src\personal_forms\models\VerbForms.py:88
 msgid "Personalform"
 msgstr "Personal form"
 
-#: .\src\personal_forms\models\VerbForms.py:102
+#: .\src\personal_forms\models\VerbForms.py:103
 msgid "Sprache"
 msgstr "Language"
 
-#: .\src\personal_forms\models\VerbForms.py:106
-#: .\src\personal_forms\models\VerbForms.py:111
+#: .\src\personal_forms\models\VerbForms.py:108
+#: .\src\personal_forms\models\VerbForms.py:113
 msgid "Übersetzung"
 msgstr "Translation"
 
-#: .\src\personal_forms\models\VerbForms.py:112
+#: .\src\personal_forms\models\VerbForms.py:114
 msgid "Übersetzungen"
 msgstr "Translations"
 
-#: .\src\personal_forms\models\VerbForms.py:127
+#: .\src\personal_forms\models\VerbForms.py:129
 msgid "Präposition"
 msgstr "Preposition"
 
-#: .\src\personal_forms\models\VerbForms.py:128
+#: .\src\personal_forms\models\VerbForms.py:130
 msgid "Präpositionen"
 msgstr "Prepositions"
 
-#: .\src\personal_forms\models\VerbForms.py:153
+#: .\src\personal_forms\models\VerbForms.py:155
 msgid "Verb mit Präposition"
 msgstr "Verb with preposition"
 
-#: .\src\personal_forms\models\VerbForms.py:154
+#: .\src\personal_forms\models\VerbForms.py:156
 msgid "Verben mit Präposition"
 msgstr "Verbs with preposition"
 
