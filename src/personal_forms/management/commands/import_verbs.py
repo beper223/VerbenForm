@@ -11,7 +11,7 @@ from pathlib import Path
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
-from src.common.choices import AuxiliaryVerb, CEFRLevel, Pronoun, Tense, VerbType, LanguageCode
+from src.common.choices import AuxiliaryVerb, GermanCase, Pronoun, Reflexiv, Tense, VerbType, LanguageCode, CEFRLevel
 from src.personal_forms.models import Verb, VerbForm, VerbTranslation
 
 
@@ -58,8 +58,15 @@ class Command(BaseCommand):
         allowed_tenses = {Tense.PRAESENS.value, Tense.PRAETERITUM.value}
         allowed_aux = {a.value for a in AuxiliaryVerb}
         allowed_verb_types = {t.value for t in VerbType}
-        allowed_levels = {l.value for l in CEFRLevel}
         allowed_language_codes = set(LanguageCode.get_available_values())
+        allowed_reflexivitaet = {r.value for r in Reflexiv}
+        allowed_cases = {
+            GermanCase.AKK.name,
+            GermanCase.DAT.name,
+            GermanCase.AKK.value,
+            GermanCase.DAT.value,
+        }
+        allowed_levels = {l.value for l in CEFRLevel}
 
         created_verbs = 0
         updated_verbs = 0
@@ -80,7 +87,10 @@ class Command(BaseCommand):
             with transaction.atomic():
                 verb, verb_created = Verb.objects.get_or_create(
                     infinitive=infinitive,
-                    defaults={"verb_type": VerbType.REGULAR.value},
+                    defaults={
+                        "verb_type": VerbType.REGULAR.value,
+                        "level": CEFRLevel.A1.value,
+                    },
                 )
                 if verb_created:
                     created_verbs += 1
@@ -114,8 +124,7 @@ class Command(BaseCommand):
                             f"Invalid level '{level}' for verb '{infinitive}'. "
                             f"Allowed: {sorted(allowed_levels)}"
                         )
-
-                    if force or verb_created:
+                    if force or not verb.level:
                         if level and level != verb.level:
                             verb.level = level
                             verb_changed = True
@@ -124,6 +133,82 @@ class Command(BaseCommand):
                         if debug:
                             self.stdout.write(
                                 f"SKIP verb.level for '{infinitive}': already set ({verb.level})"
+                            )
+
+                is_trennbare = item.get("is_trennbare")
+                if is_trennbare is not None:
+                    if isinstance(is_trennbare, bool):
+                        parsed_is_trennbare = is_trennbare
+                    elif isinstance(is_trennbare, (int, float)):
+                        parsed_is_trennbare = bool(is_trennbare)
+                    else:
+                        parsed_is_trennbare_str = str(is_trennbare).strip().lower()
+                        if parsed_is_trennbare_str in {"true", "1", "yes", "y", "on"}:
+                            parsed_is_trennbare = True
+                        elif parsed_is_trennbare_str in {"false", "0", "no", "n", "off"}:
+                            parsed_is_trennbare = False
+                        else:
+                            raise CommandError(
+                                f"Invalid is_trennbare '{is_trennbare}' for verb '{infinitive}'. "
+                                "Expected boolean."
+                            )
+
+                    if force or verb_created or (not verb.is_trennbare and parsed_is_trennbare):
+                        if parsed_is_trennbare != verb.is_trennbare:
+                            verb.is_trennbare = parsed_is_trennbare
+                            verb_changed = True
+                    else:
+                        skipped += 1
+                        if debug:
+                            self.stdout.write(
+                                f"SKIP verb.is_trennbare for '{infinitive}': already set ({verb.is_trennbare})"
+                            )
+
+                reflexivitaet = item.get("reflexivitaet")
+                if reflexivitaet is not None:
+                    reflexivitaet = str(reflexivitaet).strip()
+                    if reflexivitaet and reflexivitaet not in allowed_reflexivitaet:
+                        raise CommandError(
+                            f"Invalid reflexivitaet '{reflexivitaet}' for verb '{infinitive}'. "
+                            f"Allowed: {sorted(allowed_reflexivitaet)}"
+                        )
+
+                    default_reflexivitaet = Reflexiv.NREFL.value
+                    if force or verb_created or verb.reflexivitaet == default_reflexivitaet:
+                        if reflexivitaet and reflexivitaet != verb.reflexivitaet:
+                            verb.reflexivitaet = reflexivitaet
+                            verb_changed = True
+                    else:
+                        skipped += 1
+                        if debug:
+                            self.stdout.write(
+                                f"SKIP verb.reflexivitaet for '{infinitive}': already set ({verb.reflexivitaet})"
+                            )
+
+                case = item.get("case")
+                if case is not None:
+                    case = str(case).strip()
+                    if case and case not in allowed_cases:
+                        raise CommandError(
+                            f"Invalid case '{case}' for verb '{infinitive}'. "
+                            f"Allowed: {sorted(allowed_cases)}"
+                        )
+
+                    normalized_case = case
+                    if case == GermanCase.AKK.value:
+                        normalized_case = GermanCase.AKK.name
+                    elif case == GermanCase.DAT.value:
+                        normalized_case = GermanCase.DAT.name
+
+                    if force or not verb.case:
+                        if normalized_case != (verb.case or ""):
+                            verb.case = normalized_case or None
+                            verb_changed = True
+                    else:
+                        skipped += 1
+                        if debug:
+                            self.stdout.write(
+                                f"SKIP verb.case for '{infinitive}': already set ({verb.case})"
                             )
 
                 perfekt = item.get("perfekt") or {}

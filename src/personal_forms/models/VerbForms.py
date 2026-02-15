@@ -41,8 +41,11 @@ class Verb(models.Model):
     is_trennbare = models.BooleanField(_("Trennbarkeit"),default=False)
     case = models.CharField(
         _("Kasusrektion"),
-        max_length=9,
-        choices=GermanCase.choices(),
+        max_length=3,
+        choices=[
+            (GermanCase.AKK.name, GermanCase.AKK.value),
+            (GermanCase.DAT.name, GermanCase.DAT.value),
+        ],
         blank=True,
         null=True,
     )

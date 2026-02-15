@@ -234,6 +234,7 @@ class VerbAdmin(admin.ModelAdmin):
     )
 
     ordering = ("infinitive",)
+    list_per_page = 20
 
     inlines = [PraesensInline, PraeteritumInline, VerbTranslationInline]
 
@@ -279,6 +280,7 @@ class VerbFormAdmin(admin.ModelAdmin):
         "tense",
         "pronoun",
     )
+    list_per_page = 6
 
 
 @admin.register(VerbTranslation)
@@ -295,6 +297,7 @@ class VerbTranslationAdmin(admin.ModelAdmin):
         "verb__infinitive",
         "translation",
     )
+    list_per_page = 20
 
 @admin.register(LearningUnit)
 class LearningUnitAdmin(admin.ModelAdmin):
@@ -311,5 +314,6 @@ class LearningUnitAdmin(admin.ModelAdmin):
     )
 
     ordering = ("order",)
+    list_per_page = 20
 
     filter_horizontal = ("verbs",)
