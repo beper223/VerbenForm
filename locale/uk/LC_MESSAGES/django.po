@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-15 14:50+0100\n"
+"POT-Creation-Date: 2026-02-16 17:47+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: uk\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -56,34 +57,51 @@ msgstr "неістинно зворотне"
 msgid "echte reflexiv"
 msgstr "істинно зворотне"
 
-#: .\src\personal_forms\admin.py:113 .\src\personal_forms\admin.py:119
+#: .\src\personal_forms\admin.py:116 .\src\personal_forms\admin.py:122
 #: .\src\personal_forms\models\VerbForms.py:24
 msgid "Konjugation"
 msgstr "Дієвідміна"
 
-#: .\src\personal_forms\admin.py:241
+#: .\src\personal_forms\admin.py:218
+#: .\src\personal_forms\models\VerbForms.py:30
+msgid "Niveau"
+msgstr "Рівень"
+
+#: .\src\personal_forms\admin.py:223
+msgid ""
+"Dieses Niveau wird für alle ausgewählten Verben gesetzt und überschreibt das "
+"bisherige Niveau."
+msgstr "Цей рівень буде встановлено для всіх обраних дієслів і перезапише попередній рівень."
+
+#: .\src\personal_forms\admin.py:242
+#, python-format
+msgid "Das Niveau %(level)s wurde für %(count)d Verben gesetzt."
+msgstr "Рівень %(level)s було встановлено для %(count)d дієслів."
+
+#: .\src\personal_forms\admin.py:267 .\templates\admin\set_level_action.html:16
+#: .\templates\admin\set_level_action.html:51
+msgid "Niveau festlegen"
+msgstr "Встановити рівень"
+
+#: .\src\personal_forms\admin.py:301
 msgid "Grundform"
 msgstr "Основна форма"
 
-#: .\src\personal_forms\admin.py:251
+#: .\src\personal_forms\admin.py:311
 msgid "Perfekt"
 msgstr "Перфект"
 
-#: .\src\personal_forms\admin.py:253
+#: .\src\personal_forms\admin.py:313
 msgid "Nur für Perfekt erforderlich"
 msgstr "Потрібно лише для Perfekt"
 
-#: .\src\personal_forms\apps.py:8 .\src\personal_forms\models\VerbForms.py:89
+#: .\src\personal_forms\apps.py:8 .\src\personal_forms\models\VerbForms.py:92
 msgid "Personalformen"
 msgstr "Особові форми"
 
 #: .\src\personal_forms\models\VerbForms.py:19
 msgid "Infinitivform"
 msgstr "Інфінітив"
-
-#: .\src\personal_forms\models\VerbForms.py:30
-msgid "Niveau"
-msgstr "Рівень"
 
 #: .\src\personal_forms\models\VerbForms.py:36
 msgid "Reflexivität"
@@ -97,61 +115,61 @@ msgstr "Відокремлюваність"
 msgid "Kasusrektion"
 msgstr "Відмінкове керування"
 
-#: .\src\personal_forms\models\VerbForms.py:52
+#: .\src\personal_forms\models\VerbForms.py:55
 msgid "Hilfsverb"
 msgstr "Допоміжне дієслово"
 
-#: .\src\personal_forms\models\VerbForms.py:57
+#: .\src\personal_forms\models\VerbForms.py:60
 msgid "Partizip 2"
 msgstr "Дієприкметник II"
 
-#: .\src\personal_forms\models\VerbForms.py:60
+#: .\src\personal_forms\models\VerbForms.py:63
 msgid "Verb"
 msgstr "Дієслово"
 
-#: .\src\personal_forms\models\VerbForms.py:61
+#: .\src\personal_forms\models\VerbForms.py:64
 msgid "Verben"
 msgstr "Дієслова"
 
-#: .\src\personal_forms\models\VerbForms.py:73
+#: .\src\personal_forms\models\VerbForms.py:76
 msgid "Zeitform"
 msgstr "Час"
 
-#: .\src\personal_forms\models\VerbForms.py:78
+#: .\src\personal_forms\models\VerbForms.py:81
 msgid "Pronomen"
 msgstr "Займенник"
 
-#: .\src\personal_forms\models\VerbForms.py:83
-#: .\src\personal_forms\models\VerbForms.py:88
+#: .\src\personal_forms\models\VerbForms.py:86
+#: .\src\personal_forms\models\VerbForms.py:91
 msgid "Personalform"
 msgstr "Особова форма"
 
-#: .\src\personal_forms\models\VerbForms.py:103
+#: .\src\personal_forms\models\VerbForms.py:106
 msgid "Sprache"
 msgstr "Мова"
 
-#: .\src\personal_forms\models\VerbForms.py:108
-#: .\src\personal_forms\models\VerbForms.py:113
+#: .\src\personal_forms\models\VerbForms.py:111
+#: .\src\personal_forms\models\VerbForms.py:116
 msgid "Übersetzung"
 msgstr "Переклад"
 
-#: .\src\personal_forms\models\VerbForms.py:114
+#: .\src\personal_forms\models\VerbForms.py:117
 msgid "Übersetzungen"
 msgstr "Переклади"
 
-#: .\src\personal_forms\models\VerbForms.py:129
+#: .\src\personal_forms\models\VerbForms.py:132
 msgid "Präposition"
 msgstr "Прийменник"
 
-#: .\src\personal_forms\models\VerbForms.py:130
+#: .\src\personal_forms\models\VerbForms.py:133
 msgid "Präpositionen"
 msgstr "Прийменники"
 
-#: .\src\personal_forms\models\VerbForms.py:155
+#: .\src\personal_forms\models\VerbForms.py:158
 msgid "Verb mit Präposition"
 msgstr "Дієслово з прийменником"
 
-#: .\src\personal_forms\models\VerbForms.py:156
+#: .\src\personal_forms\models\VerbForms.py:159
 msgid "Verben mit Präposition"
 msgstr "Дієслова з прийменником"
 
@@ -162,3 +180,36 @@ msgstr "Навчальний модуль"
 #: .\src\personal_forms\models\learning.py:28
 msgid "Lerneinheiten"
 msgstr "Навчальні модулі"
+
+#: .\templates\admin\set_level_action.html:6
+msgid "Startseite"
+msgstr "Головна"
+
+#: .\templates\admin\set_level_action.html:21
+msgid "Niveau für ausgewählte Verben festlegen"
+msgstr "Встановити рівень для обраних дієслів"
+
+#: .\templates\admin\set_level_action.html:23
+#, python-format
+msgid ""
+"\n"
+"Sie haben %(count)s Verb ausgewählt.\n"
+msgid_plural ""
+"\n"
+"Sie haben %(count)s Verben ausgewählt.\n"
+msgstr[0] ""
+"\n"
+"Ви обрали %(count)s дієслово.\n"
+msgstr[1] ""
+"\n"
+"Ви обрали %(count)s дієслова.\n"
+msgstr[2] ""
+"\n"
+"Ви обрали %(count)s дієслів.\n"
+msgstr[3] ""
+"\n"
+"Ви обрали %(count)s дієслів.\n"
+
+#: .\templates\admin\set_level_action.html:55
+msgid "Abbrechen"
+msgstr "Скасувати"

@@ -1,0 +1,59 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">{% trans "Startseite" %}</a>
+    &rsaquo;
+    <a href="{% url 'admin:app_list' app_label=opts.app_label %}">
+        {{ opts.app_config.verbose_name }}
+    </a>
+    &rsaquo;
+    <a href="{% url opts|admin_urlname:'changelist' %}">
+        {{ opts.verbose_name_plural|capfirst }}
+    </a>
+    &rsaquo;
+    {% trans "Niveau festlegen" %}
+</div>
+{% endblock %}
+
+{% block content %}
+<h1>{% trans "Niveau für ausgewählte Verben festlegen" %}</h1>
+
+{% blocktrans count count=queryset|length %}
+Sie haben {{ count }} Verb ausgewählt.
+{% plural %}
+Sie haben {{ count }} Verben ausgewählt.
+{% endblocktrans %}
+
+<form method="post">
+    {% csrf_token %}
+
+    <input type="hidden" name="action" value="set_level_for_selected_verbs">
+
+    {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+    {% endfor %}
+
+    <fieldset class="module aligned">
+        <div class="form-row">
+            {{ form.level.errors }}
+            <label class="required">
+                {{ form.level.label }}:
+            </label>
+            {{ form.level }}
+            <div class="help">{{ form.level.help_text }}</div>
+        </div>
+    </fieldset>
+
+    <div class="submit-row">
+        <input type="submit" name="apply"
+               value="{% trans 'Niveau festlegen' %}"
+               class="default">
+        <a href="{% url opts|admin_urlname:'changelist' %}"
+           class="button cancel-link">
+            {% trans "Abbrechen" %}
+        </a>
+    </div>
+</form>
+{% endblock %}

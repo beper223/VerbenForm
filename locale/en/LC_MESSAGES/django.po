@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-15 14:50+0100\n"
+"POT-Creation-Date: 2026-02-16 17:47+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,34 +54,51 @@ msgstr "semi-reflexive"
 msgid "echte reflexiv"
 msgstr "truly reflexive"
 
-#: .\src\personal_forms\admin.py:113 .\src\personal_forms\admin.py:119
+#: .\src\personal_forms\admin.py:116 .\src\personal_forms\admin.py:122
 #: .\src\personal_forms\models\VerbForms.py:24
 msgid "Konjugation"
 msgstr "Conjugation"
 
-#: .\src\personal_forms\admin.py:241
+#: .\src\personal_forms\admin.py:218
+#: .\src\personal_forms\models\VerbForms.py:30
+msgid "Niveau"
+msgstr "Level"
+
+#: .\src\personal_forms\admin.py:223
+msgid ""
+"Dieses Niveau wird für alle ausgewählten Verben gesetzt und überschreibt das "
+"bisherige Niveau."
+msgstr "This level will be set for all selected verbs and will overwrite the previous level."
+
+#: .\src\personal_forms\admin.py:242
+#, python-format
+msgid "Das Niveau %(level)s wurde für %(count)d Verben gesetzt."
+msgstr "The level %(level)s has been set for %(count)d verbs."
+
+#: .\src\personal_forms\admin.py:267 .\templates\admin\set_level_action.html:16
+#: .\templates\admin\set_level_action.html:51
+msgid "Niveau festlegen"
+msgstr "Set level"
+
+#: .\src\personal_forms\admin.py:301
 msgid "Grundform"
 msgstr "Base form"
 
-#: .\src\personal_forms\admin.py:251
+#: .\src\personal_forms\admin.py:311
 msgid "Perfekt"
 msgstr "Perfect"
 
-#: .\src\personal_forms\admin.py:253
+#: .\src\personal_forms\admin.py:313
 msgid "Nur für Perfekt erforderlich"
 msgstr "Required only for the perfect"
 
-#: .\src\personal_forms\apps.py:8 .\src\personal_forms\models\VerbForms.py:89
+#: .\src\personal_forms\apps.py:8 .\src\personal_forms\models\VerbForms.py:92
 msgid "Personalformen"
 msgstr "Personal forms"
 
 #: .\src\personal_forms\models\VerbForms.py:19
 msgid "Infinitivform"
 msgstr "Infinitive"
-
-#: .\src\personal_forms\models\VerbForms.py:30
-msgid "Niveau"
-msgstr "Level"
 
 #: .\src\personal_forms\models\VerbForms.py:36
 msgid "Reflexivität"
@@ -95,61 +112,61 @@ msgstr "Separability"
 msgid "Kasusrektion"
 msgstr "Case government"
 
-#: .\src\personal_forms\models\VerbForms.py:52
+#: .\src\personal_forms\models\VerbForms.py:55
 msgid "Hilfsverb"
 msgstr "Auxiliary verb"
 
-#: .\src\personal_forms\models\VerbForms.py:57
+#: .\src\personal_forms\models\VerbForms.py:60
 msgid "Partizip 2"
 msgstr "Past participle"
 
-#: .\src\personal_forms\models\VerbForms.py:60
+#: .\src\personal_forms\models\VerbForms.py:63
 msgid "Verb"
 msgstr "Verb"
 
-#: .\src\personal_forms\models\VerbForms.py:61
+#: .\src\personal_forms\models\VerbForms.py:64
 msgid "Verben"
 msgstr "Verbs"
 
-#: .\src\personal_forms\models\VerbForms.py:73
+#: .\src\personal_forms\models\VerbForms.py:76
 msgid "Zeitform"
 msgstr "Tense"
 
-#: .\src\personal_forms\models\VerbForms.py:78
+#: .\src\personal_forms\models\VerbForms.py:81
 msgid "Pronomen"
 msgstr "Pronoun"
 
-#: .\src\personal_forms\models\VerbForms.py:83
-#: .\src\personal_forms\models\VerbForms.py:88
+#: .\src\personal_forms\models\VerbForms.py:86
+#: .\src\personal_forms\models\VerbForms.py:91
 msgid "Personalform"
 msgstr "Personal form"
 
-#: .\src\personal_forms\models\VerbForms.py:103
+#: .\src\personal_forms\models\VerbForms.py:106
 msgid "Sprache"
 msgstr "Language"
 
-#: .\src\personal_forms\models\VerbForms.py:108
-#: .\src\personal_forms\models\VerbForms.py:113
+#: .\src\personal_forms\models\VerbForms.py:111
+#: .\src\personal_forms\models\VerbForms.py:116
 msgid "Übersetzung"
 msgstr "Translation"
 
-#: .\src\personal_forms\models\VerbForms.py:114
+#: .\src\personal_forms\models\VerbForms.py:117
 msgid "Übersetzungen"
 msgstr "Translations"
 
-#: .\src\personal_forms\models\VerbForms.py:129
+#: .\src\personal_forms\models\VerbForms.py:132
 msgid "Präposition"
 msgstr "Preposition"
 
-#: .\src\personal_forms\models\VerbForms.py:130
+#: .\src\personal_forms\models\VerbForms.py:133
 msgid "Präpositionen"
 msgstr "Prepositions"
 
-#: .\src\personal_forms\models\VerbForms.py:155
+#: .\src\personal_forms\models\VerbForms.py:158
 msgid "Verb mit Präposition"
 msgstr "Verb with preposition"
 
-#: .\src\personal_forms\models\VerbForms.py:156
+#: .\src\personal_forms\models\VerbForms.py:159
 msgid "Verben mit Präposition"
 msgstr "Verbs with preposition"
 
@@ -160,3 +177,30 @@ msgstr "Learning unit"
 #: .\src\personal_forms\models\learning.py:28
 msgid "Lerneinheiten"
 msgstr "Learning units"
+
+#: .\templates\admin\set_level_action.html:6
+msgid "Startseite"
+msgstr "Home"
+
+#: .\templates\admin\set_level_action.html:21
+msgid "Niveau für ausgewählte Verben festlegen"
+msgstr "Set level for selected verbs"
+
+#: .\templates\admin\set_level_action.html:23
+#, python-format
+msgid ""
+"\n"
+"Sie haben %(count)s Verb ausgewählt.\n"
+msgid_plural ""
+"\n"
+"Sie haben %(count)s Verben ausgewählt.\n"
+msgstr[0] ""
+"\n"
+"You have selected %(count)s verb.\n"
+msgstr[1] ""
+"\n"
+"You have selected %(count)s verbs.\n"
+
+#: .\templates\admin\set_level_action.html:55
+msgid "Abbrechen"
+msgstr "Cancel"

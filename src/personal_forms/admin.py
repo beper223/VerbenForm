@@ -1,13 +1,16 @@
-from django.contrib import admin
+from django import forms
+from django.contrib import admin, messages
+from django.contrib.admin.helpers import ACTION_CHECKBOX_NAME
 from django.forms import ModelForm
 from django.forms.widgets import HiddenInput
 from django.forms.models import BaseInlineFormSet
 from django.db.models import Case, When, IntegerField
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import format_lazy
+from django.shortcuts import render
 
 from src.personal_forms.models import Verb, VerbForm, VerbTranslation, LearningUnit
-from src.common.choices import Tense, Pronoun, LanguageCode
+from src.common.choices import Tense, Pronoun, LanguageCode, CEFRLevel
 
 
 # Константы для единого порядка везде
@@ -209,6 +212,60 @@ class VerbTranslationInline(admin.TabularInline):
 
         return CustomFormSet
 
+class SetVerbLevelForm(forms.Form):
+    _selected_action = forms.CharField(widget=forms.MultipleHiddenInput)
+    level = forms.ChoiceField(
+        label=_("Niveau"),
+        choices=CEFRLevel.choices(),
+        required=True,
+        widget=forms.Select(attrs={"class": "vSelect"}),
+        help_text=_(
+            "Dieses Niveau wird für alle ausgewählten Verben gesetzt und überschreibt das bisherige Niveau."
+        ),
+    )
+
+# Admin action для установки уровня глаголов
+def set_level_for_selected_verbs(modeladmin, request, queryset):
+    """
+    Admin-Aktion: CEFR-Niveau für ausgewählte Verben setzen
+    """
+
+    if request.method == "POST" and "apply" in request.POST:
+        form = SetVerbLevelForm(request.POST)
+
+        if form.is_valid():
+            level = form.cleaned_data["level"]
+            count = queryset.update(level=level)
+
+            modeladmin.message_user(
+                request,
+                _("Das Niveau %(level)s wurde für %(count)d Verben gesetzt.") % {
+                    "level": level,
+                    "count": count,
+                },
+                messages.SUCCESS,
+            )
+            return None
+
+    else:
+        form = SetVerbLevelForm(
+            initial={
+                "_selected_action": request.POST.getlist(
+                    ACTION_CHECKBOX_NAME
+                )
+            }
+        )
+
+    context = {
+        "form": form,
+        "queryset": queryset,
+        "opts": modeladmin.model._meta,
+    }
+
+    return render(request, "admin/set_level_action.html", context)
+
+set_level_for_selected_verbs.short_description = _("Niveau festlegen")
+
 @admin.register(Verb)
 class VerbAdmin(admin.ModelAdmin):
     list_display = (
@@ -235,6 +292,8 @@ class VerbAdmin(admin.ModelAdmin):
 
     ordering = ("infinitive",)
     list_per_page = 20
+    
+    actions = [set_level_for_selected_verbs]
 
     inlines = [PraesensInline, PraeteritumInline, VerbTranslationInline]
 
