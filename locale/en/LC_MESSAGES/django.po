@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-16 17:47+0100\n"
+"POT-Creation-Date: 2026-02-20 22:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,39 +18,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\src\common\choices.py:13
+#: .\src\common\choices.py:15
 msgid "Englisch"
 msgstr "English"
 
-#: .\src\common\choices.py:14
+#: .\src\common\choices.py:16
 msgid "Russisch"
 msgstr "Russian"
 
-#: .\src\common\choices.py:15
+#: .\src\common\choices.py:17
 msgid "Ukrainisch"
 msgstr "Ukrainian"
 
-#: .\src\common\choices.py:40
+#: .\src\common\choices.py:42
 msgid "schwach"
 msgstr "weak"
 
-#: .\src\common\choices.py:41
+#: .\src\common\choices.py:43
 msgid "stark"
 msgstr "strong"
 
-#: .\src\common\choices.py:42
+#: .\src\common\choices.py:44
 msgid "gemischt"
 msgstr "mixed"
 
-#: .\src\common\choices.py:57
+#: .\src\common\choices.py:59
 msgid "nicht reflexiv"
 msgstr "not reflexive"
 
-#: .\src\common\choices.py:58
+#: .\src\common\choices.py:60
 msgid "unechte reflexiv"
 msgstr "semi-reflexive"
 
-#: .\src\common\choices.py:59
+#: .\src\common\choices.py:61
 msgid "echte reflexiv"
 msgstr "truly reflexive"
 
@@ -61,6 +61,7 @@ msgstr "Conjugation"
 
 #: .\src\personal_forms\admin.py:218
 #: .\src\personal_forms\models\VerbForms.py:30
+#: .\src\personal_forms\models\learning.py:9
 msgid "Niveau"
 msgstr "Level"
 
@@ -68,7 +69,9 @@ msgstr "Level"
 msgid ""
 "Dieses Niveau wird für alle ausgewählten Verben gesetzt und überschreibt das "
 "bisherige Niveau."
-msgstr "This level will be set for all selected verbs and will overwrite the previous level."
+msgstr ""
+"This level will be set for all selected verbs and will overwrite the "
+"previous level."
 
 #: .\src\personal_forms\admin.py:242
 #, python-format
@@ -121,6 +124,7 @@ msgid "Partizip 2"
 msgstr "Past participle"
 
 #: .\src\personal_forms\models\VerbForms.py:63
+#: .\src\personal_forms\models\learning.py:48
 msgid "Verb"
 msgstr "Verb"
 
@@ -129,10 +133,12 @@ msgid "Verben"
 msgstr "Verbs"
 
 #: .\src\personal_forms\models\VerbForms.py:76
+#: .\src\personal_forms\models\learning.py:15
 msgid "Zeitform"
 msgstr "Tense"
 
 #: .\src\personal_forms\models\VerbForms.py:81
+#: .\src\personal_forms\models\learning.py:62
 msgid "Pronomen"
 msgstr "Pronoun"
 
@@ -170,13 +176,75 @@ msgstr "Verb with preposition"
 msgid "Verben mit Präposition"
 msgstr "Verbs with preposition"
 
-#: .\src\personal_forms\models\learning.py:27
+#: .\src\personal_forms\models\learning.py:21
+msgid "Überschrift"
+msgstr "Heading"
+
+#: .\src\personal_forms\models\learning.py:33
 msgid "Lerneinheit"
 msgstr "Learning unit"
 
-#: .\src\personal_forms\models\learning.py:28
+#: .\src\personal_forms\models\learning.py:34
 msgid "Lerneinheiten"
 msgstr "Learning units"
+
+#: .\src\personal_forms\models\learning.py:41
+msgid "Benutzer"
+msgstr "User"
+
+#: .\src\personal_forms\models\learning.py:54
+msgid "Fähigkeit"
+msgstr "Skill"
+
+#: .\src\personal_forms\models\learning.py:63
+#, fuzzy
+#| msgid "Übersetzungen"
+msgid "Leer bei Übersetzungsaufgaben"
+msgstr "Empty for translation tasks"
+
+#: .\src\personal_forms\models\learning.py:68
+msgid "Richtige Antworten"
+msgstr "Correct answers"
+
+#: .\src\personal_forms\models\learning.py:73
+msgid "Falsche Antworten"
+msgstr "Wrong answers"
+
+#: .\src\personal_forms\models\learning.py:79
+msgid "Aktuelle Serie"
+msgstr "Current streak"
+
+#: .\src\personal_forms\models\learning.py:80
+msgid "Anzahl der richtigen Antworten in Folge"
+msgstr "Number of correct answers in a row"
+
+#: .\src\personal_forms\models\learning.py:85
+msgid "Beherrscht"
+msgstr "Mastered"
+
+#: .\src\personal_forms\models\learning.py:86
+msgid "Wird als gelernt betrachtet"
+msgstr "Considered as learned"
+
+#: .\src\personal_forms\models\learning.py:92
+msgid "Letzte Antwort"
+msgstr "Last answer"
+
+#: .\src\personal_forms\models\learning.py:97
+msgid "Erstellt am"
+msgstr "Created at"
+
+#: .\src\personal_forms\models\learning.py:102
+msgid "Aktualisiert am"
+msgstr "Updated at"
+
+#: .\src\personal_forms\models\learning.py:106
+msgid "Verbfortschritt"
+msgstr "Verb progress"
+
+#: .\src\personal_forms\models\learning.py:107
+msgid "Verbfortschritte"
+msgstr "Verb progresses"
 
 #: .\templates\admin\set_level_action.html:6
 msgid "Startseite"

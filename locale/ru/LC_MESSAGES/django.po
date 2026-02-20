@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-16 17:47+0100\n"
+"POT-Creation-Date: 2026-02-20 22:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,39 +20,39 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\src\common\choices.py:13
+#: .\src\common\choices.py:15
 msgid "Englisch"
 msgstr "Английский"
 
-#: .\src\common\choices.py:14
+#: .\src\common\choices.py:16
 msgid "Russisch"
 msgstr "Русский"
 
-#: .\src\common\choices.py:15
+#: .\src\common\choices.py:17
 msgid "Ukrainisch"
 msgstr "Украинский"
 
-#: .\src\common\choices.py:40
+#: .\src\common\choices.py:42
 msgid "schwach"
 msgstr "слабый"
 
-#: .\src\common\choices.py:41
+#: .\src\common\choices.py:43
 msgid "stark"
 msgstr "сильный"
 
-#: .\src\common\choices.py:42
+#: .\src\common\choices.py:44
 msgid "gemischt"
 msgstr "смешанный"
 
-#: .\src\common\choices.py:57
+#: .\src\common\choices.py:59
 msgid "nicht reflexiv"
 msgstr "невозвратный"
 
-#: .\src\common\choices.py:58
+#: .\src\common\choices.py:60
 msgid "unechte reflexiv"
 msgstr "неистинно возвратный"
 
-#: .\src\common\choices.py:59
+#: .\src\common\choices.py:61
 msgid "echte reflexiv"
 msgstr "истинно возвратный"
 
@@ -63,6 +63,7 @@ msgstr "Спряжение"
 
 #: .\src\personal_forms\admin.py:218
 #: .\src\personal_forms\models\VerbForms.py:30
+#: .\src\personal_forms\models\learning.py:9
 msgid "Niveau"
 msgstr "Уровень"
 
@@ -70,7 +71,9 @@ msgstr "Уровень"
 msgid ""
 "Dieses Niveau wird für alle ausgewählten Verben gesetzt und überschreibt das "
 "bisherige Niveau."
-msgstr "Этот уровень будет установлен для всех выбранных глаголов и перезапишет предыдущий уровень."
+msgstr ""
+"Этот уровень будет установлен для всех выбранных глаголов и перезапишет "
+"предыдущий уровень."
 
 #: .\src\personal_forms\admin.py:242
 #, python-format
@@ -123,6 +126,7 @@ msgid "Partizip 2"
 msgstr "Причастие II"
 
 #: .\src\personal_forms\models\VerbForms.py:63
+#: .\src\personal_forms\models\learning.py:48
 msgid "Verb"
 msgstr "Глагол"
 
@@ -131,10 +135,12 @@ msgid "Verben"
 msgstr "Глаголы"
 
 #: .\src\personal_forms\models\VerbForms.py:76
+#: .\src\personal_forms\models\learning.py:15
 msgid "Zeitform"
 msgstr "Временная форма"
 
 #: .\src\personal_forms\models\VerbForms.py:81
+#: .\src\personal_forms\models\learning.py:62
 msgid "Pronomen"
 msgstr "Местоимение"
 
@@ -172,13 +178,75 @@ msgstr "Глагол с предлогом"
 msgid "Verben mit Präposition"
 msgstr "Глаголы с предлогом"
 
-#: .\src\personal_forms\models\learning.py:27
+#: .\src\personal_forms\models\learning.py:21
+msgid "Überschrift"
+msgstr "Заголовок"
+
+#: .\src\personal_forms\models\learning.py:33
 msgid "Lerneinheit"
 msgstr "Учебный блок"
 
-#: .\src\personal_forms\models\learning.py:28
+#: .\src\personal_forms\models\learning.py:34
 msgid "Lerneinheiten"
 msgstr "Учебные блоки"
+
+#: .\src\personal_forms\models\learning.py:41
+msgid "Benutzer"
+msgstr "Пользователь"
+
+#: .\src\personal_forms\models\learning.py:54
+msgid "Fähigkeit"
+msgstr "Навык"
+
+#: .\src\personal_forms\models\learning.py:63
+#, fuzzy
+#| msgid "Übersetzungen"
+msgid "Leer bei Übersetzungsaufgaben"
+msgstr "Пусто в задачах на перевод"
+
+#: .\src\personal_forms\models\learning.py:68
+msgid "Richtige Antworten"
+msgstr "Правильные ответы"
+
+#: .\src\personal_forms\models\learning.py:73
+msgid "Falsche Antworten"
+msgstr "Неправильные ответы"
+
+#: .\src\personal_forms\models\learning.py:79
+msgid "Aktuelle Serie"
+msgstr "Текущая серия"
+
+#: .\src\personal_forms\models\learning.py:80
+msgid "Anzahl der richtigen Antworten in Folge"
+msgstr "Количество правильных ответов подряд"
+
+#: .\src\personal_forms\models\learning.py:85
+msgid "Beherrscht"
+msgstr "Освоено"
+
+#: .\src\personal_forms\models\learning.py:86
+msgid "Wird als gelernt betrachtet"
+msgstr "Считается изученным"
+
+#: .\src\personal_forms\models\learning.py:92
+msgid "Letzte Antwort"
+msgstr "Последний ответ"
+
+#: .\src\personal_forms\models\learning.py:97
+msgid "Erstellt am"
+msgstr "Создано"
+
+#: .\src\personal_forms\models\learning.py:102
+msgid "Aktualisiert am"
+msgstr "Обновлено"
+
+#: .\src\personal_forms\models\learning.py:106
+msgid "Verbfortschritt"
+msgstr "Прогресс глагола"
+
+#: .\src\personal_forms\models\learning.py:107
+msgid "Verbfortschritte"
+msgstr "Прогресс глаголов"
 
 #: .\templates\admin\set_level_action.html:6
 msgid "Startseite"

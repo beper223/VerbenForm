@@ -1,4 +1,6 @@
 from enum import Enum
+
+from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
@@ -149,3 +151,27 @@ class AuxiliaryConjugation:
     @classmethod
     def get(cls, auxiliary: AuxiliaryVerb, pronoun: Pronoun) -> str:
         return cls._forms[auxiliary][pronoun]
+
+# class SkillType(Enum):
+#     TRANS = "translation"
+#     RU = "praesens"
+#     UK = "uk"
+#
+#     @classmethod
+#     def choices(cls):
+#         return [
+#             (cls.EN.value, _("Englisch")),
+#             (cls.RU.value, _("Präsens")),
+#             (cls.UK.value, _("Ukrainisch")),
+#             (cls.UK.value, _("Ukrainisch")),
+#         ]
+#
+#     @classmethod
+#     def get_available_values(cls):
+#         return [attr.value for attr in cls]
+
+class SkillType(models.TextChoices):
+    TRANSLATION = "translation", "Translation"
+    PRAESENS = "praesens", "Präsens"
+    PRAETERITUM = "praeteritum", "Präteritum"
+    PERFEKT = "perfekt", "Perfekt"
