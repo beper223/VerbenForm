@@ -171,7 +171,16 @@ class AuxiliaryConjugation:
 #         return [attr.value for attr in cls]
 
 class SkillType(models.TextChoices):
-    TRANSLATION = "translation", "Translation"
-    PRAESENS = "praesens", "Präsens"
-    PRAETERITUM = "praeteritum", "Präteritum"
-    PERFEKT = "perfekt", "Perfekt"
+    TRANSLATION = "translation", _("Übersetzung")
+    PRAESENS = "praesens", _("Präsens")
+    PRAETERITUM = "praeteritum", _("Präteritum")
+    PERFEKT = "perfekt", _("Perfekt")
+
+class LearningStatus(str, Enum):
+    NEW = "new"
+    LEARNING = "learning"
+    MASTERED = "mastered"
+
+    @classmethod
+    def choices(cls):
+        return [(i.value, i.value) for i in cls]

@@ -1,24 +1,33 @@
+from dataclasses import dataclass
+from typing import Optional
+
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from src.common.choices import Tense, CEFRLevel, SkillType
 from src.personal_forms.models import Verb
 
+@dataclass(frozen=True)
+class LearningAtom:
+    verb: Verb
+    skill_type: str
+    pronoun: Optional[str]
+
 class LearningUnit(models.Model):
     level = models.CharField(
-        _("Niveau"),
+        verbose_name=_("Niveau"),
         max_length=2,
         choices=CEFRLevel.choices(),
     )
 
-    tense = models.CharField(
-        _("Zeitform"),
-        max_length=15,
-        choices=Tense.choices(),
+    skill_type = models.CharField(
+        verbose_name=_("Fähigkeit"),
+        max_length=20,
+        choices=SkillType.choices
     )
 
     title = models.CharField(
-        _("Überschrift"),
+        verbose_name=_("Überschrift"),
         max_length=100,
     )
     order = models.PositiveIntegerField()
