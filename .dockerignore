@@ -29,7 +29,9 @@ htmlcov/
 
 # Project documentation/metadata (not needed for runtime)
 DOCS/
-Reame.md
+README.md
+README_DE.md
+README_RU.md
 .env
 # Database files (local development SQLite)
 #db.sqlite3         # Если вы используете SQLite локально, но PostgreSQL в Docker
