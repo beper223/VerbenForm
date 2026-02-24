@@ -4,8 +4,7 @@ from typing import List
 
 from src.personal_forms.models import Verb
 from src.personal_forms.models import LearningAtom, TrainingCard
-from src.personal_forms.services import DistractorGenerator
-from src.personal_forms.services.conjugation_resolver import ConjugationResolver
+from src.personal_forms.services import ConjugationResolver, DistractorGenerator
 from src.common.choices import SkillType, Tense, Pronoun
 
 

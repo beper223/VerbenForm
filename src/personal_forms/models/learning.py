@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, List
 
 from django.conf import settings
 from django.db import models
@@ -34,7 +34,7 @@ class LearningUnit(models.Model):
 
     title = models.CharField(
         verbose_name=_("Überschrift"),
-        max_length=100,
+        max_length=200,
     )
     order = models.PositiveIntegerField()
 
