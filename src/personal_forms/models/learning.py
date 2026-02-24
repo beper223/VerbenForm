@@ -13,6 +13,12 @@ class LearningAtom:
     skill_type: str
     pronoun: Optional[str]
 
+@dataclass
+class TrainingCard:
+    question: str
+    options: List[str]
+    correct_answer: str
+
 class LearningUnit(models.Model):
     level = models.CharField(
         verbose_name=_("Niveau"),
