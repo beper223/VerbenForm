@@ -1,8 +1,5 @@
-# src/personal_forms/services/training_service.py
-
 import random
-from dataclasses import dataclass
-from typing import List
+
 from django.core.cache import cache
 
 from src.personal_forms.models import LearningUnit, Verb
@@ -14,34 +11,11 @@ from src.personal_forms.services import (
 )
 
 from src.common.choices import SkillType, Tense, Pronoun
-
-@dataclass(frozen=True)
-class LearningAtom:
-    verb: Verb
-    skill_type: SkillType
-    pronoun: Pronoun
-
-@dataclass
-class TrainingCard:
-    question: str
-    options: List[str]
-    correct_answer: str
-
-@dataclass
-class TrainingCard:
-    card_id: str
-    verb: str
-    skill_type: str
-    pronoun: str | None
-    choices: list[str]
-
-
-@dataclass
-class AnswerResult:
-    correct: bool
-    correct_answer: str
-    mastered: bool
-    streak: int
+from src.personal_forms.domain import (
+    LearningAtom,
+    NextCard,
+    AnswerResult
+)
 
 
 class TrainingService:
@@ -57,9 +31,9 @@ class TrainingService:
     # GET NEXT CARD
     # ============================================================
 
-    def get_next_card(self, *, user, learning_unit: LearningUnit, language: str) -> TrainingCard | None:
+    def get_next_card(self, *, user, learning_unit: LearningUnit, language: str) -> NextCard | None:
 
-        atom = self.engine.get_next_atom(
+        atom: LearningAtom | None = self.engine.get_next_atom(
             user=user,
             learning_unit=learning_unit,
         )
@@ -67,14 +41,22 @@ class TrainingService:
         if not atom:
             return None
 
+        verbs_map = {v.id: v for v in learning_unit.verbs.all()}
+        verb = verbs_map.get(atom.verb_id)
+        if verb is None:
+            # На всякий случай: verb мог быть удалён/отвязан от юнита
+            return None
+
         correct_answer = self._resolve_correct_answer(
             atom=atom,
+            verb=verb,
             learning_unit=learning_unit,
             language=language,
         )
 
         distractors = self._resolve_distractors(
             atom=atom,
+            verb=verb,
             learning_unit=learning_unit,
             language=language,
             correct_answer=correct_answer,
@@ -88,7 +70,7 @@ class TrainingService:
         cache.set(
             card_id,
             {
-                "verb_id": atom.verb.id,
+                "verb_id": atom.verb_id,
                 "skill_type": atom.skill_type,
                 "pronoun": atom.pronoun,
                 "correct_answer": correct_answer,
@@ -96,12 +78,10 @@ class TrainingService:
             timeout=self.CARD_TTL,
         )
 
-        return TrainingCard(
+        return NextCard(
             card_id=card_id,
-            verb=atom.verb.infinitive,
-            skill_type=atom.skill_type,
-            pronoun=atom.pronoun,
-            choices=choices,
+            question=self._build_question(atom=atom, verb=verb),
+            options=choices,
         )
 
     # ============================================================
@@ -144,12 +124,20 @@ class TrainingService:
     # INTERNALS
     # ============================================================
 
-    def _resolve_correct_answer(self, *, atom, learning_unit, language: str) -> str:
+    @staticmethod
+    def _build_question(*, atom: LearningAtom, verb: Verb) -> str:
+        if atom.skill_type == SkillType.TRANSLATION:
+            return verb.infinitive
+
+        # Для conjugation: показываем глагол + местоимение
+        pronoun = atom.pronoun or ""
+        return f"{verb.infinitive}\n{pronoun}"
+
+    def _resolve_correct_answer(self, *, atom: LearningAtom, verb: Verb, learning_unit, language: str) -> str:
 
         if atom.skill_type == SkillType.TRANSLATION:
-
             field_name = self.distractors.get_translation_field(language)
-            return getattr(atom.verb, field_name)
+            return getattr(verb, field_name)
 
         if atom.skill_type == SkillType.PRAESENS:
             tense = Tense.PRAESENS
@@ -160,23 +148,35 @@ class TrainingService:
         else:
             raise ValueError("Unsupported skill type")
 
+        if not atom.pronoun:
+            raise ValueError("Pronoun is required for conjugation tasks")
+        pronoun_enum = Pronoun(atom.pronoun)
+
         full_phrase = ConjugationResolver.conjugate(
-            verb=atom.verb,
+            verb=verb,
             tense=tense,
-            pronoun=atom.pronoun,
+            pronoun=pronoun_enum,
         )
 
-        prefix = f"{atom.pronoun} "
+        prefix = f"{pronoun_enum.value} "
         if full_phrase.startswith(prefix):
             return full_phrase[len(prefix):]
 
         return full_phrase
 
-    def _resolve_distractors(self, *, atom, learning_unit, language: str, correct_answer: str):
+    def _resolve_distractors(
+            self,
+            *,
+            atom: LearningAtom,
+            verb: Verb,
+            learning_unit,
+            language: str,
+            correct_answer: str,
+    ):
 
         if atom.skill_type == SkillType.TRANSLATION:
             return self.distractors.translation_distractors(
-                verb=atom.verb,
+                verb=verb,
                 learning_unit=learning_unit,
                 language=language,
             )
@@ -190,9 +190,13 @@ class TrainingService:
         else:
             return []
 
+        if not atom.pronoun:
+            return []
+        pronoun_enum = Pronoun(atom.pronoun)
+
         return self.distractors.conjugation_distractors(
-            verb=atom.verb,
+            verb=verb,
             tense=tense,
-            pronoun=atom.pronoun,
+            pronoun=pronoun_enum,
             correct_answer=correct_answer,
         )
