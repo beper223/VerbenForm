@@ -1,23 +1,9 @@
-from dataclasses import dataclass
-from typing import Optional, List
-
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from src.common.choices import Tense, CEFRLevel, SkillType
+from src.common.choices import CEFRLevel, SkillType
 from src.personal_forms.models import Verb
 
-@dataclass(frozen=True)
-class LearningAtom:
-    verb: Verb
-    skill_type: str
-    pronoun: Optional[str]
-
-@dataclass
-class TrainingCard:
-    question: str
-    options: List[str]
-    correct_answer: str
 
 class LearningUnit(models.Model):
     level = models.CharField(

@@ -28,7 +28,7 @@ class DistractorGenerator:
         if language == main_language:
             raise ValueError("Translation distractors are not available for main language.")
 
-        field_name = self._get_translation_field(language)
+        field_name = self.get_translation_field(language)
 
         queryset = learning_unit.verbs.exclude(id=verb.id)
 
@@ -198,7 +198,7 @@ class DistractorGenerator:
         return None
 
     @staticmethod
-    def _get_translation_field(language: str) -> str:
+    def get_translation_field(language: str) -> str:
 
         # ожидаем что в settings есть что-то вроде:
         # SUPPORTED_LANGUAGES = {

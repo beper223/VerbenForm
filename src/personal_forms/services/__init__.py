@@ -3,6 +3,7 @@ from src.personal_forms.services.learning_unit_progress_service import LearningU
 from src.personal_forms.services.progress_service import ProgressService
 from src.personal_forms.services.distractor_generator import DistractorGenerator
 from src.personal_forms.services.training_engine import CachedTrainingEngine
+from src.personal_forms.services.training_service import TrainingService
 
 __all__ = [
     "ConjugationResolver",
@@ -10,4 +11,5 @@ __all__ = [
     "ProgressService",
     "DistractorGenerator",
     "CachedTrainingEngine",
+    "TrainingService",
 ]
