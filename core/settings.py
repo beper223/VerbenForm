@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Local apps
-    'src.personal_forms',
+    'src.personal_forms.apps.PersonalFormsConfig',
 ]
 
 MIDDLEWARE = [
