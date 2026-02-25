@@ -29,7 +29,8 @@ class LearningUnit(models.Model):
     skill_type = models.CharField(
         verbose_name=_("Fähigkeit"),
         max_length=20,
-        choices=SkillType.choices
+        choices=SkillType.choices,
+        default=SkillType.TRANSLATION
     )
 
     title = models.CharField(
@@ -129,6 +130,7 @@ class UserVerbProgress(models.Model):
         indexes = [
             models.Index(fields=["user", "skill_type"]),
             models.Index(fields=["user", "mastered"]),
+            models.Index(fields=["user", "verb", "skill_type", "pronoun"]),
         ]
 
     def __str__(self):

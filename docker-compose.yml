@@ -17,6 +17,28 @@ services:
 #      - .env
 #    depends_on:
 #      - db
+  redis:
+    image: redis:7-alpine
+    container_name: verben_redis
+    restart: unless-stopped
+    command: >
+      redis-server
+      --appendonly yes
+      --maxmemory 256mb
+      --maxmemory-policy volatile-lru
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    volumes:
+      - redis_data:/data
+
+#appendonly yes	включает persistence
+#maxmemory 256mb	лимит памяти
+#volatile-lru	удаляет ключи с TTL
 
   db:
     image: postgres:18.1
@@ -31,3 +53,4 @@ services:
 
 volumes:
   verben_postgres_data:
+  redis_data:

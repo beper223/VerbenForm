@@ -1,77 +1,151 @@
 import random
-from typing import List
+from typing import Optional
 
-from django.contrib.auth import get_user_model
+from django.core.cache import cache
 
-from src.common.choices import LearningStatus
-from src.personal_forms.models import LearningUnit, LearningAtom
-from src.personal_forms.services import LearningUnitProgressService
-
-
-User = get_user_model()
+from src.personal_forms.models import UserVerbProgress, LearningAtom
+from src.common.choices import SkillType, Pronoun
 
 
-class TrainingEngine:
+class CachedTrainingEngine:
 
-    def __init__(self):
-        self.progress_service = LearningUnitProgressService()
+    CACHE_TTL = 90  # seconds
 
-    def get_next_atom(self, *, user: User, learning_unit: LearningUnit) -> LearningAtom:
-        atoms = self.progress_service.generate_atoms(learning_unit)
-        progress_data = self.progress_service.build_progress(
-            user=user,
-            learning_unit=learning_unit,
+    NEW_WEIGHT = 0.6
+    LEARNING_WEIGHT = 0.35
+    MASTERED_WEIGHT = 0.05
+
+    def get_next_atom(self, *, user, learning_unit) -> Optional[LearningAtom]:
+
+        skill_type = learning_unit.skill_type
+        verb_ids = list(
+            learning_unit.verbs.values_list("id", flat=True)
         )
 
-        matrix = progress_data["matrix"]
+        if not verb_ids:
+            return None
 
-        new_atoms: List[LearningAtom] = []
-        learning_atoms: List[LearningAtom] = []
-        mastered_atoms: List[LearningAtom] = []
-
-        for atom in atoms:
-            verb_key = atom.verb.infinitive
-            pronoun_key = atom.pronoun or "-"
-
-            status = matrix[verb_key][pronoun_key]
-
-            if status == LearningStatus.NEW:
-                new_atoms.append(atom)
-            elif status == LearningStatus.LEARNING:
-                learning_atoms.append(atom)
-            else:
-                mastered_atoms.append(atom)
-
-        return self._choose_atom(
-            new_atoms=new_atoms,
-            learning_atoms=learning_atoms,
-            mastered_atoms=mastered_atoms,
+        # 1️⃣ Получаем progress_map из кеша
+        progress_map = self._get_cached_progress(
+            user_id=user.id,
+            unit_id=learning_unit.id,
+            verb_ids=verb_ids,
+            skill_type=skill_type,
         )
 
-    def _choose_atom(
+        # 2️⃣ Делим на bucket'ы
+        new_candidates = []
+        learning_candidates = []
+        mastered_candidates = []
+
+        if skill_type == SkillType.TRANSLATION:
+
+            for verb_id in verb_ids:
+                key = (verb_id, None)
+                progress = progress_map.get(key)
+
+                if progress is None:
+                    new_candidates.append(key)
+                elif progress:
+                    mastered_candidates.append(key)
+                else:
+                    learning_candidates.append(key)
+
+        else:
+            for verb_id in verb_ids:
+                for pronoun in Pronoun:
+                    key = (verb_id, pronoun.value)
+                    progress = progress_map.get(key)
+
+                    if progress is None:
+                        new_candidates.append(key)
+                    elif progress:
+                        mastered_candidates.append(key)
+                    else:
+                        learning_candidates.append(key)
+
+        bucket = self._choose_bucket(
+            new_candidates,
+            learning_candidates,
+            mastered_candidates,
+        )
+
+        if not bucket:
+            return None
+
+        verb_id, pronoun = random.choice(bucket)
+
+        verbs_map = {
+            v.id: v
+            for v in learning_unit.verbs.all()
+        }
+
+        return LearningAtom(
+            verb=verbs_map[verb_id],
+            skill_type=skill_type,
+            pronoun=pronoun,
+        )
+
+    # --------------------------------------------------
+
+    def _get_cached_progress(
         self,
         *,
-        new_atoms: List[LearningAtom],
-        learning_atoms: List[LearningAtom],
-        mastered_atoms: List[LearningAtom],
-    ) -> LearningAtom:
+        user_id,
+        unit_id,
+        verb_ids,
+        skill_type,
+    ):
 
-        # Если есть learning — приоритет
-        roll = random.random()
+        cache_key = f"progress:{user_id}:{unit_id}"
 
-        if learning_atoms and roll < 0.6:
-            return random.choice(learning_atoms)
+        cached = cache.get(cache_key)
+        if cached is not None:
+            return cached
 
-        if new_atoms and roll < 0.9:
-            return random.choice(new_atoms)
+        progresses = UserVerbProgress.objects.filter(
+            user_id=user_id,
+            skill_type=skill_type,
+            verb_id__in=verb_ids,
+        ).values("verb_id", "pronoun", "mastered")
 
-        if mastered_atoms:
-            return random.choice(mastered_atoms)
+        progress_map = {}
 
-        # fallback
-        pool = learning_atoms or new_atoms or mastered_atoms
+        for p in progresses:
+            key = (p["verb_id"], p["pronoun"])
+            progress_map[key] = p["mastered"]
 
-        if not pool:
-            raise ValueError("No atoms available in learning unit.")
+        cache.set(cache_key, progress_map, self.CACHE_TTL)
 
-        return random.choice(pool)
+        return progress_map
+
+    # --------------------------------------------------
+
+    def _choose_bucket(
+        self,
+        new_candidates,
+        learning_candidates,
+        mastered_candidates,
+    ):
+
+        weighted_pool = []
+
+        if new_candidates:
+            weighted_pool.extend(
+                [new_candidates] * int(self.NEW_WEIGHT * 100)
+            )
+
+        if learning_candidates:
+            weighted_pool.extend(
+                [learning_candidates] * int(self.LEARNING_WEIGHT * 100)
+            )
+
+        if mastered_candidates:
+            weighted_pool.extend(
+                [mastered_candidates] * int(self.MASTERED_WEIGHT * 100)
+            )
+
+        if not weighted_pool:
+            return None
+
+        return random.choice(weighted_pool)

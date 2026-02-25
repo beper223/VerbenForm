@@ -363,13 +363,13 @@ class LearningUnitAdmin(admin.ModelAdmin):
     list_display = (
         "title",
         "level",
-        "tense",
+        "skill_type",
         "order",
     )
 
     list_filter = (
         "level",
-        "tense",
+        "skill_type",
     )
 
     ordering = ("order",)

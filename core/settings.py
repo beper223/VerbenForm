@@ -143,3 +143,54 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles' # Для сбора статики в продакшене
+
+# Redis URLs (через django-environ)
+REDIS_CACHE_URL = env(
+    "REDIS_CACHE_URL",
+    default="redis://redis:6379/1"
+)
+
+REDIS_SESSION_URL = env(
+    "REDIS_SESSION_URL",
+    default="redis://redis:6379/2"
+)
+
+CACHES = {
+    # 🔹 Основной кэш (DB 1)
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": REDIS_CACHE_URL,
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "CONNECTION_POOL_KWARGS": {
+                "max_connections": 100,
+                "retry_on_timeout": True,
+            },
+        },
+        "KEY_PREFIX": "verben_cache",
+        "TIMEOUT": 300,
+    },
+
+    # 🔹 Кэш для сессий (DB 2)
+    "sessions": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": REDIS_SESSION_URL,
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "CONNECTION_POOL_KWARGS": {
+                "max_connections": 50,
+                "retry_on_timeout": True,
+            },
+        },
+        "KEY_PREFIX": "verben_sessions",
+        "TIMEOUT": None,  # управляется SESSION_COOKIE_AGE
+    },
+}
+
+# 🔐 Сессии через Redis (DB 2)
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "sessions"
+
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 7  # 7 дней
+SESSION_SAVE_EVERY_REQUEST = False
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
