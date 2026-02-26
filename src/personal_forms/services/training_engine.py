@@ -3,8 +3,9 @@ from typing import Optional
 
 from django.core.cache import cache
 
-from src.personal_forms.models import UserVerbProgress, LearningAtom
+from src.personal_forms.models import UserVerbProgress
 from src.common.choices import SkillType, Pronoun
+from src.personal_forms.domain import LearningAtom
 
 
 class CachedTrainingEngine:
@@ -75,13 +76,13 @@ class CachedTrainingEngine:
 
         verb_id, pronoun = random.choice(bucket)
 
-        verbs_map = {
-            v.id: v
-            for v in learning_unit.verbs.all()
-        }
+        # verbs_map = {
+        #     v.id: v
+        #     for v in learning_unit.verbs.all()
+        # }
 
         return LearningAtom(
-            verb=verbs_map[verb_id],
+            verb_id=verb_id,
             skill_type=skill_type,
             pronoun=pronoun,
         )

@@ -1,5 +1,6 @@
 from django.db import transaction
 from django.utils import timezone
+from django.core.cache import cache
 
 from src.personal_forms.models import UserVerbProgress
 
@@ -18,14 +19,14 @@ class ProgressService:
     def get_or_create_progress(
         *,
         user,
-        verb,
+        verb_id,
         skill_type,
         pronoun=None,
     ) -> UserVerbProgress:
 
         progress, _ = UserVerbProgress.objects.get_or_create(
             user=user,
-            verb=verb,
+            verb=verb_id,
             skill_type=skill_type,
             pronoun=pronoun,
         )
@@ -39,6 +40,7 @@ class ProgressService:
         *,
         progress: UserVerbProgress,
         is_correct: bool,
+        unit_id: int  # Передаем ID юнита для сброса кеша
     ) -> None:
 
         if is_correct:
@@ -56,6 +58,11 @@ class ProgressService:
             "last_answer_at",
             "updated_at",
         ])
+
+        # 2. ИНВАЛИДАЦИЯ КЕША (Пункт 4)
+        # Ключ должен в точности совпадать с тем, что в CachedTrainingEngine
+        cache_key = f"progress:{progress.user_id}:{unit_id}"
+        cache.delete(cache_key)
 
     # --------------------------------------------------
 
