@@ -1,5 +1,5 @@
 from src.personal_forms.models.VerbForms import VerbForm, Verb, VerbTranslation, VerbPreposition, Preposition
-from src.personal_forms.models.learning import LearningUnit, UserVerbProgress, LearningAtom, TrainingCard
+from src.personal_forms.models.learning import LearningUnit, UserVerbProgress
 
 __all__ = [
     "VerbForm",
@@ -9,6 +9,4 @@ __all__ = [
     "Preposition",
     "LearningUnit",
     "UserVerbProgress",
-    "LearningAtom",
-    "TrainingCard",
 ]

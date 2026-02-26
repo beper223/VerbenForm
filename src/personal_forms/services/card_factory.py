@@ -1,94 +1,39 @@
 import random
-from dataclasses import dataclass
-from typing import List
 
-from src.personal_forms.models import Verb
-from src.personal_forms.models import LearningAtom, TrainingCard
-from src.personal_forms.services import ConjugationResolver, DistractorGenerator
-from src.common.choices import SkillType, Tense, Pronoun
-
+from src.personal_forms.services import SKILL_RESOLVERS
+from src.personal_forms.domain import TrainingCard
 
 
 class CardFactory:
+    """Отвечает только за сборку контента карточки"""
 
-    def __init__(self):
-        self.distractor_generator = DistractorGenerator()
+    @staticmethod
+    def build_card(verb, atom, unit_verbs, language: str) -> TrainingCard:
+        resolver = SKILL_RESOLVERS.get(atom.skill_type)
+        if not resolver:
+            raise ValueError(f"No resolver for: {atom.skill_type}")
 
-    def build_card(self, atom: LearningAtom) -> TrainingCard:
-        if atom.skill_type == SkillType.TRANSLATION:
-            return self._translation_card(atom)
+        # 2. Генерируем правильный ответ и дистракторы
+        correct_answer = resolver.get_correct_answer(verb, atom, language)
+        distractors = resolver.get_distractors(verb, atom, unit_verbs, language)
 
-        if atom.skill_type in (
-            SkillType.PRAESENS,
-            SkillType.PRAETERITUM,
-            SkillType.PERFEKT,
-        ):
-            return self._conjugation_card(atom)
-
-        raise ValueError(f"Unsupported skill type: {atom.skill_type}")
-
-    # ---------------------------------------------------
-
-    def _translation_card(self, atom: LearningAtom) -> TrainingCard:
-        verb = atom.verb
-
-        correct = verb.translation  # предполагаем что есть поле
-
-        distractors = self.distractor_generator.translation_distractors(
-            verb=verb,
-            limit=3,
-        )
-
-        options = distractors + [correct]
+        # 3. Собираем варианты ответа
+        options = distractors + [correct_answer]
         random.shuffle(options)
 
-        return TrainingCard(
-            question=verb.infinitive,
-            options=options,
-            correct_answer=correct,
-        )
-
-    # ---------------------------------------------------
-
-    def _conjugation_card(self, atom: LearningAtom) -> TrainingCard:
-        verb = atom.verb
-        pronoun_enum = Pronoun(atom.pronoun)
-        tense = Tense(atom.skill_type)
-
-        correct = ConjugationResolver.conjugate(
-            verb=verb,
-            tense=tense,
-            pronoun=pronoun_enum,
-        )
-
-        # Если Perfekt — убираем местоимение
-        if tense == Tense.PERFEKT:
-            correct = self._strip_pronoun(correct, pronoun_enum)
-
-        distractors = self.distractor_generator.conjugation_distractors(
-            verb=verb,
-            tense=tense,
-            pronoun=pronoun_enum,
-            correct_answer=correct,
-            limit=3,
-        )
-
-        options = distractors + [correct]
-        random.shuffle(options)
-
-        question = f"{verb.infinitive}\n{pronoun_enum.value}"
+        # 4. Формируем текст вопроса
+        question = CardFactory._get_question(verb, atom)
 
         return TrainingCard(
             question=question,
             options=options,
-            correct_answer=correct,
+            correct_answer=correct_answer
         )
 
     # ---------------------------------------------------
 
     @staticmethod
-    def _strip_pronoun(full_phrase: str, pronoun: Pronoun) -> str:
-        prefix = pronoun.value + " "
-        if full_phrase.startswith(prefix):
-            return full_phrase[len(prefix):]
-        return full_phrase
+    def _get_question(verb, atom) -> str:
+        if atom.skill_type == "translation":
+            return verb.infinitive
+        return f"{verb.infinitive}\n({atom.pronoun})"
