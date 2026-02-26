@@ -3,7 +3,7 @@ from typing import List
 
 from django.conf import settings
 
-from src.personal_forms.models import Verb, VerbForm, LearningUnit
+from src.personal_forms.models import Verb, VerbForm, LearningUnit, VerbTranslation
 from src.personal_forms.services import ConjugationResolver
 from src.common.choices import Tense, Pronoun, AuxiliaryVerb
 
@@ -14,9 +14,9 @@ class DistractorGenerator:
     # TRANSLATION (для языков != основной)
     # ==================================================
 
+    @staticmethod
     def translation_distractors(
-        self,
-        *,
+            *,
         verb: Verb,
         learning_unit: LearningUnit,
         language: str,
@@ -28,23 +28,22 @@ class DistractorGenerator:
         if language == main_language:
             raise ValueError("Translation distractors are not available for main language.")
 
-        field_name = self.get_translation_field(language)
+        # 1. Получаем ID всех глаголов в этом уроке
+        # (Это эффективно, так как Django часто уже держит их в кеше)
+        unit_verb_ids = learning_unit.verbs.values_list('id', flat=True)
 
-        queryset = learning_unit.verbs.exclude(id=verb.id)
+        # 2. Идем в таблицу переводов
+        distractors_qs = VerbTranslation.objects.filter(
+            language_code=language,  # Только нужный язык
+            verb_id__in=unit_verb_ids  # Только из этого урока
+        ).exclude(verb_id=verb.id)  # Кроме правильного ответа
 
-        values = list(
-            queryset.exclude(**{f"{field_name}__isnull": True})
-            .exclude(**{f"{field_name}__exact": ""})
-            .values_list(field_name, flat=True)
-        )
+        # 3. Берем только текст перевода
+        distractors = list(distractors_qs.values_list("translation", flat=True))
 
-        correct_value = getattr(verb, field_name)
-
-        values = [v for v in values if v != correct_value]
-
-        random.shuffle(values)
-
-        return values[:limit]
+        # 4. Перемешиваем и ограничиваем
+        random.shuffle(distractors)
+        return distractors[:limit]
 
     # ==================================================
     # CONJUGATION
