@@ -41,7 +41,10 @@ class TrainingService:
         if not atom:
             return None
 
-        verbs_map = {v.id: v for v in learning_unit.verbs.all()}
+        verbs_map = {
+            v.id: v
+            for v in learning_unit.verbs.prefetch_related('translations').all()
+        }
         verb = verbs_map.get(atom.verb_id)
         if verb is None:
             # На всякий случай: verb мог быть удалён/отвязан от юнита
@@ -50,7 +53,6 @@ class TrainingService:
         correct_answer = self._resolve_correct_answer(
             atom=atom,
             verb=verb,
-            learning_unit=learning_unit,
             language=language,
         )
 
@@ -133,11 +135,18 @@ class TrainingService:
         pronoun = atom.pronoun or ""
         return f"{verb.infinitive}\n{pronoun}"
 
-    def _resolve_correct_answer(self, *, atom: LearningAtom, verb: Verb, learning_unit, language: str) -> str:
+    @staticmethod
+    def _resolve_correct_answer(*, atom: LearningAtom, verb: Verb, language: str) -> str:
 
         if atom.skill_type == SkillType.TRANSLATION:
-            field_name = self.distractors.get_translation_field(language)
-            return getattr(verb, field_name)
+            # Ищем перевод в связанной модели VerbTranslation
+            translation_obj = verb.translations.filter(language_code=language).first()
+
+            if not translation_obj:
+                # Фолбек: если перевода нет, возвращаем инфинитив (или вызываем ошибку)
+                return verb.infinitive
+
+            return translation_obj.translation
 
         if atom.skill_type == SkillType.PRAESENS:
             tense = Tense.PRAESENS

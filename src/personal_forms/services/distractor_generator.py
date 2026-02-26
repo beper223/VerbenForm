@@ -195,18 +195,3 @@ class DistractorGenerator:
             return participle[:-1] + "en"
 
         return None
-
-    @staticmethod
-    def get_translation_field(language: str) -> str:
-
-        # ожидаем что в settings есть что-то вроде:
-        # SUPPORTED_LANGUAGES = {
-        #     "en": "translation_en",
-        #     "ru": "translation_ru",
-        #     "uk": "translation_uk",
-        # }
-
-        try:
-            return settings.SUPPORTED_LANGUAGES[language]
-        except KeyError:
-            raise ValueError(f"No translation field configured for language '{language}'")
