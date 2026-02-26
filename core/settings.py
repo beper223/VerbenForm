@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Local apps
     'src.personal_forms.apps.PersonalFormsConfig',
+    'src.users.apps.UsersConfig',
+    # 3-rd party
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -75,6 +78,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
+AUTH_USER_MODEL = 'src.users.User'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
