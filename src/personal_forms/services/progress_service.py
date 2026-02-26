@@ -26,7 +26,7 @@ class ProgressService:
 
         progress, _ = UserVerbProgress.objects.get_or_create(
             user=user,
-            verb=verb_id,
+            verb_id=verb_id,
             skill_type=skill_type,
             pronoun=pronoun,
         )

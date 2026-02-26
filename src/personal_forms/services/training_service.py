@@ -1,3 +1,4 @@
+import uuid
 from django.core.cache import cache
 
 from src.personal_forms.models import LearningUnit
@@ -54,7 +55,7 @@ class TrainingService:
         )
 
         # 4. Кешируем для проверки
-        card_id = f"card:{user.id}"
+        card_id = f"card:{str(uuid.uuid4())}"
         self._cache_card(
             card_id,
             atom,
