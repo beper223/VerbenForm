@@ -1,6 +1,6 @@
 import random
 
-from src.personal_forms.services import SKILL_RESOLVERS
+from src.personal_forms.services.resolvers.registry import SKILL_RESOLVERS
 from src.personal_forms.domain import TrainingCard
 
 

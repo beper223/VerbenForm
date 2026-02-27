@@ -2,11 +2,9 @@ import uuid
 from django.core.cache import cache
 
 from src.personal_forms.models import LearningUnit
-from src.personal_forms.services import (
-    CachedTrainingEngine,
-    ProgressService,
-    CardFactory
-)
+from src.personal_forms.services.training_engine import CachedTrainingEngine
+from src.personal_forms.services.progress_service import ProgressService
+from src.personal_forms.services.card_factory import CardFactory
 
 from src.personal_forms.domain import (
     LearningAtom,

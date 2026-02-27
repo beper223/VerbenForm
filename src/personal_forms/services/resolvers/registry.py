@@ -1,9 +1,8 @@
 from src.common.choices import SkillType
-from src.personal_forms.services.resolvers import (
-    TranslationResolver,
-    SimpleConjugationResolver,
-    PerfektResolver,
-)
+from src.personal_forms.services.resolvers.translation import TranslationResolver
+from src.personal_forms.services.resolvers.conjugation import SimpleConjugationResolver
+from src.personal_forms.services.resolvers.perfekt import PerfektResolver
+
 
 SKILL_RESOLVERS = {
     SkillType.TRANSLATION: TranslationResolver(),
