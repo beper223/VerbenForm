@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-20 22:00+0100\n"
+"POT-Creation-Date: 2026-02-27 03:08+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,6 +57,23 @@ msgstr "неістинно зворотне"
 msgid "echte reflexiv"
 msgstr "істинно зворотне"
 
+#: .\src\common\choices.py:174 .\src\personal_forms\models\VerbForms.py:111
+#: .\src\personal_forms\models\VerbForms.py:116
+msgid "Übersetzung"
+msgstr "Переклад"
+
+#: .\src\common\choices.py:175
+msgid "Präsens"
+msgstr ""
+
+#: .\src\common\choices.py:176
+msgid "Präteritum"
+msgstr ""
+
+#: .\src\common\choices.py:177 .\src\personal_forms\admin.py:311
+msgid "Perfekt"
+msgstr "Перфект"
+
 #: .\src\personal_forms\admin.py:116 .\src\personal_forms\admin.py:122
 #: .\src\personal_forms\models\VerbForms.py:24
 msgid "Konjugation"
@@ -64,7 +81,7 @@ msgstr "Дієвідміна"
 
 #: .\src\personal_forms\admin.py:218
 #: .\src\personal_forms\models\VerbForms.py:30
-#: .\src\personal_forms\models\learning.py:9
+#: .\src\personal_forms\models\learning.py:10
 msgid "Niveau"
 msgstr "Рівень"
 
@@ -89,10 +106,6 @@ msgstr "Встановити рівень"
 #: .\src\personal_forms\admin.py:301
 msgid "Grundform"
 msgstr "Основна форма"
-
-#: .\src\personal_forms\admin.py:311
-msgid "Perfekt"
-msgstr "Перфект"
 
 #: .\src\personal_forms\admin.py:313
 msgid "Nur für Perfekt erforderlich"
@@ -127,7 +140,7 @@ msgid "Partizip 2"
 msgstr "Дієприкметник II"
 
 #: .\src\personal_forms\models\VerbForms.py:63
-#: .\src\personal_forms\models\learning.py:48
+#: .\src\personal_forms\models\learning.py:50
 msgid "Verb"
 msgstr "Дієслово"
 
@@ -136,12 +149,11 @@ msgid "Verben"
 msgstr "Дієслова"
 
 #: .\src\personal_forms\models\VerbForms.py:76
-#: .\src\personal_forms\models\learning.py:15
 msgid "Zeitform"
 msgstr "Час"
 
 #: .\src\personal_forms\models\VerbForms.py:81
-#: .\src\personal_forms\models\learning.py:62
+#: .\src\personal_forms\models\learning.py:64
 msgid "Pronomen"
 msgstr "Займенник"
 
@@ -150,14 +162,9 @@ msgstr "Займенник"
 msgid "Personalform"
 msgstr "Особова форма"
 
-#: .\src\personal_forms\models\VerbForms.py:106
+#: .\src\personal_forms\models\VerbForms.py:106 .\src\users\models.py:9
 msgid "Sprache"
 msgstr "Мова"
-
-#: .\src\personal_forms\models\VerbForms.py:111
-#: .\src\personal_forms\models\VerbForms.py:116
-msgid "Übersetzung"
-msgstr "Переклад"
 
 #: .\src\personal_forms\models\VerbForms.py:117
 msgid "Übersetzungen"
@@ -179,75 +186,109 @@ msgstr "Дієслово з прийменником"
 msgid "Verben mit Präposition"
 msgstr "Дієслова з прийменником"
 
-#: .\src\personal_forms\models\learning.py:21
-msgid "Überschrift"
-msgstr "Заголовок"
-
-#: .\src\personal_forms\models\learning.py:33
-msgid "Lerneinheit"
-msgstr "Навчальний модуль"
-
-#: .\src\personal_forms\models\learning.py:34
-msgid "Lerneinheiten"
-msgstr "Навчальні модулі"
-
-#: .\src\personal_forms\models\learning.py:41
-msgid "Benutzer"
-msgstr "Користувач"
-
-#: .\src\personal_forms\models\learning.py:54
+#: .\src\personal_forms\models\learning.py:16
+#: .\src\personal_forms\models\learning.py:56
 msgid "Fähigkeit"
 msgstr "Навичка"
 
-#: .\src\personal_forms\models\learning.py:63
+#: .\src\personal_forms\models\learning.py:23
+msgid "Überschrift"
+msgstr "Заголовок"
+
+#: .\src\personal_forms\models\learning.py:35
+msgid "Lerneinheit"
+msgstr "Навчальний модуль"
+
+#: .\src\personal_forms\models\learning.py:36
+msgid "Lerneinheiten"
+msgstr "Навчальні модулі"
+
+#: .\src\personal_forms\models\learning.py:43 .\src\users\models.py:24
+#: .\src\users\models.py:25
+msgid "Benutzer"
+msgstr "Користувач"
+
+#: .\src\personal_forms\models\learning.py:65
 #, fuzzy
 #| msgid "Übersetzungen"
 msgid "Leer bei Übersetzungsaufgaben"
 msgstr "Порожньо в завданнях на переклад"
 
-#: .\src\personal_forms\models\learning.py:68
+#: .\src\personal_forms\models\learning.py:70
 msgid "Richtige Antworten"
 msgstr "Правильні відповіді"
 
-#: .\src\personal_forms\models\learning.py:73
+#: .\src\personal_forms\models\learning.py:75
 msgid "Falsche Antworten"
 msgstr "Неправильні відповіді"
 
-#: .\src\personal_forms\models\learning.py:79
+#: .\src\personal_forms\models\learning.py:81
 msgid "Aktuelle Serie"
 msgstr "Поточна серія"
 
-#: .\src\personal_forms\models\learning.py:80
+#: .\src\personal_forms\models\learning.py:82
 msgid "Anzahl der richtigen Antworten in Folge"
 msgstr "Кількість правильних відповідей поспіль"
 
-#: .\src\personal_forms\models\learning.py:85
+#: .\src\personal_forms\models\learning.py:87
 msgid "Beherrscht"
 msgstr "Опановано"
 
-#: .\src\personal_forms\models\learning.py:86
+#: .\src\personal_forms\models\learning.py:88
 msgid "Wird als gelernt betrachtet"
 msgstr "Вважається вивченим"
 
-#: .\src\personal_forms\models\learning.py:92
+#: .\src\personal_forms\models\learning.py:94
 msgid "Letzte Antwort"
 msgstr "Остання відповідь"
 
-#: .\src\personal_forms\models\learning.py:97
+#: .\src\personal_forms\models\learning.py:99
 msgid "Erstellt am"
 msgstr "Створено"
 
-#: .\src\personal_forms\models\learning.py:102
+#: .\src\personal_forms\models\learning.py:104
 msgid "Aktualisiert am"
 msgstr "Оновлено"
 
-#: .\src\personal_forms\models\learning.py:106
+#: .\src\personal_forms\models\learning.py:108
 msgid "Verbfortschritt"
 msgstr "Прогрес дієслова"
 
-#: .\src\personal_forms\models\learning.py:107
+#: .\src\personal_forms\models\learning.py:109
 msgid "Verbfortschritte"
 msgstr "Прогрес дієслів"
+
+#: .\src\users\admin.py:16 .\src\users\admin.py:21
+msgid "Weitere Informationen"
+msgstr ""
+
+#: .\src\users\admin.py:32 .\src\users\admin.py:38 .\src\users\models.py:20
+msgid "Lehrer"
+msgstr ""
+
+#: .\src\users\api\views.py:20 .\src\users\api\views.py:33
+msgid "E-Mail-Adresse erforderlich"
+msgstr ""
+
+#: .\src\users\api\views.py:24
+msgid "Einladung erstellt"
+msgstr ""
+
+#: .\src\users\api\views.py:53
+msgid "Lehrer wurde Ihrem Konto hinzugefügt"
+msgstr ""
+
+#: .\src\users\api\views.py:61
+msgid "Konto erstellt und mit dem Lehrer verknüpft"
+msgstr ""
+
+#: .\src\users\models.py:29
+msgid "E-Mail"
+msgstr ""
+
+#: .\src\users\models.py:30
+msgid "Einladungscode"
+msgstr ""
 
 #: .\templates\admin\set_level_action.html:6
 msgid "Startseite"
