@@ -63,11 +63,11 @@ msgstr "Перевод"
 
 #: .\src\common\choices.py:175
 msgid "Präsens"
-msgstr ""
+msgstr "Презенс"
 
 #: .\src\common\choices.py:176
 msgid "Präteritum"
-msgstr ""
+msgstr "Претеритум"
 
 #: .\src\common\choices.py:177 .\src\personal_forms\admin.py:311
 msgid "Perfekt"
@@ -259,35 +259,35 @@ msgstr "Прогресс глаголов"
 
 #: .\src\users\admin.py:16 .\src\users\admin.py:21
 msgid "Weitere Informationen"
-msgstr ""
+msgstr "Дополнительная информация"
 
 #: .\src\users\admin.py:32 .\src\users\admin.py:38 .\src\users\models.py:20
 msgid "Lehrer"
-msgstr ""
+msgstr "Учитель"
 
 #: .\src\users\api\views.py:20 .\src\users\api\views.py:33
 msgid "E-Mail-Adresse erforderlich"
-msgstr ""
+msgstr "Требуется адрес электронной почты"
 
 #: .\src\users\api\views.py:24
 msgid "Einladung erstellt"
-msgstr ""
+msgstr "Приглашение создано"
 
 #: .\src\users\api\views.py:53
 msgid "Lehrer wurde Ihrem Konto hinzugefügt"
-msgstr ""
+msgstr "Учитель был добавлен в ваш аккаунт"
 
 #: .\src\users\api\views.py:61
 msgid "Konto erstellt und mit dem Lehrer verknüpft"
-msgstr ""
+msgstr "Аккаунт создан и связан с учителем"
 
 #: .\src\users\models.py:29
 msgid "E-Mail"
-msgstr ""
+msgstr "Электронная почта"
 
 #: .\src\users\models.py:30
 msgid "Einladungscode"
-msgstr ""
+msgstr "Код приглашения"
 
 #: .\templates\admin\set_level_action.html:6
 msgid "Startseite"

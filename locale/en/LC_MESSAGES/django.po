@@ -61,11 +61,11 @@ msgstr "Translation"
 
 #: .\src\common\choices.py:175
 msgid "Präsens"
-msgstr ""
+msgstr "Present"
 
 #: .\src\common\choices.py:176
 msgid "Präteritum"
-msgstr ""
+msgstr "Simple past"
 
 #: .\src\common\choices.py:177 .\src\personal_forms\admin.py:311
 msgid "Perfekt"
@@ -257,35 +257,35 @@ msgstr "Verb progresses"
 
 #: .\src\users\admin.py:16 .\src\users\admin.py:21
 msgid "Weitere Informationen"
-msgstr ""
+msgstr "Additional information"
 
 #: .\src\users\admin.py:32 .\src\users\admin.py:38 .\src\users\models.py:20
 msgid "Lehrer"
-msgstr ""
+msgstr "Teacher"
 
 #: .\src\users\api\views.py:20 .\src\users\api\views.py:33
 msgid "E-Mail-Adresse erforderlich"
-msgstr ""
+msgstr "Email address required"
 
 #: .\src\users\api\views.py:24
 msgid "Einladung erstellt"
-msgstr ""
+msgstr "Invitation created"
 
 #: .\src\users\api\views.py:53
 msgid "Lehrer wurde Ihrem Konto hinzugefügt"
-msgstr ""
+msgstr "Teacher has been added to your account"
 
 #: .\src\users\api\views.py:61
 msgid "Konto erstellt und mit dem Lehrer verknüpft"
-msgstr ""
+msgstr "Account created and linked with teacher"
 
 #: .\src\users\models.py:29
 msgid "E-Mail"
-msgstr ""
+msgstr "Email"
 
 #: .\src\users\models.py:30
 msgid "Einladungscode"
-msgstr ""
+msgstr "Invitation code"
 
 #: .\templates\admin\set_level_action.html:6
 msgid "Startseite"

@@ -25,6 +25,18 @@ class CustomUserAdmin(UserAdmin):
     # Удобный интерфейс выбора учителей (множественный выбор с поиском)
     filter_horizontal = ("teachers",)
 
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = super().get_fieldsets(request, obj)
+        # Если не суперпользователь - скрываем права и группы
+        if not request.user.is_superuser:
+            fieldsets = [fs for fs in fieldsets if fs[0] not in [_('Permissions'), _('Important dates')]]
+        return fieldsets
+
+    def get_readonly_fields(self, request, obj=None):
+        if not request.user.is_superuser:
+            return 'is_staff', 'is_superuser', 'groups', 'user_permissions', 'last_login', 'date_joined'
+        return super().get_readonly_fields(request, obj)
+
     def is_teacher(self, obj):
         """Отображает в списке, является ли пользователь учителем"""
         return obj.groups.filter(name__in=["Teachers", "SuperTeachers"]).exists()
