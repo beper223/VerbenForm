@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
@@ -34,6 +35,12 @@ class CustomUserAdmin(UserAdmin):
     def get_teachers(self, obj):
         """Показывает список учителей ученика прямо в таблице"""
         return ", ".join([t.username for t in obj.teachers.all()])
+
+    def formfield_for_dbfield(self, db_field, request, **kwargs):
+        # Если имя поля 'language', меняем виджет на RadioSelect
+        if db_field.name == 'language':
+            kwargs['widget'] = forms.RadioSelect
+        return super().formfield_for_dbfield(db_field, request, **kwargs)
 
     get_teachers.short_description = _("Lehrer")
 
