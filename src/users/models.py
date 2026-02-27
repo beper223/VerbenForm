@@ -33,4 +33,4 @@ class StudentInvitation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.email} (Teacher: {self.teacher.username})"
+        return f"Invite for {self.email} by {self.teacher.username}"

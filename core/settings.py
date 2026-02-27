@@ -78,7 +78,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-AUTH_USER_MODEL = 'src.users.User'
+AUTH_USER_MODEL = 'users.User'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
@@ -198,3 +198,7 @@ SESSION_CACHE_ALIAS = "sessions"
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 7  # 7 дней
 SESSION_SAVE_EVERY_REQUEST = False
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = env.str('DEFAULT_FROM_EMAIL')
