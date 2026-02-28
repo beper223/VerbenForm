@@ -2,6 +2,12 @@ from django.utils import translation
 
 
 class UserLanguageMiddleware:
+    # 1. Проверяет авторизацию - работает только для request.user.is_authenticated
+    # 2. Получает язык пользователя - из поля request.user.language
+    # 3. Активирует язык - через translation.activate(user_language)
+    # 4. Устанавливает LANGUAGE_CODE - в request.LANGUAGE_CODE для Django
+    # Результат: Авторизованные пользователи видят интерфейс на языке, указанном в их профиле,
+    # без необходимости вручную переключать язык каждый раз.
     def __init__(self, get_response):
         self.get_response = get_response
 

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'src.users.apps.UsersConfig',
     # 3-rd party
     'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
