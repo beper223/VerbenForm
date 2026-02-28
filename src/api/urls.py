@@ -1,4 +1,3 @@
-from django.http import JsonResponse
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
@@ -8,7 +7,8 @@ from src.api.views import (
     AuthViewSet,
     TrainingViewSet,
     UserProfileViewSet,
-    TeacherViewSet
+    TeacherViewSet,
+    InviteViewSet
 )
 
 
@@ -18,6 +18,7 @@ router.register(r'verb-progress', UserVerbProgressViewSet, basename='verb-progre
 router.register(r'auth', AuthViewSet, basename='auth')
 router.register(r'training', TrainingViewSet, basename='training')
 router.register(r'profile', UserProfileViewSet, basename='profile')
+router.register(r'invites', InviteViewSet, basename='invites')
 router.register(r'teacher', TeacherViewSet, basename='teacher')
 
 urlpatterns = [
