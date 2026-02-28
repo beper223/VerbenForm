@@ -23,13 +23,24 @@ class CustomUserAdmin(UserAdmin):
     )
 
     # Удобный интерфейс выбора учителей (множественный выбор с поиском)
-    filter_horizontal = ("teachers",)
+    filter_horizontal = ("teachers", "groups", "user_permissions",)
 
     def get_fieldsets(self, request, obj=None):
         fieldsets = super().get_fieldsets(request, obj)
         # Если не суперпользователь - скрываем права и группы
         if not request.user.is_superuser:
-            fieldsets = [fs for fs in fieldsets if fs[0] not in [_('Permissions'), _('Important dates')]]
+            new_fieldsets = []
+            for title, info in fieldsets:
+                # Убираем разделы, содержащие поля прав доступа
+                if 'groups' in info['fields'] or 'user_permissions' in info['fields']:
+                    continue
+                # Убираем раздел с датами
+                if 'last_login' in info['fields'] or 'date_joined' in info['fields']:
+                    continue
+                new_fieldsets.append((title, info))
+            return new_fieldsets
+
+            # Суперпользователь видит ВСЁ (включая стандартный раздел Permissions с группами)
         return fieldsets
 
     def get_readonly_fields(self, request, obj=None):

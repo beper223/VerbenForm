@@ -148,15 +148,36 @@ class LearningUnitViewSet(viewsets.ReadOnlyModelViewSet):
 
     @action(detail=True, methods=["get"])
     def progress(self, request, pk=None):
-        """
-        Возвращает матрицу прогресса для конкретного юнита.
-        GET /api/units/1/progress/
-        """
         unit = self.get_object()
+
+        target_user = request.user
+        student_id = request.query_params.get('student_id')
+        if student_id and request.user.groups.filter(name__in=['Teachers', 'SuperTeachers']).exists():
+            target_user = get_object_or_404(User, id=student_id)
+
         service = LearningUnitProgressService()
-        progress_data = service.build_progress(user=request.user, learning_unit=unit)
+        progress_data = service.build_progress(user=target_user, learning_unit=unit)
         return Response(progress_data)
 
+    @action(detail=False, methods=['get'])
+    def stats(self, request):
+        service = LearningUnitProgressService()
+        return Response(service.get_global_stats(request.user))
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+
+        # Определяем, чей прогресс смотрим (свой или ученика)
+        target_user = request.user
+        student_id = request.query_params.get('student_id')
+        if student_id and request.user.groups.filter(name__in=['Teachers', 'SuperTeachers']).exists():
+            target_user = get_object_or_404(User, id=student_id)
+
+        service = LearningUnitProgressService()
+        # Вызываем новый метод, который делает всё ОПТИМАЛЬНО
+        data = service.get_units_overview(target_user, queryset)
+
+        return Response(data)
 
 class TrainingViewSet(viewsets.ViewSet):
     permission_classes = [permissions.IsAuthenticated]

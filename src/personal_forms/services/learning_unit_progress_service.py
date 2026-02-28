@@ -1,6 +1,7 @@
 from typing import Dict, List, Optional, Tuple
 
 from django.contrib.auth import get_user_model
+from django.db.models import Sum, Count, Q
 
 from src.personal_forms.models import UserVerbProgress, LearningUnit
 from src.common.choices import SkillType, Pronoun, LearningStatus
@@ -97,3 +98,67 @@ class LearningUnitProgressService:
             "percent": percent,
             "completed": completed,
         }
+
+    def get_global_stats(self, user: User) -> Dict:
+        """
+        Общая статистика пользователя по всем глаголам и навыкам.
+        """
+        stats = UserVerbProgress.objects.filter(user=user).aggregate(
+            total_mastered=Count('id', filter=Q(mastered=True)),
+            total_correct=Sum('correct_count', default=0),
+            total_wrong=Sum('wrong_count', default=0),
+        )
+
+        total_ans = stats['total_correct'] + stats['total_wrong']
+        accuracy = round((stats['total_correct'] / total_ans) * 100, 1) if total_ans > 0 else 0
+
+        return {
+            "total_mastered": stats['total_mastered'],
+            "total_correct": stats['total_correct'],
+            "total_wrong": stats['total_wrong'],
+            "accuracy": accuracy
+        }
+
+    def get_units_overview(self, user: User, units: List[LearningUnit]) -> List[Dict]:
+        """
+        Эффективный расчет прогресса для списка уроков (без N+1 запросов).
+        """
+        # 1. Получаем ВЕСЬ прогресс пользователя одним запросом
+        all_user_progress = UserVerbProgress.objects.filter(user=user).values(
+            'verb_id', 'skill_type', 'pronoun', 'mastered'
+        )
+
+        # 2. Группируем прогресс по типу навыка для быстрого поиска
+        # Ключ: (verb_id, skill_type, pronoun)
+        progress_lookup = {
+            (p['verb_id'], p['skill_type'], p['pronoun']): p['mastered']
+            for p in all_user_progress
+        }
+
+        overview = []
+        for unit in units:
+            # Для каждого юнита генерируем его "атомы"
+            atoms = self.generate_atoms(unit)
+            total_atoms = len(atoms)
+
+            # Считаем, сколько из них mastered, используя наш lookup (без запросов к БД!)
+            mastered_count = 0
+            for atom in atoms:
+                is_mastered = progress_lookup.get((atom.verb_id, atom.skill_type, atom.pronoun), False)
+                if is_mastered:
+                    mastered_count += 1
+
+            percent = int((mastered_count / total_atoms) * 100) if total_atoms else 0
+
+            overview.append({
+                "id": unit.id,
+                "title": unit.title,
+                "level": unit.level,
+                "skill_type": unit.skill_type,
+                "percent": percent,
+                "mastered_atoms": mastered_count,
+                "total_atoms": total_atoms,
+                "completed": mastered_count == total_atoms and total_atoms > 0
+            })
+
+        return overview
