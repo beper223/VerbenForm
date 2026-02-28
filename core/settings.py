@@ -120,6 +120,12 @@ AUTH_PASSWORD_VALIDATORS = [
     # },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication', # Этот класс ищет заголовок "Token ..."
+        'rest_framework.authentication.SessionAuthentication', # Позволяет логиниться через админку в браузере
+    ],
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/

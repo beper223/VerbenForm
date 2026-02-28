@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-27 03:08+0100\n"
+"POT-Creation-Date: 2026-02-28 13:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,40 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: .\src\api\views.py:37
+msgid "Registrierung erfolgreich"
+msgstr "Регистрация успешна"
+
+#: .\src\api\views.py:51
+#, fuzzy
+#| msgid "Falsche Antworten"
+msgid "Falsche Anmeldedaten"
+msgstr "Неправильные ответы"
+
+#: .\src\api\views.py:58
+msgid "Erfolgreich abgemeldet"
+msgstr "Успешный выход"
+
+#: .\src\api\views.py:64 .\src\api\views.py:77
+msgid "E-Mail-Adresse erforderlich"
+msgstr "Требуется адрес электронной почты"
+
+#: .\src\api\views.py:68
+msgid "Einladung erstellt"
+msgstr "Приглашение создано"
+
+#: .\src\api\views.py:94
+msgid "Lehrer wurde Ihrem Konto hinzugefügt"
+msgstr "Учитель был добавлен в ваш аккаунт"
+
+#: .\src\api\views.py:101
+msgid "Konto erstellt und mit dem Lehrer verknüpft"
+msgstr "Аккаунт создан и связан с учителем"
+
+#: .\src\api\views.py:173
+msgid "learning_unit_id erforderlich"
+msgstr "learning_unit_id обязателен"
 
 #: .\src\common\choices.py:15
 msgid "Englisch"
@@ -161,7 +195,7 @@ msgstr "Местоимение"
 msgid "Personalform"
 msgstr "Личная форма"
 
-#: .\src\personal_forms\models\VerbForms.py:106 .\src\users\models.py:9
+#: .\src\personal_forms\models\VerbForms.py:106 .\src\users\models.py:10
 msgid "Sprache"
 msgstr "Язык"
 
@@ -202,8 +236,8 @@ msgstr "Учебный блок"
 msgid "Lerneinheiten"
 msgstr "Учебные блоки"
 
-#: .\src\personal_forms\models\learning.py:43 .\src\users\models.py:24
-#: .\src\users\models.py:25
+#: .\src\personal_forms\models\learning.py:43 .\src\users\models.py:26
+#: .\src\users\models.py:27
 msgid "Benutzer"
 msgstr "Пользователь"
 
@@ -257,35 +291,27 @@ msgstr "Прогресс глагола"
 msgid "Verbfortschritte"
 msgstr "Прогресс глаголов"
 
-#: .\src\users\admin.py:16 .\src\users\admin.py:21
+#: .\src\users\admin.py:17 .\src\users\admin.py:22
 msgid "Weitere Informationen"
 msgstr "Дополнительная информация"
 
-#: .\src\users\admin.py:32 .\src\users\admin.py:38 .\src\users\models.py:20
+#: .\src\users\admin.py:32
+msgid "Permissions"
+msgstr "Разрешения"
+
+#: .\src\users\admin.py:32
+msgid "Important dates"
+msgstr "Важные даты"
+
+#: .\src\users\admin.py:45 .\src\users\admin.py:57 .\src\users\models.py:22
 msgid "Lehrer"
 msgstr "Учитель"
 
-#: .\src\users\api\views.py:20 .\src\users\api\views.py:33
-msgid "E-Mail-Adresse erforderlich"
-msgstr "Требуется адрес электронной почты"
-
-#: .\src\users\api\views.py:24
-msgid "Einladung erstellt"
-msgstr "Приглашение создано"
-
-#: .\src\users\api\views.py:53
-msgid "Lehrer wurde Ihrem Konto hinzugefügt"
-msgstr "Учитель был добавлен в ваш аккаунт"
-
-#: .\src\users\api\views.py:61
-msgid "Konto erstellt und mit dem Lehrer verknüpft"
-msgstr "Аккаунт создан и связан с учителем"
-
-#: .\src\users\models.py:29
+#: .\src\users\models.py:31
 msgid "E-Mail"
 msgstr "Электронная почта"
 
-#: .\src\users\models.py:30
+#: .\src\users\models.py:32
 msgid "Einladungscode"
 msgstr "Код приглашения"
 

@@ -13,10 +13,13 @@ class UserLanguageMiddleware:
 
     def __call__(self, request):
         # 1. Проверяем, авторизован ли пользователь
+        print(f"DEBUG:")
         if request.user.is_authenticated:
             user_language = request.user.language
             # 2. Активируем язык из профиля пользователя
             translation.activate(user_language)
+            # DEBUG
+            print(f"DEBUG: Activating language '{user_language}' for user '{request.user.username}'")
             # 3. Сообщаем Django, какой язык сейчас выбран
             request.LANGUAGE_CODE = translation.get_language()
 

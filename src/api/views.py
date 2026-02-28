@@ -12,7 +12,15 @@ from src.users.services import InvitationService
 from src.users.permissions import IsTeacher
 
 from src.personal_forms.models import LearningUnit, UserVerbProgress
-from src.api.serializers import LearningUnitSerializer, UserVerbProgressSerializer
+from src.api.serializers import (
+    LearningUnitSerializer,
+    UserVerbProgressSerializer,
+    RegisterSerializer,
+    UserProfileSerializer,
+    UserShortSerializer,
+    StudentActivationSerializer
+)
+
 from src.personal_forms.services import TrainingService, LearningUnitProgressService
 
 User = get_user_model()
@@ -22,20 +30,10 @@ class AuthViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['post'])
     def register(self, request):
         """Самостоятельная регистрация ученика (без инвайта)"""
-        username = request.data.get("username")
-        password = request.data.get("password")
-        email = request.data.get("email")
-        language = request.data.get("language", "en")
-
-        if User.objects.filter(username=username).exists():
-            return Response({"error": _("Benutzername уже занят")}, status=400)
-
-        user = User.objects.create_user(
-            username=username,
-            password=password,
-            email=email,
-            language=language
-        )
+        serializer = RegisterSerializer(data=request.data)
+        # raise_exception=True автоматически вернет 400 с текстом ошибки
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
         return Response({"detail": _("Registrierung erfolgreich")}, status=201)
 
     @action(detail=False, methods=['post'])
@@ -46,12 +44,21 @@ class AuthViewSet(viewsets.ViewSet):
         user = authenticate(username=username, password=password)
 
         if user:
-            # Если используем Token Auth (нужно добавить 'rest_framework.authtoken' в INSTALLED_APPS)
             token, created = Token.objects.get_or_create(user=user)
-            return Response({"token": token.key, "username": user.username})
+            return Response({
+                "token": token.key,
+                "username": user.username,
+                "language": user.language  # Возвращаем язык из БД!
+            })
 
         return Response({"error": _("Falsche Anmeldedaten")}, status=401)
 
+    @action(detail=False, methods=['post'], permission_classes=[permissions.IsAuthenticated])
+    def logout(self, request):
+        """Удаление токена (выход из системы)"""
+        # Просто удаляем токен текущего пользователя в базе
+        Token.objects.filter(user=request.user).delete()
+        return Response({"detail": _("Erfolgreich abgemeldet")}, status=200)
 
     @action(detail=False, methods=['post'], permission_classes=[IsTeacher])
     def get_invite(self, request):
@@ -78,25 +85,21 @@ class AuthViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['post'], permission_classes=[])  # AllowAny
     def activate_student(self, request):
         """Эндпоинт для ученика: первый вход по коду"""
-        code = request.data.get("code")
-        username = request.data.get("username")
-        password = request.data.get("password")
+        serializer = StudentActivationSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
 
-        invitation = get_object_or_404(StudentInvitation, code=code, is_used=False)
+        invitation = get_object_or_404(StudentInvitation, code=data['code'], is_used=False)
 
         # 1. Проверяем, существует ли уже такой пользователь
         user = User.objects.filter(email=invitation.email).first()
 
-        if user:
-            # Если пользователь уже есть (другой учитель его приглашал раньше)
-            # Просто добавляем нового учителя в список
-            detail_msg = _("Lehrer wurde Ihrem Konto hinzugefügt")
-        else:
-            # Если пользователь новый — создаем его
+        detail_msg = _("Lehrer wurde Ihrem Konto hinzugefügt")
+        if not user:
             user = User.objects.create_user(
-                username=username,
+                username=data['username'],
                 email=invitation.email,
-                password=password
+                password=data['password']
             )
             detail_msg = _("Konto erstellt und mit dem Lehrer verknüpft")
 
@@ -113,15 +116,18 @@ class UserProfileViewSet(viewsets.ViewSet):
     """Управление своим профилем"""
     permission_classes = [permissions.IsAuthenticated]
 
-    @action(detail=False, methods=['get'])
+    @action(detail=False, methods=['get', 'patch'])
     def me(self, request):
         user = request.user
-        return Response({
-            "username": user.username,
-            "email": user.email,
-            "language": user.language,
-            "is_teacher": user.groups.filter(name__in=['Teachers', 'SuperTeachers']).exists()
-        })
+        if request.method == 'GET':
+            serializer = UserProfileSerializer(user)
+            return Response(serializer.data)
+
+            # PATCH: передаем partial=True, чтобы можно было обновить только одно поле
+        serializer = UserProfileSerializer(user, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
 class TeacherViewSet(viewsets.ViewSet):
     """Специальные эндпоинты для учителей"""
@@ -131,8 +137,9 @@ class TeacherViewSet(viewsets.ViewSet):
     def students(self, request):
         """Список всех учеников текущего учителя"""
         students = request.user.students.all()
-        data = [{"id": s.id, "username": s.username, "email": s.email} for s in students]
-        return Response(data)
+        # Используем сериализатор для списка учеников
+        serializer = UserShortSerializer(students, many=True)
+        return Response(serializer.data)
 
 class LearningUnitViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = LearningUnit.objects.all().order_by("order")
@@ -162,10 +169,10 @@ class TrainingViewSet(viewsets.ViewSet):
     @action(detail=False, methods=["get"], url_path="next-card")
     def next_card(self, request):
         unit_id = request.query_params.get("learning_unit_id")
-        language = request.query_params.get("language", "en")
+        language = request.user.language
 
         if not unit_id:
-            return Response({"detail": "learning_unit_id required"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"detail": _("learning_unit_id erforderlich")}, status=status.HTTP_400_BAD_REQUEST)
 
         # Безопасное получение объекта
         unit = get_object_or_404(LearningUnit, id=unit_id)
