@@ -1,7 +1,7 @@
 from django import forms
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from src.users.models import StudentInvitation
 
 User = get_user_model()
 
@@ -11,7 +11,11 @@ class RegistrationForm(UserCreationForm):
         required=False,
         help_text="Если у вас есть код от учителя, введите его здесь."
     )
-
+    # Добавляем выбор языка
+    language = forms.ChoiceField(
+        choices=settings.LANGUAGES,
+        label="Язык перевода (ваш родной язык)"
+    )
     class Meta(UserCreationForm.Meta):
         model = User
         fields = ("username", "email")

@@ -90,28 +90,33 @@ class SubmitAnswerView(LoginRequiredMixin, View):
 
         unit = get_object_or_404(LearningUnit, id=unit_id)
 
-        # 1. Проверяем ответ
-        result = service.submit_answer(
-            user=request.user,
-            card_id=card_id,
-            user_answer=user_answer
-        )
+        try:
+            # 1. Проверяем ответ
+            result = service.submit_answer(
+                user=request.user,
+                card_id=card_id,
+                user_answer=user_answer
+            )
+        except ValueError:
+            # Если карточка протухла, просто перезагружаем её
+            return self._render_new_card(request, unit, service, None)
 
-        # 2. Берем следующую карточку
+        return self._render_new_card(request, unit, service, result)
+
+    @staticmethod
+    def _render_new_card(request, unit, service, result):
         next_card = service.get_next_card(
             user=request.user,
             learning_unit=unit,
             language=request.user.language
         )
-
-        # Если карточки кончились (редкий случай)
         if not next_card:
             return render(request, 'training/partials/finished.html')
 
         return render(request, 'training/partials/card_content.html', {
             'card': next_card,
             'unit': unit,
-            'last_result': result  # Передаем результат для анимации (верно/неверно)
+            'last_result': result
         })
 
 
