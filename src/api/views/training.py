@@ -6,21 +6,21 @@ from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext_lazy as _
 from src.personal_forms.models import LearningUnit
 from src.personal_forms.services import TrainingService
+from functools import cached_property
 
 
 class TrainingViewSet(viewsets.ViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        # Инициализируем сервис один раз
-        self.training_service = TrainingService()
+    @cached_property
+    def training_service(self):
+        """Инициализируем сервис только при первом обращении"""
+        return TrainingService()
 
     @action(detail=False, methods=["get"], url_path="next-card")
     def next_card(self, request):
-        unit_id = request.query_params.get("learning_unit_id")
-        language = request.user.language
 
+        unit_id = request.query_params.get("learning_unit_id")
         if not unit_id:
             return Response({"detail": _("learning_unit_id erforderlich")}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -30,7 +30,7 @@ class TrainingViewSet(viewsets.ViewSet):
         card = self.training_service.get_next_card(
             user=request.user,
             learning_unit=unit,
-            language=language,
+            language=request.user.language,
         )
 
         if not card:
@@ -53,8 +53,8 @@ class TrainingViewSet(viewsets.ViewSet):
                 card_id=card_id,
                 user_answer=user_answer,
             )
+            return Response(asdict(result))
         except ValueError as e:
             # Например, "Card expired"
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response(asdict(result))

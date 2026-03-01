@@ -2,6 +2,7 @@ from typing import Dict, List, Optional, Tuple
 
 from django.contrib.auth import get_user_model
 from django.db.models import Sum, Count, Q
+from django.shortcuts import get_object_or_404
 
 from src.personal_forms.models import UserVerbProgress, LearningUnit
 from src.common.choices import SkillType, Pronoun, LearningStatus
@@ -11,6 +12,27 @@ User = get_user_model()
 
 
 class LearningUnitProgressService:
+
+    @staticmethod
+    def get_authorized_user(current_user, student_id=None):
+        """
+        Бизнес-логика определения целевого пользователя.
+        Возвращает объект User или выбрасывает ValueError/AuthorizationError.
+        """
+        if not student_id:
+            return current_user
+
+        # Проверка ролей
+        is_teacher = current_user.groups.filter(name__in=['Teachers', 'SuperTeachers']).exists()
+        if not is_teacher:
+            raise PermissionError("Nur Lehrer могут просматривать прогресс учеников.")
+
+        # Проверка связи "учитель-ученик"
+        target_student = get_object_or_404(User, id=student_id)
+        if not target_student.teachers.filter(id=current_user.id).exists():
+            raise PermissionError("Dieser Schüler ist Ihnen не привязан.")
+
+        return target_student
 
     @staticmethod
     def generate_atoms(learning_unit: LearningUnit) -> List[LearningAtom]:
