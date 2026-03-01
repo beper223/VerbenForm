@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+        <!-- Контейнер, который будет обновлять HTMX -->
+        <div id="training-card-container">
+            {% include 'training/partials/card_content.html' with card=card unit=unit %}
+        </div>
+    </div>
+</div>
+{% endblock %}

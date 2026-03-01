@@ -1,0 +1,29 @@
+<div class="text-center animate-fade-in">
+    <!-- Индикация результата предыдущего ответа -->
+    {% if last_result %}
+        <div class="alert {% if last_result.correct %}alert-success{% else %}alert-danger{% endif %} py-2 mb-3">
+            {% if last_result.correct %}Richtig! ⚡ {{ last_result.streak }}{% else %}Falsch! (Korrekt: {{ last_result.correct_answer }}){% endif %}
+        </div>
+    {% endif %}
+
+    <div class="card shadow-lg p-4 mb-4">
+        <h6 class="text-muted text-uppercase mb-4 small">{{ unit.title }}</h6>
+        <h1 class="display-4 fw-bold mb-5">{{ card.question|linebreaksbr }}</h1>
+
+        <div class="d-grid gap-3">
+            {% for option in card.options %}
+            <button class="btn btn-xl btn-outline-dark fw-bold"
+                    hx-post="{% url 'submit-answer' %}"
+                    hx-target="#training-card-container"
+                    hx-vals='{"answer": "{{ option }}", "card_id": "{{ card.card_id }}", "unit_id": "{{ unit.id }}"}'
+                    hx-swap="innerHTML">
+                {{ option }}
+            </button>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="text-center">
+        <a href="{% url 'units-list' %}" class="btn btn-link text-muted">Beenden</a>
+    </div>
+</div>

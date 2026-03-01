@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h2 class="fw-bold">Willkommen, {{ user.username }}!</h2>
+        <p class="text-muted">Твой прогресс: {{ stats.total_mastered }} изучено | Точность {{ stats.accuracy }}%</p>
+    </div>
+</div>
+
+<div class="row g-3">
+    {% for unit in units_overview %}
+    <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 p-3 shadow-sm">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <span class="badge bg-secondary">{{ unit.level }}</span>
+                <span class="text-muted small">{{ unit.skill_type }}</span>
+            </div>
+            <h5 class="fw-bold mb-3">{{ unit.title }}</h5>
+            
+            <div class="mt-auto">
+                <div class="d-flex justify-content-between mb-1 small">
+                    <span>Прогресс</span>
+                    <span>{{ unit.percent }}%</span>
+                </div>
+                <div class="progress mb-3">
+                    <div class="progress-bar {% if unit.completed %}bg-success{% endif %}" 
+                         style="width: {{ unit.percent }}%"></div>
+                </div>
+                <a href="{% url 'training-session' unit.id %}" class="btn btn-outline-primary w-100 fw-bold">
+                    {% if unit.completed %}Wiederholen{% else %}Lernen{% endif %}
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -46,15 +46,17 @@ INSTALLED_APPS = [
     # 3-rd party
     'rest_framework',
     'rest_framework.authtoken',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'src.users.middleware.UserLanguageMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -78,9 +80,22 @@ TEMPLATES = [
     },
 ]
 
+# Указываем Crispy использовать Bootstrap 5
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
 WSGI_APPLICATION = 'core.wsgi.application'
 
 AUTH_USER_MODEL = 'users.User'
+
+# Куда отправлять пользователя, если он не авторизован
+LOGIN_URL = 'login'
+
+# Куда перенаправлять после успешного входа (если нет параметра ?next=)
+LOGIN_REDIRECT_URL = 'units-list'
+
+# Куда перенаправлять после выхода
+LOGOUT_REDIRECT_URL = 'login'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
@@ -213,6 +228,11 @@ LOGGING = {
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# Если папка static находится в корне проекта:
+STATICFILES_DIRS = [ BASE_DIR / "static"]
+
+# Для продакшена (когда будете делать collectstatic)
 STATIC_ROOT = BASE_DIR / 'staticfiles' # Для сбора статики в продакшене
 
 # Redis URLs (через django-environ)
