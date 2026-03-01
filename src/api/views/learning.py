@@ -2,7 +2,6 @@ from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
-from rest_framework.exceptions import PermissionDenied # Для конвертации ошибки сервиса в 403
 
 from src.api.mixins import StudentAccessMixin
 from src.personal_forms.models import LearningUnit, UserVerbProgress
