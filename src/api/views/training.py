@@ -3,13 +3,10 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from dataclasses import asdict
 from django.shortcuts import get_object_or_404
-# from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-
 from src.personal_forms.models import LearningUnit
 from src.personal_forms.services import TrainingService
 
-# User = get_user_model()
 
 class TrainingViewSet(viewsets.ViewSet):
     permission_classes = [permissions.IsAuthenticated]
