@@ -11,6 +11,7 @@ Dockerfile
 docker-compose.yml
 docker-compose-sertbot.yml
 docker-compose-ssl.yml
+docker-compose-prod.yml
 # Сам себя тоже можно игнорировать
 .dockerignore
 
@@ -33,6 +34,7 @@ README.md
 README_DE.md
 README_RU.md
 .env
+.env_prod
 # Database files (local development SQLite)
 #db.sqlite3         # Если вы используете SQLite локально, но PostgreSQL в Docker
 

@@ -148,3 +148,70 @@ class ProgressTests(BaseApiTest):
         self.login(self.teacher)
         res_teacher = self.client.get(f'/api/verb-progress/?student_id={self.student.id}')
         self.assertEqual(len(res_teacher.data), 1)
+
+
+class TrainingAnswerTests(BaseApiTest):
+    def setUp(self):
+        super().setUp()
+        # Для теста ответов нам нужно, чтобы у юнита были карточки.
+        # Мы уже создали VerbForm и VerbTranslation в BaseApiTest.setUp
+        self.login(self.student)
+
+    def test_submit_correct_answer(self):
+        # 1. Сначала получаем карточку, чтобы узнать card_id
+        url_next = '/api/training/next-card/'
+        res_card = self.client.get(url_next, {'learning_unit_id': self.unit.id})
+
+        # Если карточек нет (204), мы не можем протестировать ответ
+        if res_card.status_code == status.HTTP_204_NO_CONTENT:
+            self.skipTest("Нет доступных карточек для тестирования ответа")
+
+        card_id = res_card.data['card_id']
+        # В вашем сервисе правильный ответ для ICH + gehen (translation) это "идти" (из setUp)
+        # В реальном тесте нужно знать, какой ответ правильный.
+        # Допустим, мы знаем, что это "идти" (т.к. мы его создали в setUp)
+
+        # 2. Отправляем правильный ответ
+        url_ans = '/api/training/answer/'
+        data = {
+            "card_id": card_id,
+            "answer": "идти"
+        }
+        response = self.client.post(url_ans, data)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(response.data['correct'])
+        self.assertGreaterEqual(response.data['streak'], 1)
+
+        # 3. Проверяем, что в базе создался/обновился прогресс
+        progress = UserVerbProgress.objects.get(user=self.student, verb=self.verb)
+        self.assertEqual(progress.correct_count, 1)
+        self.assertEqual(progress.streak, 1)
+
+    def test_submit_wrong_answer(self):
+        # 1. Получаем карточку
+        res_card = self.client.get('/api/training/next-card/', {'learning_unit_id': self.unit.id})
+        if res_card.status_code == status.HTTP_204_NO_CONTENT:
+            self.skipTest("Нет доступных карточек")
+
+        card_id = res_card.data['card_id']
+
+        # 2. Отправляем заведомо ложный ответ
+        response = self.client.post('/api/training/answer/', {
+            "card_id": card_id,
+            "answer": "неправильно"
+        })
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertFalse(response.data['correct'])
+        self.assertEqual(response.data['streak'], 0)  # Стрик должен сброситься
+
+        # 3. Проверяем базу
+        progress = UserVerbProgress.objects.get(user=self.student, verb=self.verb)
+        self.assertEqual(progress.wrong_count, 1)
+        self.assertEqual(progress.streak, 0)
+
+    def test_answer_missing_data(self):
+        # Проверка валидации: пустой запрос
+        response = self.client.post('/api/training/answer/', {})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

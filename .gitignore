@@ -1,6 +1,7 @@
 # created by virtualenv automatically
 .idea/
 .env
+.env_prod
 .venv/
 __pycache__
 db.sqlite3

@@ -149,6 +149,65 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Путь к папке с логами
+LOGS_DIR_NAME = env.str('LOGS_DIR', default='logs')
+LOGS_DIR = BASE_DIR / LOGS_DIR_NAME
+# if not os.path.exists(LOGS_DIR):
+#     os.makedirs(LOGS_DIR)
+# 2. Создаем папку (заменяет os.makedirs)
+# parents=True — создаст всю цепочку папок если надо
+# exist_ok=True — не выдаст ошибку, если папка уже есть
+LOGS_DIR.mkdir(parents=True, exist_ok=True)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': str(LOGS_DIR / 'django.log'),
+            'maxBytes': 1024 * 1024 * 5,  # 5 MB
+            'backupCount': 5,             # Хранить 5 старых файлов
+            'formatter': 'verbose',
+        },
+        'errors_file': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': str(LOGS_DIR / 'errors.log'),
+            'maxBytes': 1024 * 1024 * 5,
+            'backupCount': 10,
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        # Наш кастомный логгер для приложения
+        'src': {
+            'handlers': ['console', 'file', 'errors_file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
