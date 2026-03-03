@@ -23,17 +23,31 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     {% if user.is_authenticated %}
+
                         <li class="nav-item"><a class="nav-link" href="{% url 'units-list' %}">Dashboard</a></li>
+
                         {% if user.students.exists or user.is_staff %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'web-teacher-students' %}">Ученики</a></li>
                         {% endif %}
-                        <!-- Новый вариант (Django 5+) -->
-                        <li class="nav-item">
-                            <form method="post" action="{% url 'logout' %}" class="d-inline">
-                                {% csrf_token %}
-                                <button type="submit" class="nav-link btn btn-link" style="text-decoration: none;">Выйти</button>
-                            </form>
+
+                        <!-- Меню Профиля -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ user.username }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'profile-settings' %}">⚙️ Настройки</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <!-- Новый вариант (Django 5+) -->
+                                    <form method="post" action="{% url 'logout' %}" class="px-3">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-outline-danger w-100 text-start">Выйти</button>
+                                    </form>
+                                </li>
+                            </ul>
                         </li>
+
                     {% else %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Войти</a></li>
                     {% endif %}

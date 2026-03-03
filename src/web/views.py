@@ -158,3 +158,39 @@ class ProfileSettingsView(LoginRequiredMixin, UpdateView):
         # так как мы используем LocaleMiddleware и поле language в модели.
         response = super().form_valid(form)
         return response
+
+class StudentDetailView(LoginRequiredMixin, DetailView):
+    model = User
+    template_name = 'teacher/student_detail.html'
+    pk_url_kwarg = 'student_id'
+    context_object_name = 'student'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        service = LearningUnitProgressService()
+
+        # 1. Проверяем, имеет ли текущий пользователь право смотреть этого студента
+        try:
+            student = service.get_authorized_user(self.request.user, self.kwargs['student_id'])
+        except PermissionError:
+            from django.core.exceptions import PermissionDenied
+            raise PermissionDenied("Keна права доступа к этому ученику.")
+
+        # 2. Получаем все уроки
+        units = LearningUnit.objects.order_by('order')
+
+        # 3. Для каждого урока строим детальную матрицу прогресса
+        units_data = []
+        for unit in units:
+            progress_data = service.build_progress(user=student, learning_unit=unit)
+            units_data.append({
+                'unit': unit,
+                'matrix': progress_data['matrix'],  # Глаголы и их статусы
+                'percent': progress_data['percent'],
+                'mastered_atoms': progress_data['mastered_atoms'],
+                'total_atoms': progress_data['total_atoms'],
+            })
+
+        context['units_data'] = units_data
+        context['global_stats'] = service.get_global_stats(student)
+        return context

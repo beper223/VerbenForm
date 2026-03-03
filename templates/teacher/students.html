@@ -1,44 +1,136 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h3 class="fw-bold mb-4">Статистика ваших учеников</h3>
-
-<div class="card shadow-sm overflow-hidden">
-    <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
-            <thead class="table-light">
-                <tr>
-                    <th>Ученик</th>
-                    <th>Изучено (Mastered)</th>
-                    <th>Верных ответов</th>
-                    <th>Точность</th>
-                    <th>Действие</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in students_data %}
-                <tr>
-                    <td>
-                        <div class="fw-bold">{{ item.user.username }}</div>
-                        <div class="small text-muted">{{ item.user.email }}</div>
-                    </td>
-                    <td><span class="badge bg-success">{{ item.stats.total_mastered }}</span></td>
-                    <td>{{ item.stats.total_correct }}</td>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <span class="me-2">{{ item.stats.accuracy }}%</span>
-                            <div class="progress w-100" style="height: 4px;">
-                                <div class="progress-bar" style="width: {{ item.stats.accuracy }}%"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <button class="btn btn-sm btn-outline-primary">Детали</button>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h2 class="fw-bold">Ваши ученики</h2>
+        <p class="text-muted">Обзор прогресса всех студентов, привязанных к вашему аккаунту.</p>
+    </div>
+    <div class="col-md-4 text-md-end">
+        <!-- Кнопка может вести на страницу создания приглашения, если она у вас есть -->
+        <a href="#" class="btn btn-primary">
+            <i class="bi bi-person-plus"></i> Пригласить ученика
+        </a>
     </div>
 </div>
+
+{% if students_data %}
+    <!-- Настольная версия: Таблица (скрыта на мобилках) -->
+    <div class="card shadow-sm d-none d-lg-block">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4 py-3">Ученик</th>
+                        <th class="text-center">Изучено (Mastered)</th>
+                        <th class="text-center">Верных ответов</th>
+                        <th style="width: 250px;">Точность</th>
+                        <th class="text-end pe-4">Действие</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in students_data %}
+                    <tr>
+                        <td class="ps-4">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-circle me-3">
+                                    {{ item.user.username|slice:":1"|upper }}
+                                </div>
+                                <div>
+                                    <div class="fw-bold">{{ item.user.username }}</div>
+                                    <div class="small text-muted">{{ item.user.email }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge bg-success fs-6">{{ item.stats.total_mastered }}</span>
+                        </td>
+                        <td class="text-center fw-bold text-primary">
+                            {{ item.stats.total_correct }}
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <span class="me-2 fw-bold">{{ item.stats.accuracy }}%</span>
+                                <div class="progress flex-grow-1" style="height: 6px;">
+                                    <div class="progress-bar {% if item.stats.accuracy > 70 %}bg-success{% elif item.stats.accuracy > 40 %}bg-warning{% else %}bg-danger{% endif %}" 
+                                         role="progressbar" 
+                                         style="width: {{ item.stats.accuracy }}%"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-end pe-4">
+                            <a href="{% url 'web-student-detail' item.user.id %}" class="btn btn-sm btn-outline-primary fw-bold px-3 shadow-sm">
+                                Аналитика
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Мобильная версия: Карточки (скрыта на десктопе) -->
+    <div class="row g-3 d-lg-none">
+        {% for item in students_data %}
+        <div class="col-12">
+            <div class="card p-3 shadow-sm">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div class="d-flex align-items-center">
+                        <div class="avatar-circle me-3">
+                            {{ item.user.username|slice:":1"|upper }}
+                        </div>
+                        <div>
+                            <h5 class="mb-0 fw-bold">{{ item.user.username }}</h5>
+                            <small class="text-muted">{{ item.user.email }}</small>
+                        </div>
+                    </div>
+                    <span class="badge bg-success">{{ item.stats.total_mastered }} изучено</span>
+                </div>
+                
+                <div class="row text-center g-2 mb-3">
+                    <div class="col-6 border-end">
+                        <div class="small text-muted">Верно</div>
+                        <div class="fw-bold">{{ item.stats.total_correct }}</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="small text-muted">Точность</div>
+                        <div class="fw-bold text-primary">{{ item.stats.accuracy }}%</div>
+                    </div>
+                </div>
+
+                <a href="{% url 'web-student-detail' item.user.id %}" class="btn btn-outline-primary w-100 fw-bold">
+                    Смотреть статистику
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+{% else %}
+    <!-- Состояние, если учеников еще нет -->
+    <div class="text-center py-5">
+        <div class="mb-3">
+            <span class="display-1 text-muted opacity-25">👨‍🎓</span>
+        </div>
+        <h4>У вас пока нет учеников</h4>
+        <p class="text-muted">Поделитесь кодом приглашения, чтобы начать отслеживать прогресс.</p>
+    </div>
+{% endif %}
+
+<style>
+    /* Дополнительный стиль для аватарок */
+    .avatar-circle {
+        width: 40px;
+        height: 40px;
+        background-color: #e9ecef;
+        color: #495057;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+</style>
 {% endblock %}
