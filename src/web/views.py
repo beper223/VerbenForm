@@ -75,6 +75,7 @@ class TrainingSessionView(LoginRequiredMixin, DetailView):
             learning_unit=unit,
             language=self.request.user.language
         )
+        context['unit'] = unit
         context['card'] = card
         return context
 

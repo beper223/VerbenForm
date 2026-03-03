@@ -25,7 +25,7 @@
                     {% if user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'units-list' %}">Dashboard</a></li>
                         {% if user.students.exists or user.is_staff %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'teacher-students' %}">Ученики</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'web-teacher-students' %}">Ученики</a></li>
                         {% endif %}
                         <!-- Новый вариант (Django 5+) -->
                         <li class="nav-item">

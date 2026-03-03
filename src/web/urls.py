@@ -1,11 +1,12 @@
 from django.urls import path
-from . import views
+from src.web import views
 
 urlpatterns = [
     # Auth
     path('login/', views.UserLoginView.as_view(), name='login'),
     path('logout/', views.UserLogoutView.as_view(), name='logout'),
     path('register/', views.UserRegisterView.as_view(), name='register'),
+    path('profile/settings/', views.ProfileSettingsView.as_view(), name='profile-settings'),
 
     # Student
     path('', views.DashboardView.as_view(), name='units-list'),
@@ -13,6 +14,6 @@ urlpatterns = [
     path('training/submit/', views.SubmitAnswerView.as_view(), name='submit-answer'),
 
     # Teacher
-    path('teacher/students/', views.TeacherStudentsView.as_view(), name='teacher-students'),
-    path('profile/settings/', views.ProfileSettingsView.as_view(), name='profile-settings'),
+    path('teacher/students/', views.TeacherStudentsView.as_view(), name='web-teacher-students'),
+
 ]
