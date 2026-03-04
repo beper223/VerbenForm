@@ -29,3 +29,10 @@ class UnitForm(forms.ModelForm):
         model = LearningUnit
         fields = ['course', 'title', 'level', 'skill_type', 'order', 'verbs']
         # Используем Select2 или фильтры, если глаголов очень много
+
+    def __init__(self, *args, **kwargs):
+        # Можно передать пользователя в форму, если нужно отфильтровать список курсов
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['course'].queryset = Course.objects.filter(author=user)

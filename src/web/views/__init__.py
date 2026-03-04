@@ -23,8 +23,14 @@ from src.web.views.teacher.dashboard import (
 from src.web.views.course import (
     CourseCreateView,
     CourseAssignmentView,
+    CourseUpdateView,
+    CourseDeleteView,
 )
-
+from src.web.views.learning_unit import (
+    UnitCreateView,
+    UnitUpdateView,
+    UnitDeleteView,
+)
 
 __all__ = [
     'UserLoginView',
@@ -45,4 +51,10 @@ __all__ = [
 
     'CourseCreateView',
     'CourseAssignmentView',
+    'CourseUpdateView',
+    'CourseDeleteView',
+
+    'UnitCreateView',
+    'UnitUpdateView',
+    'UnitDeleteView',
 ]

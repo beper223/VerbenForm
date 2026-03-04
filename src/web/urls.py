@@ -34,5 +34,5 @@ urlpatterns = [
     path('teacher/unit/<uuid:pk>/delete/', views.UnitDeleteView.as_view(), name='web-unit-delete'),
 
     # HTMX переключатели для вкладок (опционально для скорости)
-    path('teacher/dashboard/tab/<str:tab_name>/', views.TeacherDashboardTabView.as_view(), name='web-teacher-tab'),
+    # path('teacher/dashboard/tab/<str:tab_name>/', views.TeacherDashboardTabView.as_view(), name='web-teacher-tab'),
 ]

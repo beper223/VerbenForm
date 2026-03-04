@@ -1,10 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
-</body>
-</html>
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm p-4">
+            <h3 class="fw-bold mb-2">Назначение студентов</h3>
+            <p class="text-muted mb-4">Курс: <strong>{{ object.title }}</strong></p>
+            
+            <div class="alert alert-info small">
+                Здесь отображаются только те студенты, которые приняли ваше приглашение.
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-4">
+                    {{ form.assigned_students|as_crispy_field }}
+                </div>
+                
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="{% url 'web-teacher-dashboard' %}" class="btn btn-outline-secondary">Назад</a>
+                    <button type="submit" class="btn btn-primary px-4">Обновить список доступа</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

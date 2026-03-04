@@ -1,0 +1,46 @@
+<div class="card border-0 shadow-sm overflow-hidden">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th class="ps-4">Ученик</th>
+                    <th class="text-center">Изучено</th>
+                    <th>Точность</th>
+                    <th class="text-end pe-4">Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in students_data %}
+                <tr>
+                    <td class="ps-4">
+                        <div class="fw-bold">{{ item.user.username }}</div>
+                        <div class="small text-muted">{{ item.user.email }}</div>
+                    </td>
+                    <td class="text-center">
+                        <span class="badge bg-primary">{{ item.stats.total_mastered }}</span>
+                    </td>
+                    <td style="min-width: 150px;">
+                        <div class="d-flex align-items-center">
+                            <span class="me-2 small">{{ item.stats.accuracy }}%</span>
+                            <div class="progress flex-grow-1" style="height: 4px;">
+                                <div class="progress-bar" style="width: {{ item.stats.accuracy }}%"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-end pe-4">
+                        <a href="{% url 'web-student-detail' item.user.id %}" class="btn btn-sm btn-outline-primary">
+                            Аналитика
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center py-4 text-muted">
+                        У вас пока нет привязанных учеников.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
