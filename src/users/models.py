@@ -5,6 +5,11 @@ from django.utils.translation import gettext_lazy as _
 
 
 class User(AbstractUser):
+    class Role(models.TextChoices):
+        STUDENT = "student", _("Schüler")
+        TEACHER = "teacher", _("Lehrer")
+        ADMIN = "admin", _("Administrator")
+
     # Язык обучения (для переводов)
     language = models.CharField(
         _("Sprache"),
@@ -21,11 +26,37 @@ class User(AbstractUser):
         blank=True,
         verbose_name=_("Lehrer")
     )
+    role = models.CharField(
+        max_length=20,
+        choices=Role.choices,
+        default=Role.STUDENT,
+        verbose_name=_("Rolle"),
+        help_text=_("Bestimmt die Benutzerrolle im System.")
+    )
+    birth_date = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name=_("Geburtsdatum"),
+        help_text=_("Geburtsdatum des Benutzers.")
+    )
+
+    avatar = models.ImageField(
+        upload_to="avatars/",
+        blank=True,
+        null=True,
+        verbose_name=_("Profilbild"),
+        help_text=_("Profilbild des Benutzers.")
+    )
 
     class Meta:
         verbose_name = _("Benutzer")
         verbose_name_plural = _("Benutzer")
 
+    def is_admin(self):
+        return self.role == self.Role.ADMIN
+
+    def is_teacher(self):
+        return self.role == self.Role.TEACHER
 
 class StudentInvitation(models.Model):
     email = models.EmailField(_("E-Mail"))

@@ -26,7 +26,7 @@
 
                         <li class="nav-item"><a class="nav-link" href="{% url 'units-list' %}">Dashboard</a></li>
 
-                        {% if user.students.exists or user.is_staff %}
+                        {% if user.is_teacher or user.is_staff %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'web-teacher-students' %}">Ученики</a></li>
                         {% endif %}
 

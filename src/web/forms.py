@@ -11,6 +11,11 @@ class RegistrationForm(UserCreationForm):
         choices=settings.LANGUAGES,
         label="Язык перевода (ваш родной язык)"
     )
+    role = forms.ChoiceField(
+        choices=User.Role.choices,
+        # default=User.Role.STUDENT,
+        label="Язык перевода (ваш родной язык)"
+    )
     invitation_code = forms.CharField(
         max_length=12,
         required=False,

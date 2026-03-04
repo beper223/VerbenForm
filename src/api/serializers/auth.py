@@ -9,10 +9,11 @@ class RegisterSerializer(serializers.ModelSerializer):
     """Для самостоятельной регистрации"""
     password = serializers.CharField(write_only=True)
     language = serializers.ChoiceField(choices=settings.LANGUAGES, default=settings.LANGUAGE_CODE)
+    role = serializers.ChoiceField(choices=User.Role.choices, default=User.Role.STUDENT)
 
     class Meta:
         model = User
-        fields = ['username', 'password', 'email', 'language']
+        fields = ['username', 'password', 'email', 'language', 'role']
 
     def create(self, validated_data):
         # Используем create_user, чтобы пароль захешировался
