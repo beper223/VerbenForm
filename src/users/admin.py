@@ -9,17 +9,17 @@ from src.users.models import User, StudentInvitation
 class CustomUserAdmin(UserAdmin):
     # Что отображать в списке пользователей
     list_display = ("username", "email", "get_teachers", "language", "is_staff", "is_teacher")
-    list_filter = ("groups", "is_staff", "is_superuser", "language")
+    list_filter = ("groups", "is_staff", "is_superuser", "language", "role")
 
     # Добавляем наши поля в формы редактирования
     # fieldsets управляет страницей редактирования
     fieldsets = UserAdmin.fieldsets + (
-        (_("Weitere Informationen"), {"fields": ("language", "teachers")}),
+        (_("Weitere Informationen"), {"fields": ("language", "role", "teachers")}),
     )
 
     # Для создания пользователя (если нужно через админку)
     add_fieldsets = UserAdmin.add_fieldsets + (
-        (_("Weitere Informationen"), {"fields": ("language", "teachers")}),
+        (_("Weitere Informationen"), {"fields": ("language", "role", "teachers")}),
     )
 
     # Удобный интерфейс выбора учителей (множественный выбор с поиском)
@@ -50,7 +50,7 @@ class CustomUserAdmin(UserAdmin):
 
     def is_teacher(self, obj):
         """Отображает в списке, является ли пользователь учителем"""
-        return obj.groups.filter(name__in=["Teachers", "SuperTeachers"]).exists()
+        return obj.is_teacher()
 
     is_teacher.boolean = True
     is_teacher.short_description = _("Lehrer")

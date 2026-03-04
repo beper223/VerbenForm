@@ -16,5 +16,5 @@ urlpatterns = [
 
     # Teacher
     path('teacher/students/', views.TeacherStudentsView.as_view(), name='web-teacher-students'),
-    path('teacher/students/<int:student_id>/', views.StudentDetailView.as_view(), name='web-student-detail'),
+    path('teacher/students/<uuid:student_id>/', views.StudentDetailView.as_view(), name='web-student-detail'),
 ]

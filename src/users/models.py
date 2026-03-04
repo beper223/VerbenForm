@@ -1,3 +1,4 @@
+import uuid
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -9,6 +10,7 @@ class User(AbstractUser):
         STUDENT = "student", _("Schüler")
         TEACHER = "teacher", _("Lehrer")
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     # Язык обучения (для переводов)
     language = models.CharField(
         _("Sprache"),

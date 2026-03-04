@@ -182,7 +182,7 @@ class StudentDetailView(LoginRequiredMixin, TeacherRequiredMixin, DetailView):
 
         # 1. Проверяем, имеет ли текущий пользователь право смотреть этого студента
         try:
-            student = service.get_authorized_user(self.request.user, self.kwargs['student_id'])
+            student = service.get_authorized_user(self.request.user, str(self.kwargs['student_id']))
         except PermissionError:
             from django.core.exceptions import PermissionDenied
             raise PermissionDenied("Keна права доступа к этому ученику.")
