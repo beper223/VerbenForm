@@ -17,4 +17,5 @@ urlpatterns = [
     # Teacher
     path('teacher/students/', views.TeacherStudentsView.as_view(), name='web-teacher-students'),
     path('teacher/students/<uuid:student_id>/', views.StudentDetailView.as_view(), name='web-student-detail'),
+    path('teacher/invite/', views.CreateInvitationView.as_view(), name='web-create-invitation'),
 ]

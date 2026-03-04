@@ -7,8 +7,10 @@ from django.urls import reverse_lazy
 
 from src.personal_forms.models import LearningUnit
 from src.personal_forms.services import TrainingService, LearningUnitProgressService
-from src.web.forms import RegistrationForm, UserSettingsForm
+
+from src.web.forms import RegistrationForm, UserSettingsForm, InvitationForm
 from src.users.models import User, StudentInvitation
+from src.users.services import InvitationService
 
 
 class TeacherRequiredMixin:
@@ -233,3 +235,16 @@ class StudentStatsView(LoginRequiredMixin, TemplateView):
         context['units_data'] = units_data
         context['global_stats'] = service.get_global_stats(self.request.user)
         return context
+
+class CreateInvitationView(LoginRequiredMixin, TeacherRequiredMixin, FormView):
+    template_name = 'teacher/create_invitation.html'
+    form_class = InvitationForm
+    success_url = reverse_lazy('web-teacher-students')
+
+    def form_valid(self, form):
+        email = form.cleaned_data['email']
+        invitation = InvitationService.create_invitation(self.request.user, email)
+
+        from django.contrib import messages
+        messages.success(self.request, f'Приглашение создано. Код: {invitation.code}')
+        return super().form_valid(form)
