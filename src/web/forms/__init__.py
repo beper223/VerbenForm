@@ -5,6 +5,7 @@ __all__ = [
     'RegistrationForm',
     'UserSettingsForm',
     'InvitationForm',
+
     'CourseForm',
     'CourseAssignmentForm',
     'UnitForm',

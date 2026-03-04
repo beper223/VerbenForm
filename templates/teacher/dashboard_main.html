@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="fw-bold mb-4">Lehrer-Panel</h2>
+
+    <!-- Навигация по вкладкам -->
+    <ul class="nav nav-pills mb-4 shadow-sm p-2 bg-white rounded" id="teacherTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="courses-tab" data-bs-toggle="pill" data-bs-target="#courses-content">
+                📚 Курсы и Юниты
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="invites-tab" data-bs-toggle="pill" data-bs-target="#invites-content">
+                ✉️ Приглашения
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="students-tab" data-bs-toggle="pill" data-bs-target="#students-content">
+                👨‍🎓 Мои ученики
+            </button>
+        </li>
+    </ul>
+
+    <!-- Контент вкладок -->
+    <div class="tab-content" id="teacherTabsContent">
+        
+        <!-- ВКЛАДКА 1: КУРСЫ -->
+        <div class="tab-pane fade show active" id="courses-content" role="tabpanel">
+            <div class="d-flex justify-content-between mb-3">
+                <h4>Ваши курсы</h4>
+                <a href="{% url 'web-course-create' %}" class="btn btn-sm btn-primary">+ Создать курс</a>
+            </div>
+            
+            <div class="row g-3">
+                {% for course in courses %}
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm overflow-hidden">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                            <div>
+                                <h5 class="mb-0 fw-bold">{{ course.title }}</h5>
+                                <span class="badge {% if course.visibility == 'public' %}bg-success{% else %}bg-secondary{% endif %}">
+                                    {{ course.get_visibility_display }}
+                                </span>
+                            </div>
+                            <div class="btn-group">
+                                <a href="{% url 'web-course-assign' course.id %}" class="btn btn-sm btn-outline-info">Студенты</a>
+                                <a href="{% url 'web-course-edit' course.id %}" class="btn btn-sm btn-outline-dark">Редактировать</a>
+                                <a href="{% url 'web-unit-create' course.id %}" class="btn btn-sm btn-primary">+ Добавить юнит</a>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light">
+                            <div class="list-group list-group-flush rounded shadow-sm">
+                                {% for unit in course.learning_units.all %}
+                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>{{ unit.order }}. <strong>{{ unit.title }}</strong> <small class="text-muted">({{ unit.level }})</small></span>
+                                    <div class="btn-group">
+                                        <a href="{% url 'web-unit-edit' unit.id %}" class="btn btn-sm btn-link text-decoration-none">📝</a>
+                                        <a href="{% url 'web-unit-delete' unit.id %}" class="btn btn-sm btn-link text-decoration-none">❌</a>
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <div class="list-group-item text-muted small">В этом курсе еще нет уроков.</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- ВКЛАДКА 2: ПРИГЛАШЕНИЯ -->
+        <div class="tab-pane fade" id="invites-content" role="tabpanel">
+            <div class="card border-0 shadow-sm p-4 mb-4">
+                <h5>Создать приглашение</h5>
+                <form action="{% url 'web-create-invitation' %}" method="post" class="row g-3">
+                    {% csrf_token %}
+                    <div class="col-md-8">{{ invite_form.email }}</div>
+                    <div class="col-md-4"><button class="btn btn-primary w-100">Отправить</button></div>
+                </form>
+            </div>
+            <!-- Список кодов (таблица) -->
+            {% include 'teacher/partials/invitation_list.html' %}
+        </div>
+
+        <!-- ВКЛАДКА 3: УЧЕНИКИ -->
+        <div class="tab-pane fade" id="students-content" role="tabpanel">
+             <!-- Сюда вставляем логику из вашего старого teacher/students.html -->
+             {% include 'teacher/partials/students_table.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}
