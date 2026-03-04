@@ -11,11 +11,7 @@ class RegistrationForm(UserCreationForm):
         choices=settings.LANGUAGES,
         label="Язык перевода (ваш родной язык)"
     )
-    role = forms.ChoiceField(
-        choices=User.Role.choices,
-        # default=User.Role.STUDENT,
-        label="Язык перевода (ваш родной язык)"
-    )
+    role = forms.ChoiceField(choices=User.Role.choices)
     invitation_code = forms.CharField(
         max_length=12,
         required=False,
@@ -24,7 +20,7 @@ class RegistrationForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ("username", "email")
+        fields = ("username", "password1", "password2", "email", "language", "role")
 
 class UserSettingsForm(forms.ModelForm):
     class Meta:
