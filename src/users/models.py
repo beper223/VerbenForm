@@ -53,10 +53,13 @@ class User(AbstractUser):
         verbose_name_plural = _("Benutzer")
 
     def is_admin(self):
-        return self.role == self.Role.ADMIN
+        return self.is_staff
 
     def is_teacher(self):
         return self.role == self.Role.TEACHER
+
+    def is_teacher_admin(self):
+        return self.role == self.Role.TEACHER or self.is_staff
 
 class StudentInvitation(models.Model):
     email = models.EmailField(_("E-Mail"))

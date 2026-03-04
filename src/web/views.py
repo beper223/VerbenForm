@@ -11,6 +11,17 @@ from src.web.forms import RegistrationForm, UserSettingsForm
 from src.users.models import User, StudentInvitation
 
 
+class TeacherRequiredMixin:
+    """
+    Миксин для проверки прав учителя.
+    Перенаправляет на страницу настроек профиля, если пользователь не является учителем.
+    """
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_teacher():
+            return redirect('profile-settings')
+        return super().dispatch(request, *args, **kwargs)
+
+
 class UserLoginView(LoginView):
     template_name = 'auth/login.html'
     redirect_authenticated_user = True
@@ -121,7 +132,7 @@ class SubmitAnswerView(LoginRequiredMixin, View):
         })
 
 
-class TeacherStudentsView(LoginRequiredMixin, ListView):
+class TeacherStudentsView(LoginRequiredMixin, TeacherRequiredMixin, ListView):
     template_name = 'teacher/students.html'
 
     def get_queryset(self):
@@ -159,7 +170,7 @@ class ProfileSettingsView(LoginRequiredMixin, UpdateView):
         response = super().form_valid(form)
         return response
 
-class StudentDetailView(LoginRequiredMixin, DetailView):
+class StudentDetailView(LoginRequiredMixin, TeacherRequiredMixin, DetailView):
     model = User
     template_name = 'teacher/student_detail.html'
     pk_url_kwarg = 'student_id'

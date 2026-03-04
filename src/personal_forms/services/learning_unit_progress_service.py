@@ -23,8 +23,7 @@ class LearningUnitProgressService:
             return current_user
 
         # Проверка ролей
-        is_teacher = current_user.groups.filter(name__in=['Teachers', 'SuperTeachers']).exists()
-        if not is_teacher:
+        if not current_user.is_teacher_admin():
             raise PermissionError("Nur Lehrer могут просматривать прогресс учеников.")
 
         # Проверка связи "учитель-ученик"
