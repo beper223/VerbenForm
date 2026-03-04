@@ -63,6 +63,7 @@ class User(AbstractUser):
         return self.role == self.Role.TEACHER or self.is_staff
 
 class StudentInvitation(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(_("E-Mail"))
     code = models.CharField(_("Einladungscode"), max_length=12, unique=True)
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sent_invitations")

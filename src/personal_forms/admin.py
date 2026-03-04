@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib import admin, messages
 from django.contrib.admin.helpers import ACTION_CHECKBOX_NAME
+from django.db.models import Q
 from django.forms import ModelForm
 from django.forms.widgets import HiddenInput
 from django.forms.models import BaseInlineFormSet
@@ -9,7 +10,8 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.text import format_lazy
 from django.shortcuts import render
 
-from src.personal_forms.models import Verb, VerbForm, VerbTranslation, LearningUnit
+from src.personal_forms.models import Verb, VerbForm, VerbTranslation, LearningUnit, Course
+from src.personal_forms.models.learning import LearningUnit as LearningUnitModel
 from src.common.choices import Tense, Pronoun, LanguageCode, CEFRLevel
 
 
@@ -362,6 +364,7 @@ class VerbTranslationAdmin(admin.ModelAdmin):
 class LearningUnitAdmin(admin.ModelAdmin):
     list_display = (
         "title",
+        "course",
         "level",
         "skill_type",
         "order",
@@ -370,9 +373,129 @@ class LearningUnitAdmin(admin.ModelAdmin):
     list_filter = (
         "level",
         "skill_type",
+        "course",
     )
 
-    ordering = ("order",)
+    search_fields = (
+        "title",
+        "course__title",
+    )
+
+    ordering = ("course", "order")
     list_per_page = 20
 
     filter_horizontal = ("verbs",)
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        # Фильтруем по курсам, к которым пользователь имеет доступ
+        if request.user.is_teacher_admin():
+            return qs
+        # Для других пользователей показываем только их курсы
+        return qs.filter(course__author=request.user)
+
+
+class LearningUnitInline(admin.TabularInline):
+    model = LearningUnitModel
+    extra = 0
+    fields = ("title", "level", "skill_type", "order", "verbs")
+    filter_horizontal = ("verbs",)
+    ordering = ("order",)
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.order_by("order")
+
+
+@admin.register(Course)
+class CourseAdmin(admin.ModelAdmin):
+    list_display = (
+        "title",
+        "author",
+        "visibility",
+        "created_at",
+        "learning_units_count",
+    )
+
+    list_filter = (
+        "visibility",
+        "author",
+        "created_at",
+    )
+
+    search_fields = (
+        "title",
+        "description",
+        "author__username",
+        "author__email",
+    )
+
+    ordering = ("-created_at",)
+    list_per_page = 20
+
+    filter_horizontal = ("assigned_students",)
+    inlines = [LearningUnitInline]
+
+    fieldsets = (
+        (_("Grundinformationen"), {
+            "fields": (
+                "title",
+                "description",
+                "author",
+                "visibility",
+            )
+        }),
+        (_("Schülerzuweisung"), {
+            "fields": ("assigned_students",),
+            "description": _("Nur für private Kurse sichtbar"),
+        }),
+    )
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        # Учителя видят свои курсы и публичные
+        if request.user.is_teacher_admin():
+            return qs.filter(
+                Q(author=request.user) | Q(visibility=Course.Visibility.PUBLIC)
+            )
+        # Студенты видят только доступные им курсы
+        return qs.filter(
+            Q(visibility=Course.Visibility.PUBLIC) |
+            Q(author=request.user) |
+            Q(assigned_students=request.user)
+        ).distinct()
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        # Ограничиваем выбор авторов только учителями/админами
+        if 'author' in form.base_fields:
+            form.base_fields['author'].queryset = form.base_fields['author'].queryset.filter(
+                Q(role='teacher') | Q(is_staff=True)
+            )
+        return form
+
+    def learning_units_count(self, obj):
+        return obj.learning_units.count()
+    learning_units_count.short_description = _("Lerneinheiten")
+
+    def save_model(self, request, obj, form, change):
+        if not change:  # При создании нового курса
+            obj.author = request.user
+        super().save_model(request, obj, form, change)
+
+    def has_change_permission(self, request, obj=None):
+        if obj is None:
+            return request.user.is_teacher_admin()
+        return (
+            request.user.is_superuser or
+            obj.author == request.user or
+            (obj.visibility == Course.Visibility.PUBLIC and request.user.is_teacher_admin())
+        )
+
+    def has_delete_permission(self, request, obj=None):
+        return self.has_change_permission(request, obj)
+
+    def has_add_permission(self, request):
+        return request.user.is_teacher_admin()

@@ -1,11 +1,21 @@
+import uuid
+
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
 from src.common.choices import CEFRLevel, SkillType
 from src.personal_forms.models import Verb
 
 
 class LearningUnit(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    course = models.ForeignKey(
+        'Course',
+        on_delete=models.CASCADE,
+        related_name="learning_units",
+        verbose_name=_("Kurs"),
+    )
     level = models.CharField(
         verbose_name=_("Niveau"),
         max_length=2,
@@ -34,6 +44,74 @@ class LearningUnit(models.Model):
     class Meta:
         verbose_name = _("Lerneinheit")
         verbose_name_plural = _("Lerneinheiten")
+        indexes = [
+            models.Index(fields=["course", "order"]),
+            models.Index(fields=["course", "level"]),
+        ]
+
+class Course(models.Model):
+    class Visibility(models.TextChoices):
+        PUBLIC = "public", _("Öffentlich")
+        PRIVATE = "private", _("Privat")
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(
+        verbose_name=_("Kurstitel"),
+        max_length=200,
+    )
+    description = models.TextField(
+        verbose_name=_("Beschreibung"),
+        blank=True,
+    )
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="courses",
+        verbose_name=_("Autor"),
+        limit_choices_to={'role__in': ['teacher', 'admin']},
+    )
+    visibility = models.CharField(
+        max_length=10,
+        choices=Visibility.choices,
+        default=Visibility.PRIVATE,
+        verbose_name=_("Sichtbarkeit"),
+    )
+    assigned_students = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        related_name="assigned_courses",
+        verbose_name=_("Zugewiesene Schüler"),
+        limit_choices_to={'role': 'student'},
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name=_("Erstellt am"),
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name=_("Aktualisiert am"),
+    )
+
+    class Meta:
+        verbose_name = _("Kurs")
+        verbose_name_plural = _("Kurse")
+        indexes = [
+            models.Index(fields=["author", "visibility"]),
+            models.Index(fields=["visibility"]),
+        ]
+
+    def __str__(self):
+        return f"{self.title} ({self.author})"
+
+    def is_accessible_by(self, user):
+        """Check if user can access this course."""
+        if self.author == user:
+            return True
+        if self.visibility == self.Visibility.PUBLIC:
+            return user.role == 'student'
+        if self.visibility == self.Visibility.PRIVATE:
+            return self.assigned_students.filter(id=user.id).exists()
+        return False
 
 class UserVerbProgress(models.Model):
     user = models.ForeignKey(
