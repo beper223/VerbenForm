@@ -2,14 +2,22 @@
 
 {% block content %}
 <div class="mb-4">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'web-teacher-students' %}">Ученики</a></li>
-            <li class="breadcrumb-item active">{{ student.username }}</li>
-        </ol>
-    </nav>
+    {% if own_stats %}
+        <nav class="mb-4">
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a class="nav-link active" href="{% url 'units-list' %}">Dashboard</a></li>
+            </ul>
+        </nav>
+    {% else %}
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'web-teacher-students' %}">Ученики</a></li>
+                <li class="breadcrumb-item active">{{ student.username }}</li>
+            </ol>
+        </nav>
+    {% endif %}
     <div class="d-flex justify-content-between align-items-center">
-        <h2 class="fw-bold">Статистика: {{ student.username }}</h2>
+        <h2 class="fw-bold">Статистика: {% if request.user.is_teacher %}{{ student.username }}{% else %}{{ request.user.username }}{% endif %}</h2>
         <span class="badge bg-primary fs-6">{{ global_stats.accuracy }}% точность</span>
     </div>
 </div>

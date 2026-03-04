@@ -212,6 +212,8 @@ class StudentStatsView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         service = LearningUnitProgressService()
+        context['student'] = self.request.user
+        context['own_stats'] = True  # Флаг что это просмотр собственной статистики
 
         # 1. Получаем все уроки
         units = LearningUnit.objects.order_by('order')
