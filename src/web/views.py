@@ -1,5 +1,5 @@
 from django.contrib.auth.views import LoginView, LogoutView
-from django.views.generic import ListView, DetailView, FormView, View, UpdateView
+from django.views.generic import ListView, DetailView, FormView, View, UpdateView, TemplateView
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, render, redirect
@@ -204,4 +204,30 @@ class StudentDetailView(LoginRequiredMixin, TeacherRequiredMixin, DetailView):
 
         context['units_data'] = units_data
         context['global_stats'] = service.get_global_stats(student)
+        return context
+
+class StudentStatsView(LoginRequiredMixin, TemplateView):
+    template_name = 'teacher/student_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        service = LearningUnitProgressService()
+
+        # 1. Получаем все уроки
+        units = LearningUnit.objects.order_by('order')
+
+        # 2. Для каждого урока строим детальную матрицу прогресса для текущего студента
+        units_data = []
+        for unit in units:
+            progress_data = service.build_progress(user=self.request.user, learning_unit=unit)
+            units_data.append({
+                'unit': unit,
+                'matrix': progress_data['matrix'],  # Глаголы и их статусы
+                'percent': progress_data['percent'],
+                'mastered_atoms': progress_data['mastered_atoms'],
+                'total_atoms': progress_data['total_atoms'],
+            })
+
+        context['units_data'] = units_data
+        context['global_stats'] = service.get_global_stats(self.request.user)
         return context

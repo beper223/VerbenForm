@@ -8,7 +8,6 @@ class User(AbstractUser):
     class Role(models.TextChoices):
         STUDENT = "student", _("Schüler")
         TEACHER = "teacher", _("Lehrer")
-        ADMIN = "admin", _("Administrator")
 
     # Язык обучения (для переводов)
     language = models.CharField(
