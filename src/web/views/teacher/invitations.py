@@ -16,7 +16,7 @@ from src.users.models import StudentInvitation
 
 
 class CreateInvitationView(LoginRequiredMixin, TeacherRequiredMixin, FormView):
-    template_name = 'teacher/create_invitation.html'
+    # template_name = 'teacher/create_invitation.html'
     form_class = InvitationForm
     # success_url = reverse_lazy('web-teacher-students')
 
@@ -68,7 +68,6 @@ class InvitationUpdateView(LoginRequiredMixin, TeacherRequiredMixin, UpdateView)
 
 class InvitationDeleteView(LoginRequiredMixin, TeacherRequiredMixin, DeleteView):
     model = StudentInvitation
-
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.object.delete()

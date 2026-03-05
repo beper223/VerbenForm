@@ -11,7 +11,7 @@
     {% else %}
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'web-teacher-students' %}">Ученики</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'web-teacher-dashboard' %}?tab=students">Ученики</a></li>
                 <li class="breadcrumb-item active">{{ student.username }}</li>
             </ol>
         </nav>

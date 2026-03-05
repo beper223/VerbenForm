@@ -10,7 +10,7 @@ from src.web.views.learning import (
     SubmitAnswerView,
 )
 from src.web.views.teacher.students import (
-    TeacherStudentsView,
+    # TeacherStudentsView,
     StudentDetailView,
     StudentStatsView,
 )
@@ -44,7 +44,7 @@ __all__ = [
     'TrainingSessionView',
     'SubmitAnswerView',
 
-    'TeacherStudentsView',
+    # 'TeacherStudentsView',
     'StudentDetailView',
     'StudentStatsView',
 

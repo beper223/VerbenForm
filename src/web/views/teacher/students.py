@@ -1,5 +1,5 @@
 
-from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic import DetailView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from src.personal_forms.models import LearningUnit
@@ -7,27 +7,6 @@ from src.personal_forms.services import LearningUnitProgressService
 from src.users.models import User
 from src.web.views.mixins import TeacherRequiredMixin
 
-
-class TeacherStudentsView(LoginRequiredMixin, TeacherRequiredMixin, ListView):
-    template_name = 'teacher/students.html'
-
-    def get_queryset(self):
-        # Показываем только тех студентов, где текущий пользователь является учителем
-        return self.request.user.students.all()
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        service = LearningUnitProgressService()
-        students_data = []
-
-        for student in self.get_queryset():
-            students_data.append({
-                'user': student,
-                'stats': service.get_global_stats(student)
-            })
-
-        context['students_data'] = students_data
-        return context
 
 class StudentDetailView(LoginRequiredMixin, TeacherRequiredMixin, DetailView):
     model = User

@@ -15,9 +15,7 @@ urlpatterns = [
     path('training/submit/', views.SubmitAnswerView.as_view(), name='submit-answer'),
 
     # Teacher
-    path('teacher/students/', views.TeacherStudentsView.as_view(), name='web-teacher-students'),
     path('teacher/students/<uuid:student_id>/', views.StudentDetailView.as_view(), name='web-student-detail'),
-    # path('teacher/invite/', views.CreateInvitationView.as_view(), name='web-create-invitation'),
     path('teacher/invitation/add/', views.CreateInvitationView.as_view(), name='web-create-invitation'),
     path('teacher/invitation/<uuid:pk>/edit/', views.InvitationUpdateView.as_view(), name='web-invitation-edit'),
     path('teacher/invitation/<uuid:pk>/delete/', views.InvitationDeleteView.as_view(), name='web-invitation-delete'),
