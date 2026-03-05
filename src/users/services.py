@@ -13,16 +13,16 @@ class InvitationService:
         return ''.join(secrets.choice(chars) for _ in range(8))
 
     @classmethod
-    def create_invitation(cls, teacher, email):
+    def create_invitation(cls, teacher, email, expires_at=None):
         code = cls.generate_code()
-
-        invitation = StudentInvitation.objects.create(
-            teacher=teacher,
-            email=email,
-            code=code
-        )
-        # Здесь можно вызвать функцию отправки email:
-        # send_invitation_email(email, code)
+        params = {
+            'teacher': teacher,
+            'email': email,
+            'code': code
+        }
+        if expires_at:
+            params['expires_at'] = expires_at
+        invitation = StudentInvitation.objects.create(**params)
         return invitation
 
     @classmethod

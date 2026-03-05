@@ -1,9 +1,14 @@
 import uuid
+from datetime import timedelta
+
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+def default_expiry():
+    return timezone.now() + timedelta(days=7)
 
 class User(AbstractUser):
     class Role(models.TextChoices):
@@ -69,6 +74,17 @@ class StudentInvitation(models.Model):
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sent_invitations")
     is_used = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField(
+        _("Ablaufdatum"),
+        default=default_expiry,
+        help_text=_("Nach diesem Datum verliert der Code seine Gültigkeit")
+    )
+
+    def is_expired(self):
+        return timezone.now() > self.expires_at
+
+    def is_active(self):
+        return not self.is_used and not self.is_expired()
 
     def __str__(self):
         return f"Invite for {self.email} by {self.teacher.username}"

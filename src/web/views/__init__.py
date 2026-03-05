@@ -16,6 +16,8 @@ from src.web.views.teacher.students import (
 )
 from src.web.views.teacher.invitations import (
     CreateInvitationView,
+    InvitationUpdateView,
+    InvitationDeleteView,
 )
 from src.web.views.teacher.dashboard import (
     TeacherDashboardView,
@@ -47,6 +49,8 @@ __all__ = [
     'StudentStatsView',
 
     'CreateInvitationView',
+    'InvitationUpdateView',
+    'InvitationDeleteView',
     'TeacherDashboardView',
 
     'CourseCreateView',

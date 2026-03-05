@@ -17,8 +17,10 @@ urlpatterns = [
     # Teacher
     path('teacher/students/', views.TeacherStudentsView.as_view(), name='web-teacher-students'),
     path('teacher/students/<uuid:student_id>/', views.StudentDetailView.as_view(), name='web-student-detail'),
-    path('teacher/invite/', views.CreateInvitationView.as_view(), name='web-create-invitation'),
-
+    # path('teacher/invite/', views.CreateInvitationView.as_view(), name='web-create-invitation'),
+    path('teacher/invitation/add/', views.CreateInvitationView.as_view(), name='web-create-invitation'),
+    path('teacher/invitation/<uuid:pk>/edit/', views.InvitationUpdateView.as_view(), name='web-invitation-edit'),
+    path('teacher/invitation/<uuid:pk>/delete/', views.InvitationDeleteView.as_view(), name='web-invitation-delete'),
     # Главный Кабинет Учителя (Tabs)
     path('teacher/dashboard/', views.TeacherDashboardView.as_view(), name='web-teacher-dashboard'),
 
@@ -32,6 +34,7 @@ urlpatterns = [
     path('teacher/courses/<uuid:course_id>/unit/add/', views.UnitCreateView.as_view(), name='web-unit-create'),
     path('teacher/unit/<uuid:pk>/edit/', views.UnitUpdateView.as_view(), name='web-unit-edit'),
     path('teacher/unit/<uuid:pk>/delete/', views.UnitDeleteView.as_view(), name='web-unit-delete'),
+
 
     # HTMX переключатели для вкладок (опционально для скорости)
     # path('teacher/dashboard/tab/<str:tab_name>/', views.TeacherDashboardTabView.as_view(), name='web-teacher-tab'),

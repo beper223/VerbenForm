@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <!-- Навигация (Хлебные крошки) -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'web-teacher-dashboard' %}">Lehrer-Panel</a></li>
+                <li class="breadcrumb-item active">Редактировать приглашение</li>
+            </ol>
+        </nav>
+
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white py-3 border-bottom">
+                <h5 class="mb-0 fw-bold text-primary">Изменение срока действия</h5>
+            </div>
+            <div class="card-body p-4">
+                <div class="mb-4 p-3 bg-light rounded border">
+                    <div class="small text-muted mb-1">Приглашение для:</div>
+                    <div class="fw-bold fs-5">{{ object.email }}</div>
+                    <div class="mt-2 small">
+                        <span class="text-muted">Код:</span> 
+                        <code class="bg-white px-2 py-1 rounded border">{{ object.code }}</code>
+                    </div>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <!-- Рендерим только нужные поля (email и expires_at) -->
+                    {{ form.email|as_crispy_field }}
+                    {{ form.expires_at|as_crispy_field }}
+
+                    <div class="alert alert-info small mt-3">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Смена email создаст путаницу, если студент уже получил старое письмо. Рекомендуется менять только дату.
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                        <a href="{% url 'web-teacher-dashboard' %}" class="btn btn-outline-secondary px-4">Отмена</a>
+                        <button type="submit" class="btn btn-primary px-4">Обновить дату</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {% if not object.is_used %}
+        <div class="mt-4 text-center">
+            <form method="post" action="{% url 'web-invitation-delete' object.id %}" onsubmit="return confirm('Удалить приглашение?');">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-link text-danger text-decoration-none">
+                    Удалить это приглашение полностью
+                </button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

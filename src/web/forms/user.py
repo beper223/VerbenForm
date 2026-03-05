@@ -1,4 +1,6 @@
 from django import forms
+from django.utils import timezone
+from datetime import timedelta
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
@@ -31,16 +33,41 @@ class UserSettingsForm(forms.ModelForm):
         fields = ("email", "language")
 
 class InvitationForm(forms.ModelForm):
+    # Явно определяем поле, чтобы задать начальное значение динамически
+    expires_at = forms.DateTimeField(
+        label=_("Gültig bis"),
+        required=True,
+        widget=forms.DateTimeInput(
+            attrs={
+                'class': 'form-control',
+                'type': 'datetime-local',
+            },
+            # Формат важен для корректного отображения в браузере (HTML5)
+            format='%Y-%m-%dT%H:%M'
+        )
+    )
     class Meta:
         model = StudentInvitation
-        fields = ['email']
+        fields = ['email', 'expires_at']
         widgets = {
             'email': forms.EmailInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'student@example.com',
                 'required': True
-            })
+            }),
+            # 'expires_at': forms.DateInput(attrs={
+            #     'class': 'form-control',
+            #     'type': 'datetime-local'
+            # }),
         }
         labels = {
             'email': _("E-Mail-Adresse des Studenten")
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Если это создание новой формы (не редактирование), ставим дату +7 дней
+        if not self.instance.pk:
+            expiry_date = timezone.now() + timedelta(days=7)
+            # Убираем секунды и микросекунды для соответствия формату datetime-local
+            self.initial['expires_at'] = expiry_date.strftime('%Y-%m-%dT%H:%M')
