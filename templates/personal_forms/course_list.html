@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row mb-4 mt-2">
+    <div class="col">
+        <h2 class="fw-bold">Meine Kurse</h2>
+        <p class="text-muted">Wählen Sie einen Kurs aus, чтобы начать обучение.</p>
+    </div>
+</div>
+
+<div class="row g-3">
+    {% for course in courses %}
+    <div class="col-12 col-md-6 col-lg-4">
+        <a href="{% url 'course-detail' course.id %}" class="text-decoration-none text-dark">
+            <div class="card h-100 p-3 shadow-sm border-0 position-relative">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <span class="badge {% if course.visibility == 'public' %}bg-success{% else %}bg-primary{% endif %}">
+                        {{ course.get_visibility_display }}
+                    </span>
+                    <small class="text-muted">{{ course.learning_units.count }} Einheiten</small>
+                </div>
+                <h4 class="fw-bold mb-2">{{ course.title }}</h4>
+                <p class="text-muted small mb-3">
+                    {{ course.description|truncatewords:15 }}
+                </p>
+                <div class="mt-auto d-flex align-items-center text-primary fw-bold">
+                    Öffnen <i class="bi bi-arrow-right ms-2"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5">
+        <p class="text-muted">Bisher sind keine Kurse für Sie verfügbar.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -5,7 +5,8 @@ from src.web.views.users import (
     ProfileSettingsView,
 )
 from src.web.views.learning import (
-    DashboardView,
+    CourseListView,
+    CourseDetailView,
     TrainingSessionView,
     SubmitAnswerView,
 )
@@ -40,7 +41,8 @@ __all__ = [
     'UserRegisterView',
     'ProfileSettingsView',
 
-    'DashboardView',
+    'CourseListView',
+    'CourseDetailView',
     'TrainingSessionView',
     'SubmitAnswerView',
 

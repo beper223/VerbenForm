@@ -1,26 +1,52 @@
+from django.db.models import Q
 from django.views.generic import ListView, DetailView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, render
 
-from src.personal_forms.models import LearningUnit
+from src.personal_forms.models import LearningUnit, Course
 from src.personal_forms.services import TrainingService, LearningUnitProgressService
 
 
-class DashboardView(LoginRequiredMixin, ListView):
-    model = LearningUnit
-    template_name = 'personal_forms/dashboard.html'
-    context_object_name = 'units'
+class CourseListView(LoginRequiredMixin, ListView):
+    model = Course
+    template_name = 'personal_forms/course_list.html'
+    context_object_name = 'courses'
+
+    def get_queryset(self):
+        user = self.request.user
+        # Если админ — видит всё
+        if user.is_staff:
+            return Course.objects.all().order_by('-created_at')
+
+        # Логика доступа: Публичные ИЛИ (Приватные и назначен ученику) ИЛИ (Автор курса)
+        return Course.objects.filter(
+            Q(visibility=Course.Visibility.PUBLIC) |
+            Q(assigned_students=user) |
+            Q(author=user)
+        ).distinct().order_by('-created_at')
+
+
+class CourseDetailView(LoginRequiredMixin, DetailView):
+    model = Course
+    template_name = 'personal_forms/course_detail.html'
+    pk_url_kwarg = 'course_id'
+    context_object_name = 'course'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         service = LearningUnitProgressService()
-        units = LearningUnit.objects.order_by('order')
+        course = self.get_object()
 
-        # Получаем прогресс по всем юнитам одним махом (без N+1)
-        context['units_overview'] = service.get_units_overview(self.request.user, units)
+        # 1. Получаем юниты только этого курса
+        units = course.learning_units.all().order_by('order')
+
+        # 2. Используем ваш сервис для расчета прогресса по этим юнитам
+        context['units_overview'] = service.get_units_overview(self.request.user, list(units))
+
+        # 3. Общая статистика пользователя (остается глобальной)
         context['stats'] = service.get_global_stats(self.request.user)
-        return context
 
+        return context
 
 class TrainingSessionView(LoginRequiredMixin, DetailView):
     model = LearningUnit
