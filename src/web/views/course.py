@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from src.personal_forms.models import Course
 from src.web.forms import CourseForm, CourseAssignmentForm
-from web.views.mixins import TeacherRequiredMixin
+from src.web.views.mixins import TeacherRequiredMixin
 
 
 # CRUD для Курса

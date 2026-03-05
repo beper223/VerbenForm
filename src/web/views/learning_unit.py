@@ -1,11 +1,11 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, redirect
 
 from src.personal_forms.models import Course, LearningUnit
 from src.web.forms import UnitForm
-from web.views.mixins import TeacherRequiredMixin
+from src.web.views.mixins import TeacherRequiredMixin
 
 class UnitCreateView(LoginRequiredMixin, TeacherRequiredMixin, CreateView):
     model = LearningUnit
@@ -41,5 +41,8 @@ class UnitDeleteView(LoginRequiredMixin, TeacherRequiredMixin, DeleteView):
         self.object = self.get_object()
         self.object.delete()
         if request.headers.get('HX-Request'):
-            return render(request, 'teacher/partials/empty.html')  # Просто удаляем элемент из DOM
+            # Возвращаем пустой ответ. HTMX увидит статус 200
+            # и удалит элемент, который мы указали в hx-target
+            from django.http import HttpResponse
+            return HttpResponse("")
         return redirect(self.get_success_url())

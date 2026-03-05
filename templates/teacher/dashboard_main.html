@@ -57,7 +57,14 @@
                                     <span>{{ unit.order }}. <strong>{{ unit.title }}</strong> <small class="text-muted">({{ unit.level }})</small></span>
                                     <div class="btn-group">
                                         <a href="{% url 'web-unit-edit' unit.id %}" class="btn btn-sm btn-link text-decoration-none">📝</a>
-                                        <a href="{% url 'web-unit-delete' unit.id %}" class="btn btn-sm btn-link text-decoration-none">❌</a>
+{#                                        <a href="{% url 'web-unit-delete' unit.id %}" class="btn btn-sm btn-link text-decoration-none">❌</a>#}
+                                        <button class="btn btn-sm btn-link text-decoration-none"
+                                                hx-delete="{% url 'web-unit-delete' unit.id %}"
+                                                hx-confirm="Вы уверены, что хотите удалить урок '{{ unit.title }}'?"
+                                                hx-target="closest .list-group-item"
+                                                hx-swap="outerHTML">
+                                            ❌
+                                        </button>
                                     </div>
                                 </div>
                                 {% empty %}
