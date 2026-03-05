@@ -1,4 +1,15 @@
-<!-- teacher/partials/invitation_list.html -->
+{% if messages %}
+    <div class="mb-3">
+        {% for message in messages %}
+            {% if 'invitation' in message.tags %}
+                <div class="alert alert-{{ message.level_tag }} alert-dismissible fade show shadow-sm" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endif %}
 <div class="card border-0 shadow-sm overflow-hidden" id="invitation-list-container">
     <div class="table-responsive">
         <table class="table table-hover align-middle mb-0">

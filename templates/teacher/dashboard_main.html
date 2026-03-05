@@ -7,17 +7,20 @@
     <!-- Навигация по вкладкам -->
     <ul class="nav nav-pills mb-4 shadow-sm p-2 bg-white rounded" id="teacherTabs" role="tablist">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="courses-tab" data-bs-toggle="pill" data-bs-target="#courses-content">
+            <button class="nav-link {% if active_tab == 'courses' %}active{% endif %}"
+                    id="courses-tab" data-bs-toggle="pill" data-bs-target="#courses-content">
                 📚 Курсы и Юниты
             </button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="invites-tab" data-bs-toggle="pill" data-bs-target="#invites-content">
+            <button class="nav-link {% if active_tab == 'invites' %}active{% endif %}"
+                    id="invites-tab" data-bs-toggle="pill" data-bs-target="#invites-content">
                 ✉️ Приглашения
             </button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="students-tab" data-bs-toggle="pill" data-bs-target="#students-content">
+            <button class="nav-link {% if active_tab == 'students' %}active{% endif %}"
+                    id="students-tab" data-bs-toggle="pill" data-bs-target="#students-content">
                 👨‍🎓 Мои ученики
             </button>
         </li>
@@ -27,7 +30,8 @@
     <div class="tab-content" id="teacherTabsContent">
         
         <!-- ВКЛАДКА 1: КУРСЫ -->
-        <div class="tab-pane fade show active" id="courses-content" role="tabpanel">
+        <div class="tab-pane fade {% if active_tab == 'courses' %}show active{% endif %}"
+             id="courses-content" role="tabpanel">
             <div class="d-flex justify-content-between mb-3">
                 <h4>Ваши курсы</h4>
                 <a href="{% url 'web-course-create' %}" class="btn btn-sm btn-primary">+ Создать курс</a>
@@ -79,7 +83,8 @@
         </div>
 
         <!-- ВКЛАДКА 2: ПРИГЛАШЕНИЯ -->
-        <div class="tab-pane fade" id="invites-content" role="tabpanel">
+        <div class="tab-pane fade {% if active_tab == 'invites' %}show active{% endif %}"
+             id="invites-content" role="tabpanel">
             <div class="card border-0 shadow-sm p-4 mb-4">
                 <h5>Создать приглашение</h5>
                 <form hx-post="{% url 'web-create-invitation' %}"
@@ -88,7 +93,12 @@
                       class="row g-3">
                     {% csrf_token %}
                     <div class="col-md-5">{{ invite_form.email }}</div>
-                    <div class="col-md-4">{{ invite_form.expires_at }}</div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-text small">Дней:</span>
+                            {{ invite_form.days_valid }}
+                        </div>
+                    </div>
                     <div class="col-md-3"><button class="btn btn-primary w-100">Создать</button></div>
                 </form>
             </div>
@@ -97,7 +107,8 @@
         </div>
 
         <!-- ВКЛАДКА 3: УЧЕНИКИ -->
-        <div class="tab-pane fade" id="students-content" role="tabpanel">
+        <div class="tab-pane fade {% if active_tab == 'students' %}show active{% endif %}"
+             id="students-content" role="tabpanel">
              <!-- Сюда вставляем логику из вашего старого teacher/students.html -->
              {% include 'teacher/partials/students_table.html' %}
         </div>

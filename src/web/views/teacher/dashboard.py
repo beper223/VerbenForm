@@ -14,6 +14,8 @@ class TeacherDashboardView(LoginRequiredMixin, TeacherRequiredMixin, TemplateVie
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Получаем таб из URL, если его нет — ставим 'courses'
+        context['active_tab'] = self.request.GET.get('tab', 'courses')
         user = self.request.user
         service = LearningUnitProgressService()
 

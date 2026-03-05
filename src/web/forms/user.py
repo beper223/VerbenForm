@@ -1,9 +1,10 @@
+import math
+
 from django import forms
-from django.utils import timezone
-from datetime import timedelta
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from src.users.models import StudentInvitation
@@ -33,22 +34,19 @@ class UserSettingsForm(forms.ModelForm):
         fields = ("email", "language")
 
 class InvitationForm(forms.ModelForm):
-    # Явно определяем поле, чтобы задать начальное значение динамически
-    expires_at = forms.DateTimeField(
-        label=_("Gültig bis"),
-        required=True,
-        widget=forms.DateTimeInput(
-            attrs={
-                'class': 'form-control',
-                'type': 'datetime-local',
-            },
-            # Формат важен для корректного отображения в браузере (HTML5)
-            format='%Y-%m-%dT%H:%M'
-        )
+    days_valid = forms.IntegerField(
+        label=_("Gültig für (Tage)"),
+        initial=7,
+        required=False,  # Чтобы можно было оставить пустым для значения по умолчанию
+        min_value=1,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': '7'
+        })
     )
     class Meta:
         model = StudentInvitation
-        fields = ['email', 'expires_at']
+        fields = ['email']
         widgets = {
             'email': forms.EmailInput(attrs={
                 'class': 'form-control',
@@ -66,8 +64,20 @@ class InvitationForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Если это создание новой формы (не редактирование), ставим дату +7 дней
-        if not self.instance.pk:
-            expiry_date = timezone.now() + timedelta(days=7)
-            # Убираем секунды и микросекунды для соответствия формату datetime-local
-            self.initial['expires_at'] = expiry_date.strftime('%Y-%m-%dT%H:%M')
+
+        # Если мы РЕДАКТИРУЕМ существующий объект
+        if self.instance and self.instance.pk:
+            if self.instance.expires_at:
+                # Вычисляем разницу во времени
+                now = timezone.now()
+                delta = self.instance.expires_at - now
+
+                # Переводим секунды в полные дни, округляя в большую сторону
+                # Если осталось 1.5 дня, покажем 2. Если просрочено — покажем 0.
+                days_left = math.ceil(delta.total_seconds() / 86400)
+
+                self.initial['days_valid'] = max(0, days_left)
+
+        # Если это СОЗДАНИЕ нового (pk еще нет)
+        else:
+            self.initial['days_valid'] = 7
