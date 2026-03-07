@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row mb-4 mt-2">
+    <div class="col">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'web-student-detail' student.id %}">{{ student.username }}</a></li>
+                <li class="breadcrumb-item active">{{ course.title }}</li>
+            </ol>
+        </nav>
+        <h2 class="fw-bold">{{ course.title }} <small class="text-muted fs-6">({{ student.username }})</small></h2>
+    </div>
+</div>
+
+<div class="row g-3">
+    {% for unit in units_overview %}
+    <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 p-3 shadow-sm border-0">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <span class="badge bg-secondary">{{ unit.level }}</span>
+                <small class="text-muted">{{ unit.skill_type }}</small>
+            </div>
+            <h5 class="fw-bold mb-3">{{ unit.title }}</h5>
+            
+            <div class="mt-auto">
+                <div class="d-flex justify-content-between mb-1 small">
+                    <span>Fortschritt</span>
+                    <span>{{ unit.percent }}%</span>
+                </div>
+                <div class="progress mb-3" style="height: 6px;">
+                    <div class="progress-bar {% if unit.completed %}bg-success{% endif %}" 
+                         style="width: {{ unit.percent }}%"></div>
+                </div>
+                
+                <!-- Здесь кнопка детальной статистики вместо кнопки Lernen -->
+                <a href="{% url 'web-unit-stats-detail' unit.id %}?student_id={{ student.id }}" 
+                   class="btn btn-outline-primary w-100 fw-bold">
+                    <i class="bi bi-bar-chart"></i> Statistik подробнее
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

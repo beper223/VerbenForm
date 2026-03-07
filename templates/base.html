@@ -33,7 +33,6 @@
                     {% if user.is_authenticated %}
 
                         <li class="nav-item"><a class="nav-link" href="{% url 'units-list' %}">Dashboard</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'web-student-stats' %}">Аналитика</a></li>
                         {% if user.is_teacher_admin %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'web-teacher-dashboard' %}">Lehrer-Panel</a></li>
                             {% if user.is_admin %}

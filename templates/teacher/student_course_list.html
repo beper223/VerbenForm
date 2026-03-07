@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row mb-4 mt-2">
+    <div class="col">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'web-teacher-dashboard' %}?tab=students">Ученики</a></li>
+                <li class="breadcrumb-item active">{{ student.username }}</li>
+            </ol>
+        </nav>
+        <h2 class="fw-bold">Kurse von {{ student.username }}</h2>
+        <p class="text-muted">Общая точность ученика: {{ global_stats.accuracy }}%</p>
+    </div>
+</div>
+
+<div class="row g-3">
+    {% for item in courses_data %}
+    <div class="col-12 col-md-6 col-lg-4">
+        <a href="{% url 'web-teacher-student-course-detail' student.id item.course.id %}" class="text-decoration-none text-dark">
+            <div class="card h-100 p-3 shadow-sm border-0">
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="badge bg-secondary opacity-75">{{ item.course.get_visibility_display }}</span>
+                    <small class="text-muted">{{ item.unit_count }} Einheiten</small>
+                </div>
+                <h4 class="fw-bold mb-3">{{ item.course.title }}</h4>
+                
+                <div class="mt-auto">
+                    <div class="d-flex justify-content-between mb-1 small">
+                        <span>Прогресс курса</span>
+                        <span>{{ item.percent }}%</span>
+                    </div>
+                    <div class="progress" style="height: 6px;">
+                        <div class="progress-bar" style="width: {{ item.percent }}%"></div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

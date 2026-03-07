@@ -6,6 +6,7 @@ urlpatterns = [
     # Кабинет Учителя (Tabs)
     path('', views.TeacherDashboardView.as_view(), name='web-teacher-dashboard'),
     path('students/<uuid:student_id>/', views.StudentDetailView.as_view(), name='web-student-detail'),
+    path('students/<uuid:student_id>/course/<uuid:course_id>/', views.StudentCourseDetailView.as_view(), name='web-teacher-student-course-detail'),
     path('invitation/add/', views.CreateInvitationView.as_view(), name='web-create-invitation'),
     path('invitation/<uuid:pk>/edit/', views.InvitationUpdateView.as_view(), name='web-invitation-edit'),
     path('invitation/<uuid:pk>/delete/', views.InvitationDeleteView.as_view(), name='web-invitation-delete'),
