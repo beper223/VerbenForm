@@ -25,9 +25,9 @@ class StudentDetailView(LoginRequiredMixin, TeacherRequiredMixin, DetailView):
 
         # 1. Получаем курсы, доступные ЭТОМУ студенту
         courses = Course.objects.filter(
-            Q(visibility=Course.Visibility.PUBLIC) |
-            Q(assigned_students=student) |
-            Q(author=self.request.user)  # Если учитель - автор, он видит свои курсы у ученика
+            Q(visibility=Course.Visibility.PUBLIC)
+            | (Q(assigned_students=student)
+            & Q(author=self.request.user))
         ).distinct().order_by('-created_at')
 
         # 2. Рассчитываем прогресс по каждому курсу для этого студента

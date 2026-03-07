@@ -24,12 +24,19 @@ class CourseAssignmentView(LoginRequiredMixin, TeacherRequiredMixin, UpdateView)
     form_class = CourseAssignmentForm
     template_name = 'teacher/courses/assign_form.html'
     pk_url_kwarg = 'course_id'
-    success_url = reverse_lazy('web-teacher-dashboard')
+
+    def get_success_url(self):
+        # После сохранения состава возвращаемся к редактированию курса
+        return reverse_lazy('web-course-edit', kwargs={'pk': self.object.id})
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['teacher'] = self.request.user
         return kwargs
+
+    def get_queryset(self):
+        # Безопасность: менять состав можно только у своих курсов
+        return self.model.objects.filter(author=self.request.user)
 
 class CourseUpdateView(LoginRequiredMixin, TeacherRequiredMixin, UpdateView):
     model = Course

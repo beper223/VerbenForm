@@ -4,26 +4,55 @@
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-8 col-lg-6">
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'web-teacher-dashboard' %}">Панель учителя</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'web-course-edit' object.id %}">{{ object.title }}</a></li>
+                <li class="breadcrumb-item active">Участники</li>
+            </ol>
+        </nav>
+
         <div class="card shadow-sm p-4">
-            <h3 class="fw-bold mb-2">Назначение студентов</h3>
-            <p class="text-muted mb-4">Курс: <strong>{{ object.title }}</strong></p>
-            
-            <div class="alert alert-info small">
-                Здесь отображаются только те студенты, которые приняли ваше приглашение.
-            </div>
+            <h3 class="fw-bold mb-1">Участники курса</h3>
+            <p class="text-muted mb-4 small">Отметьте студентов, которым будет доступен этот приватный курс.</p>
 
             <form method="post">
                 {% csrf_token %}
-                <div class="mb-4">
-                    {{ form.assigned_students|as_crispy_field }}
+
+                <div class="list-group mb-4 shadow-sm border rounded">
+                    {% for checkbox in form.assigned_students %}
+                        <label class="list-group-item d-flex gap-3 py-3">
+                            {{ checkbox.tag }}
+                            <span class="pt-1 px-2">
+                                <strong class="d-block text-gray-dark">{{ checkbox.choice_label }}</strong>
+                                <small class="text-muted">Ваш ученик</small>
+                            </span>
+                        </label>
+                    {% empty %}
+                        <div class="p-4 text-center text-muted">
+                            <i class="bi bi-emoji-frown fs-2"></i>
+                            <p class="mt-2">У вас пока нет привязанных учеников.<br>Сначала создайте приглашение.</p>
+                        </div>
+                    {% endfor %}
                 </div>
-                
+
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a href="{% url 'web-teacher-dashboard' %}" class="btn btn-outline-secondary">Назад</a>
-                    <button type="submit" class="btn btn-primary px-4">Обновить список доступа</button>
+                    <a href="{% url 'web-course-edit' object.id %}" class="btn btn-outline-secondary px-4">Назад</a>
+                    {% if form.assigned_students.field.queryset.exists %}
+                        <button type="submit" class="btn btn-primary px-4">Сохранить состав</button>
+                    {% endif %}
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<style>
+    /* Кастомный стиль для чекбоксов в списке */
+    .list-group-item input[type="checkbox"] {
+        width: 1.5rem;
+        height: 1.5rem;
+        cursor: pointer;
+    }
+</style>
 {% endblock %}

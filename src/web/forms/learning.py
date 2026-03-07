@@ -1,5 +1,10 @@
 from django import forms
+from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
+
 from src.personal_forms.models import Course, LearningUnit
+
+User = get_user_model()
 
 class CourseForm(forms.ModelForm):
     class Meta:
@@ -10,6 +15,13 @@ class CourseForm(forms.ModelForm):
         }
 
 class CourseAssignmentForm(forms.ModelForm):
+    assigned_students = forms.ModelMultipleChoiceField(
+        queryset=User.objects.none(),  # По умолчанию пусто
+        widget=forms.CheckboxSelectMultiple,
+        label=_("Kursteilnehmer (Ihre Studenten)"),
+        required=False
+    )
+
     class Meta:
         model = Course
         fields = ['assigned_students']
