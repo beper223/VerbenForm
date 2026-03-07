@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="mb-4 mt-2">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'units-list' %}">Kurse</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'course-detail' unit.course.id %}">{{ unit.course.title }}</a></li>
+            <li class="breadcrumb-item active">{{ unit.title }}</li>
+        </ol>
+    </nav>
+    
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h2 class="fw-bold mb-0">{{ unit.title }}</h2>
+            <p class="text-muted">{{ unit.get_skill_type_display }} | {{ unit.level }}</p>
+        </div>
+        <div class="text-end">
+            <div class="h4 fw-bold mb-0 {% if completed %}text-success{% endif %}">{{ percent }}%</div>
+            <div class="small text-muted">{{ mastered_atoms }}/{{ total_atoms }} Atoms</div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm border-0 overflow-hidden">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th class="ps-3">Verb</th>
+                    {% if unit.skill_type == 'translation' %}
+                        <th class="text-center">Status</th>
+                    {% else %}
+                        <th class="text-center small">ich</th>
+                        <th class="text-center small">du</th>
+                        <th class="text-center small">er/sie</th>
+                        <th class="text-center small">wir</th>
+                        <th class="text-center small">ihr</th>
+                        <th class="text-center small">sie/Sie</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for verb_infinitive, pronouns in matrix.items %}
+                <tr>
+                    <td class="fw-bold ps-3">{{ verb_infinitive }}</td>
+                    {% for pronoun, status in pronouns.items %}
+                    <td class="text-center">
+                        {# Сравниваем .value объекта Enum со строкой #}
+                        {% if status.value == 'mastered' %}
+                            <i class="bi bi-check-circle-fill text-success" title="Beherrscht"></i>
+                        {% elif status.value == 'learning' %}
+                            <i class="bi bi-record-circle-fill text-warning" title="In Arbeit"></i>
+                        {% else %}
+                            {# Заменил text-light на text-secondary, чтобы иконка была видна #}
+                            <i class="bi bi-circle text-secondary opacity-25" title="Neu"></i>
+                        {% endif %}
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="mt-4 d-flex justify-content-between align-items-center">
+    <a href="{% url 'course-detail' unit.course.id %}" class="btn btn-outline-secondary">
+        <i class="bi bi-chevron-left"></i> Zurück
+    </a>
+    <a href="{% url 'training-session' unit.id %}" class="btn btn-primary px-4 fw-bold">
+        Jetzt Lernen
+    </a>
+</div>
+
+<!-- Легенда для мобильных устройств -->
+<div class="mt-5 p-3 bg-light rounded small">
+    <h6 class="fw-bold mb-2">Legende:</h6>
+    <div class="d-flex gap-3 flex-wrap">
+        <span><i class="bi bi-check-circle-fill text-success"></i> Beherrscht</span>
+        <span><i class="bi bi-record-circle-fill text-warning"></i> In Arbeit</span>
+        <span><i class="bi bi-circle text-muted"></i> Neu</span>
+    </div>
+</div>
+{% endblock %}

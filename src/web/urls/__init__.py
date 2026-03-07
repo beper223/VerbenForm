@@ -14,6 +14,7 @@ urlpatterns = [
     path('stats/', views.StudentStatsView.as_view(), name='web-student-stats'),
     path('training/<uuid:unit_id>/', views.TrainingSessionView.as_view(), name='training-session'),
     path('training/submit/', views.SubmitAnswerView.as_view(), name='submit-answer'),
+    path('unit/<uuid:unit_id>/stats/', views.UnitStatsView.as_view(), name='web-unit-stats-detail'),
 
     # Teacher
     path('teacher/', include('src.web.urls.teacher')),

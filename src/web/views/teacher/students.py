@@ -71,3 +71,22 @@ class StudentStatsView(LoginRequiredMixin, TemplateView):
         context['units_data'] = units_data
         context['global_stats'] = service.get_global_stats(self.request.user)
         return context
+
+class UnitStatsView(LoginRequiredMixin, DetailView):
+    model = LearningUnit
+    template_name = 'personal_forms/unit_stats.html'
+    pk_url_kwarg = 'unit_id'
+    context_object_name = 'unit'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        service = LearningUnitProgressService()
+        unit = self.get_object()
+
+        # Строим прогресс только для этого юнита
+        progress_data = service.build_progress(user=self.request.user, learning_unit=unit)
+
+        # Добавляем все данные из словаря progress_data в контекст
+        context.update(progress_data)
+        context['stats'] = service.get_global_stats(self.request.user)
+        return context

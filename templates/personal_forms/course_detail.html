@@ -23,7 +23,7 @@
 
 <hr class="mb-4">
 
-<!-- Список юнитов (ваша старая логика) -->
+<!-- Список юнитов -->
 <div class="row g-3">
     {% for unit in units_overview %}
     <div class="col-12 col-md-6 col-lg-4">
@@ -43,9 +43,14 @@
                     <div class="progress-bar {% if unit.completed %}bg-success{% endif %}" 
                          style="width: {{ unit.percent }}%"></div>
                 </div>
-                <a href="{% url 'training-session' unit.id %}" class="btn {% if unit.completed %}btn-outline-success{% else %}btn-primary{% endif %} w-100 fw-bold py-2">
-                    {% if unit.completed %}Wiederholen{% else %}Lernen{% endif %}
-                </a>
+                <div class="d-grid gap-2">
+                    <a href="{% url 'training-session' unit.id %}" class="btn {% if unit.completed %}btn-outline-success{% else %}btn-primary{% endif %} w-100 fw-bold py-2">
+                        {% if unit.completed %}Wiederholen{% else %}Lernen{% endif %}
+                    </a>
+                    <a href="{% url 'web-unit-stats-detail' unit.id %}" class="btn btn-outline-secondary btn-sm fw-bold">
+                        <i class="bi bi-info-circle"></i> Lernstand
+                    </a>
+                </div>
             </div>
         </div>
     </div>
