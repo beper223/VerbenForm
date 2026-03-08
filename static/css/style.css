@@ -24,6 +24,49 @@ body {
     letter-spacing: -0.5px;
 }
 
+/* --- НОВЫЕ СТИЛИ ДЛЯ ИКОНОК ПРОФИЛЯ И ВЫХОДА --- */
+
+/* Делаем так, чтобы кнопка выхода (форма) выглядела как обычная иконка-ссылка */
+.navbar-nav .btn-link {
+    color: rgba(255, 255, 255, 0.55); /* Белесый цвет для темной темы */
+    text-decoration: none;
+    box-shadow: none;
+    padding: 0.5rem;
+    border: none;
+    display: flex;
+    align-items: center;
+}
+
+/* Эффект при наведении на иконку выхода */
+.navbar-nav .btn-link:hover {
+    color: rgba(255, 255, 255, 0.75); /* Становится ярче */
+}
+
+/* Выравниваем иконки в ряд на больших экранах */
+@media (min-width: 992px) {
+    .navbar-nav {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .navbar-nav .nav-item {
+        margin-left: 10px;
+    }
+}
+
+/* Стили для мобильного меню (когда нажали на "бургер") */
+@media (max-width: 991.98px) {
+    .navbar-nav .nav-item {
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    /* Делаем текст рядом с иконкой крупнее на мобильных */
+    .navbar-nav .nav-link, .navbar-nav .btn-link {
+        font-size: 1.1rem;
+        width: 100%;
+    }
+}
+
 /* 3. Карточки (Dashboard & Training) */
 .card {
     border: none;

@@ -2,8 +2,10 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import FormView, UpdateView
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 
 from src.web.forms import RegistrationForm, UserSettingsForm
 from src.users.models import User, StudentInvitation
@@ -41,12 +43,12 @@ class UserRegisterView(FormView):
         login(self.request, user)
         return redirect(self.success_url)
 
-class ProfileSettingsView(LoginRequiredMixin, UpdateView):
+class ProfileView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = User
     form_class = UserSettingsForm
-    template_name = 'profile/settings.html'
-    success_url = reverse_lazy('profile-settings')
-    success_message = "Ваш профиль успешно обновлен!"
+    template_name = 'auth/profile.html'
+    success_url = reverse_lazy('web-profile')
+    success_message = _("Ihr Profil wurde erfolgreich aktualisiert!")
 
     def get_object(self, queryset=None):
         return self.request.user

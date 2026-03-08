@@ -31,7 +31,13 @@ class RegistrationForm(UserCreationForm):
 class UserSettingsForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ("email", "language")
+        fields = ("first_name", "last_name", "email", "language")
+        labels = {
+            'first_name': _("Vorname"),
+            'last_name': _("Nachname"),
+            'email': _("E-Mail-Adresse"),
+            'language': _("Lernsprache"),
+        }
 
 class InvitationForm(forms.ModelForm):
     days_valid = forms.IntegerField(

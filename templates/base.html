@@ -29,33 +29,36 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <!-- Навигация справа -->
+                <ul class="navbar-nav ms-auto align-items-center">
                     {% if user.is_authenticated %}
-
                         <li class="nav-item"><a class="nav-link" href="{% url 'units-list' %}">Dashboard</a></li>
-                        {% if user.is_teacher_admin %}
-                            <li class="nav-item"><a class="nav-link" href="{% url 'web-teacher-dashboard' %}">Lehrer-Panel</a></li>
-                            {% if user.is_admin %}
-                                <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">Админка</a></li>
-                            {% endif %}
-                        {% endif %}
 
-                        <!-- Меню Профиля -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ user.display_name }}
+                        {% if user.is_teacher_admin %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'web-teacher-dashboard' %}">Lehrer-Panel</a>
+                            </li>
+                        {% endif %}
+                        {% if user.is_admin %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">Админка</a></li>
+                        {% endif %}
+                        <!-- Иконка Настроек/Профиля -->
+                        <li class="nav-item">
+                            <a class="nav-link px-2" href="{% url 'web-profile' %}" title="Profil & Einstellungen">
+                                <i class="bi bi-person-circle fs-4"></i>
+                                <span class="d-lg-none ms-2">Profil</span> <!-- Текст виден только в мобильном меню -->
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{% url 'profile-settings' %}">⚙️ Настройки</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <!-- Новый вариант (Django 5+) -->
-                                    <form method="post" action="{% url 'logout' %}" class="px-3">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-sm btn-outline-danger w-100 text-start">Выйти</button>
-                                    </form>
-                                </li>
-                            </ul>
+                        </li>
+
+                        <!-- Иконка Выхода -->
+                        <li class="nav-item">
+                            <form method="post" action="{% url 'logout' %}" id="logout-form" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="nav-link btn btn-link border-0 py-0 px-2 align-baseline" title="Abmelden">
+                                    <i class="bi bi-box-arrow-right fs-4"></i>
+                                    <span class="d-lg-none ms-2">Abmelden</span> <!-- Текст виден только в мобильном меню -->
+                                </button>
+                            </form>
                         </li>
 
                     {% else %}

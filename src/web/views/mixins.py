@@ -7,5 +7,5 @@ class TeacherRequiredMixin:
     """
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_teacher_admin():
-            return redirect('profile-settings')
+            return redirect('web-profile')
         return super().dispatch(request, *args, **kwargs)
