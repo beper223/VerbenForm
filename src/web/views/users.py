@@ -7,7 +7,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
-from src.web.forms import RegistrationForm, UserSettingsForm
+from src.web.forms import RegistrationForm, ProfileForm
 from src.users.models import User, StudentInvitation
 
 
@@ -45,7 +45,7 @@ class UserRegisterView(FormView):
 
 class ProfileView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = User
-    form_class = UserSettingsForm
+    form_class = ProfileForm
     template_name = 'auth/profile.html'
     success_url = reverse_lazy('web-profile')
     success_message = _("Ihr Profil wurde erfolgreich aktualisiert!")

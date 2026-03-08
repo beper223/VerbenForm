@@ -23,9 +23,9 @@
                 <div class="small text-muted mb-3">
                     <i class="bi bi-person-circle"></i>
                     {% if course.author == request.user %}
-                        <span class="text-primary fw-medium">Von Ihnen (Вы)</span>
+                        <span class="text-primary fw-medium">Von Ihnen</span>
                     {% else %}
-                        Autor: {{ course.author.username }}
+                        Autor: {{ course.author.display_name }}
                     {% endif %}
                 </div>
                 <p class="text-muted small mb-3">

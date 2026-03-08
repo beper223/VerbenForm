@@ -12,23 +12,31 @@ from src.users.models import StudentInvitation
 User = get_user_model()
 
 class RegistrationForm(UserCreationForm):
-    # Добавляем выбор языка
     language = forms.ChoiceField(
         choices=settings.LANGUAGES,
-        label="Язык перевода (ваш родной язык)"
+        label="Übersetzungssprache (Ihre Muttersprache)"
     )
     role = forms.ChoiceField(choices=User.Role.choices)
     invitation_code = forms.CharField(
         max_length=12,
         required=False,
-        help_text="Если у вас есть код от учителя, введите его здесь."
+        help_text="Wenn Sie einen Einladungscode haben, geben Sie ihn hier ein."
     )
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ("username", "password1", "password2", "email", "language", "role")
+        fields = ("username", "first_name", "last_name", "password1", "password2", "email", "language", "role")
+        labels = {
+            'first_name': "Vorname",
+            'last_name': "Nachname",
+        }
 
-class UserSettingsForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
+
+class ProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ("first_name", "last_name", "email", "language")
@@ -43,7 +51,7 @@ class InvitationForm(forms.ModelForm):
     days_valid = forms.IntegerField(
         label=_("Gültig für (Tage)"),
         initial=7,
-        required=False,  # Чтобы можно было оставить пустым для значения по умолчанию
+        required=False,
         min_value=1,
         widget=forms.NumberInput(attrs={
             'class': 'form-control',
@@ -59,10 +67,6 @@ class InvitationForm(forms.ModelForm):
                 'placeholder': 'student@example.com',
                 'required': True
             }),
-            # 'expires_at': forms.DateInput(attrs={
-            #     'class': 'form-control',
-            #     'type': 'datetime-local'
-            # }),
         }
         labels = {
             'email': _("E-Mail-Adresse des Studenten")
@@ -70,20 +74,11 @@ class InvitationForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        # Если мы РЕДАКТИРУЕМ существующий объект
         if self.instance and self.instance.pk:
             if self.instance.expires_at:
-                # Вычисляем разницу во времени
                 now = timezone.now()
                 delta = self.instance.expires_at - now
-
-                # Переводим секунды в полные дни, округляя в большую сторону
-                # Если осталось 1.5 дня, покажем 2. Если просрочено — покажем 0.
                 days_left = math.ceil(delta.total_seconds() / 86400)
-
                 self.initial['days_valid'] = max(0, days_left)
-
-        # Если это СОЗДАНИЕ нового (pk еще нет)
         else:
             self.initial['days_valid'] = 7

@@ -10,7 +10,7 @@
                 <li class="breadcrumb-item"><a href="{% url 'course-detail' unit.course.id %}">{{ unit.course.title }}</a></li>
             {% else %}
                 {# Путь для учителя, смотрящего ученика #}
-                <li class="breadcrumb-item"><a href="{% url 'web-student-detail' target_user.id %}">{{ target_user.username }}</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'web-student-detail' target_user.id %}">{{ target_user.display_name }}</a></li>
                 <li class="breadcrumb-item"><a href="{% url 'web-teacher-student-course-detail' target_user.id unit.course.id %}">{{ unit.course.title }}</a></li>
             {% endif %}
             <li class="breadcrumb-item active">{{ unit.title }}</li>
@@ -21,7 +21,7 @@
         <div>
             <h2 class="fw-bold mb-0">{{ unit.title }}</h2>
             <p class="text-muted">
-                {% if not is_own_stats %}<strong>Status von {{ target_user.username }}:</strong> {% endif %}
+                {% if not is_own_stats %}<strong>Status von {{ target_user.display_name }}:</strong> {% endif %}
                 {{ unit.get_skill_type_display }} | {{ unit.level }}
             </p>
         </div>

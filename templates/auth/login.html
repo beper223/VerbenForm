@@ -5,19 +5,19 @@
 <div class="row justify-content-center">
     <div class="col-md-5">
         <div class="card p-4 shadow">
-            <h2 class="text-center mb-4">Anmelden</h2>
+            <h2 class="text-center mb-4">Anmeldung</h2>
             <form method="post">
                 {% csrf_token %}
                 {{ form|crispy }}
                 
                 <div class="form-check mb-3">
                     <input class="form-check-input" type="checkbox" id="togglePassword">
-                    <label class="form-check-label" for="togglePassword small">Пароль видно</label>
+                    <label class="form-check-label" for="togglePassword small">Passwort anzeigen</label>
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100 btn-lg">Войти</button>
+                <button type="submit" class="btn btn-primary w-100 btn-lg">Anmelden</button>
             </form>
-            <p class="mt-3 text-center">Нет аккаунта? <a href="{% url 'register' %}">Регистрация</a></p>
+            <p class="mt-3 text-center">Kein Account?<a href="{% url 'register' %}">Registrierung</a></p>
         </div>
     </div>
 </div>

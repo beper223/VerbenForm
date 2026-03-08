@@ -5,11 +5,11 @@
     <div class="col">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'web-student-detail' student.id %}">{{ student.username }}</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'web-student-detail' student.id %}">{{ student.display_name }}</a></li>
                 <li class="breadcrumb-item active">{{ course.title }}</li>
             </ol>
         </nav>
-        <h2 class="fw-bold">{{ course.title }} <small class="text-muted fs-6">({{ student.username }})</small></h2>
+        <h2 class="fw-bold">{{ course.title }} <small class="text-muted fs-6">({{ student.display_name }})</small></h2>
     </div>
 </div>
 
