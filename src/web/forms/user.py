@@ -35,6 +35,33 @@ class RegistrationForm(UserCreationForm):
         super().__init__(*args, **kwargs)
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
+        self.fields['email'].required = True
+
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get("email")
+        code = cleaned_data.get("invitation_code")
+
+        if not code:
+            return cleaned_data
+        # Security by Obscurity
+        error_generic = "Der Einladungscode oder die E-Mail-Adresse ist ungültig."
+        error_expired = "Der Einladungscode ist abgelaufen."
+        try:
+            invitation = StudentInvitation.objects.get(code=code)
+            if invitation.email == email:
+                if invitation.is_used:
+                    self.add_error('invitation_code', error_generic)
+                elif invitation.is_expired():
+                    self.add_error('invitation_code', error_expired)
+                else:
+                    pass
+            else:
+                self.add_error('invitation_code', error_generic)
+        except StudentInvitation.DoesNotExist:
+            self.add_error('invitation_code', error_generic)
+
+        return cleaned_data
 
 class ProfileForm(forms.ModelForm):
     class Meta:

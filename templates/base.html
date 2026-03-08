@@ -32,21 +32,29 @@
                 <!-- Навигация справа -->
                 <ul class="navbar-nav ms-auto align-items-center">
                     {% if user.is_authenticated %}
+                        <li class="nav-item d-none d-lg-block me-2">
+                            <span class="navbar-text text-light opacity-75 small">
+                                Hallo, {{ user.display_name }}
+                            </span>
+                        </li>
+
                         <li class="nav-item"><a class="nav-link" href="{% url 'units-list' %}">Dashboard</a></li>
 
                         {% if user.is_teacher_admin %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'web-teacher-dashboard' %}">Lehrer-Panel</a>
                             </li>
+                            {% if user.is_admin %}
+                                <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">Admin-Panel</a></li>
+                            {% endif %}
                         {% endif %}
-                        {% if user.is_admin %}
-                            <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">Админка</a></li>
-                        {% endif %}
+
                         <!-- Иконка Настроек/Профиля -->
                         <li class="nav-item">
                             <a class="nav-link px-2" href="{% url 'web-profile' %}" title="Profil & Einstellungen">
                                 <i class="bi bi-person-circle fs-4"></i>
-                                <span class="d-lg-none ms-2">Profil</span> <!-- Текст виден только в мобильном меню -->
+                                <!-- Текст виден только в мобильном меню, здесь выводим имя -->
+                                <span class="d-lg-none ms-2">{{ user.display_name }}</span>
                             </a>
                         </li>
 
@@ -56,13 +64,13 @@
                                 {% csrf_token %}
                                 <button type="submit" class="nav-link btn btn-link border-0 py-0 px-2 align-baseline" title="Abmelden">
                                     <i class="bi bi-box-arrow-right fs-4"></i>
-                                    <span class="d-lg-none ms-2">Abmelden</span> <!-- Текст виден только в мобильном меню -->
+                                    <span class="d-lg-none ms-2">Abmelden</span>
                                 </button>
                             </form>
                         </li>
 
                     {% else %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Войти</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Anmelden</a></li>
                     {% endif %}
                 </ul>
             </div>
