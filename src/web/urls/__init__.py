@@ -17,4 +17,5 @@ urlpatterns = [
 
     # Teacher
     path('teacher/', include('src.web.urls.teacher')),
+    path('api/verbs/search/', views.VerbLookupView.as_view(), name='api-verb-search'),
 ]

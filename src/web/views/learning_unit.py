@@ -1,9 +1,10 @@
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, DeleteView
+from django.views.generic import CreateView, UpdateView, DeleteView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
+from django.http import JsonResponse
 
-from src.personal_forms.models import Course, LearningUnit
+from src.personal_forms.models import Course, LearningUnit, Verb
 from src.web.forms import UnitForm
 from src.web.views.mixins import TeacherRequiredMixin
 
@@ -20,6 +21,10 @@ class UnitCreateView(LoginRequiredMixin, TeacherRequiredMixin, CreateView):
             initial['course'] = get_object_or_404(Course, id=course_id, author=self.request.user)
         return initial
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user  # Передаем учителя в форму
+        return kwargs
 
 class UnitUpdateView(LoginRequiredMixin, TeacherRequiredMixin, UpdateView):
     model = LearningUnit
@@ -31,6 +36,10 @@ class UnitUpdateView(LoginRequiredMixin, TeacherRequiredMixin, UpdateView):
         # Только юниты в курсах, где пользователь — автор
         return self.model.objects.filter(course__author=self.request.user)
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user  # Передаем учителя в форму
+        return kwargs
 
 class UnitDeleteView(LoginRequiredMixin, TeacherRequiredMixin, DeleteView):
     model = LearningUnit
@@ -46,3 +55,14 @@ class UnitDeleteView(LoginRequiredMixin, TeacherRequiredMixin, DeleteView):
             from django.http import HttpResponse
             return HttpResponse("")
         return redirect(self.get_success_url())
+
+class VerbLookupView(LoginRequiredMixin, View):
+    @staticmethod
+    def get(request):
+        query = request.GET.get('q', '')
+        if len(query) < 2:  # Начинаем поиск от 2-х символов
+            return JsonResponse({'results': []})
+
+        verbs = Verb.objects.filter(infinitive__icontains=query).order_by('infinitive')[:20]
+        results = [{'id': v.id, 'text': v.infinitive} for v in verbs]
+        return JsonResponse({'results': results})

@@ -40,11 +40,17 @@ class UnitForm(forms.ModelForm):
     class Meta:
         model = LearningUnit
         fields = ['course', 'title', 'level', 'skill_type', 'order', 'verbs']
-        # Используем Select2 или фильтры, если глаголов очень много
-
+        widgets = {
+            # Оставляем курс выпадающим списком, но отфильтруем его в __init__
+            'course': forms.Select(attrs={'class': 'form-select'}),
+            # Используем обычный селект, Tom Select превратит его в продвинутый поиск
+            'verbs': forms.SelectMultiple(attrs={'id': 'verb-select'}),
+        }
     def __init__(self, *args, **kwargs):
         # Можно передать пользователя в форму, если нужно отфильтровать список курсов
         user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
         if user:
             self.fields['course'].queryset = Course.objects.filter(author=user)
+            # Сортируем глаголы по алфавиту для удобства поиска
+        self.fields['verbs'].queryset = self.fields['verbs'].queryset.order_by('infinitive')

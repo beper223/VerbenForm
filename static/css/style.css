@@ -212,3 +212,19 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: #999;
 }
+
+.ts-control .item {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    border-radius: 6px !important;
+    padding: 2px 10px !important;
+    font-weight: 500;
+}
+.ts-control .item .remove {
+    color: white !important;
+    border-left: 1px solid rgba(255,255,255,0.3) !important;
+    margin-left: 5px !important;
+}
+.ts-dropdown .option {
+    padding: 10px 15px;
+}

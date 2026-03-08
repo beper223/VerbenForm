@@ -91,6 +91,24 @@ class SubmitAnswerView(LoginRequiredMixin, View):
             # Если карточка протухла, просто перезагружаем её
             return self._render_new_card(request, unit, service, None)
 
+        # ПРОВЕРКА НА ЗАВЕРШЕНИЕ:
+        # Если ответ верный и слово перешло в статус mastered (или уже было таким)
+        if result.correct:
+            # Проверяем, остались ли в этом юните невыученные слова
+            progress_service = LearningUnitProgressService()
+            unit_progress = progress_service.build_progress(user=request.user, learning_unit=unit)
+
+            # Если все атомы выучены (completed=True)
+            # И мы НЕ находимся в режиме "бесконечного повторения" (то есть мы только что закончили)
+            # Мы можем проверить, был ли этот ответ "завершающим"
+            if unit_progress['completed']:
+                # Важно: показываем финиш, если юзер реально "добил" юнит.
+                # Если он зашел в уже готовый юнит через "Wiederholen",
+                # мы не будем показывать финиш после каждого ответа.
+                # Для этого можно проверить, был ли streak именно пороговым (например 5)
+                if result.streak == 5:  # Порог из вашего ProgressService.STREAK_TO_MASTER
+                    return render(request, 'training/partials/finished.html', {'unit': unit, 'course': unit.course})
+
         return self._render_new_card(request, unit, service, result)
 
     @staticmethod
@@ -101,7 +119,10 @@ class SubmitAnswerView(LoginRequiredMixin, View):
             language=request.user.language
         )
         if not next_card:
-            return render(request, 'training/partials/finished.html')
+            return render(request, 'training/partials/finished.html', {
+                'unit': unit,
+                'course': unit.course
+            })
 
         return render(request, 'training/partials/card_content.html', {
             'card': next_card,

@@ -131,22 +131,19 @@ class CachedTrainingEngine:
 
         weighted_pool = []
 
-        if new_candidates:
-            weighted_pool.extend(
-                [new_candidates] * int(self.NEW_WEIGHT * 100)
-            )
+        # 1. Если есть что учить (New или Learning)
+        if new_candidates or learning_candidates:
+            if new_candidates:
+                weighted_pool.extend([new_candidates] * int(self.NEW_WEIGHT * 100))
+            if learning_candidates:
+                weighted_pool.extend([learning_candidates] * int(self.LEARNING_WEIGHT * 100))
+            if mastered_candidates:
+                weighted_pool.extend([mastered_candidates] * int(self.MASTERED_WEIGHT * 100))
 
-        if learning_candidates:
-            weighted_pool.extend(
-                [learning_candidates] * int(self.LEARNING_WEIGHT * 100)
-            )
+            return random.choice(weighted_pool)
 
+        # 2. Если ВСЕ слова в юните уже MASTERED (режим Повторения)
         if mastered_candidates:
-            weighted_pool.extend(
-                [mastered_candidates] * int(self.MASTERED_WEIGHT * 100)
-            )
+            return mastered_candidates  # Просто выбираем любое из выученных
 
-        if not weighted_pool:
-            return None
-
-        return random.choice(weighted_pool)
+        return None

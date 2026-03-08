@@ -2,9 +2,27 @@
     <div class="mb-4">
         <span class="display-1">🎉</span>
     </div>
-    <h2 class="fw-bold">Отлично сработано!</h2>
-    <p class="text-muted">Все доступные карточки в этом юните пройдены.</p>
-    <div class="mt-4">
-        <a href="{% url 'units-list' %}" class="btn btn-primary btn-lg px-5">К списку уроков</a>
+    <h2 class="fw-bold">Hervorragend!</h2>
+    <h5 class="text-muted mb-4">Урок «{{ unit.title }}» полностью освоен.</h5>
+
+    <div class="card bg-light border-0 p-3 mb-4">
+        <p class="mb-0 small text-muted">
+            Все слова в этом уроке перешли в категорию <strong>Beherrscht</strong>.<br>
+            Теперь вы можете закрепить знания в следующем уроке.
+        </p>
+    </div>
+
+    <div class="d-grid gap-2">
+        <!-- Возвращаем пользователя в контекст текущего курса -->
+        <a href="{% url 'course-detail' course.id %}" class="btn btn-primary btn-lg px-5 fw-bold">
+            Zum Kurs zurück
+        </a>
+        <!-- Кнопка повторения (просто перезагружает сессию) -->
+        <a href="{% url 'training-session' unit.id %}" class="btn btn-outline-success fw-bold">
+            <i class="bi bi-arrow-repeat"></i> Повторить еще раз (Review)
+        </a>
+        <a href="{% url 'units-list' %}" class="btn btn-link text-muted">
+            Zur Kursliste
+        </a>
     </div>
 </div>

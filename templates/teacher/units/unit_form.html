@@ -1,44 +1,48 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block content %}
+<!-- 1. Подключаем стили и скрипт Tom Select (можно скачать локально) -->
+<link rel="stylesheet" href="{% static 'vendor/tom-select/tom-select.bootstrap5.min.css' %}">
+<script src="{% static 'vendor/tom-select/tom-select.complete.min.js' %}"></script>
 <div class="row justify-content-center">
     <div class="col-md-10 col-lg-8">
-        <nav aria-label="breadcrumb" class="mb-4">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'web-teacher-dashboard' %}">Панель учителя</a></li>
-                <li class="breadcrumb-item active">Настройка урока</li>
-            </ol>
-        </nav>
+        <div class="card shadow-sm p-4 border-0">
+            <h2 class="fw-bold mb-4">Lernschritt bearbeiten</h2>
 
-        <div class="card shadow-sm p-4">
-            <h2 class="fw-bold mb-4">Настройка урока</h2>
             <form method="post">
                 {% csrf_token %}
-                <div class="row">
-                    <div class="col-md-6">{{ form.title|as_crispy_field }}</div>
-                    <div class="col-md-3">{{ form.level|as_crispy_field }}</div>
-                    <div class="col-md-3">{{ form.order|as_crispy_field }}</div>
-                </div>
+
                 <div class="row">
                     <div class="col-md-6">{{ form.course|as_crispy_field }}</div>
-                    <div class="col-md-6">{{ form.skill_type|as_crispy_field }}</div>
-                </div>
-                
-                <div class="mt-3">
-                    <label class="form-label fw-bold">Выберите глаголы для этого урока:</label>
-                    <div class="p-3 border rounded bg-light" style="max-height: 300px; overflow-y: auto;">
-                        {{ form.verbs|as_crispy_field }}
-                    </div>
-                    <small class="text-muted">Удерживайте Ctrl (или Cmd), чтобы выбрать несколько глаголов.</small>
+                    <div class="col-md-6">{{ form.title|as_crispy_field }}</div>
                 </div>
 
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
-                    <a href="{% url 'web-teacher-dashboard' %}" class="btn btn-outline-secondary px-4">Отмена</a>
-                    <button type="submit" class="btn btn-primary px-4">Сохранить урок</button>
+                <div class="row">
+                    <div class="col-md-4">{{ form.level|as_crispy_field }}</div>
+                    <div class="col-md-4">{{ form.skill_type|as_crispy_field }}</div>
+                    <div class="col-md-4">{{ form.order|as_crispy_field }}</div>
+                </div>
+
+                <div class="mt-4">
+                    <label class="form-label fw-bold">Verben:</label>
+                    <!-- Передаем URL поиска через data-атрибут -->
+                    <div id="verb-wrapper"
+                         data-lookup-url="{% url 'api-verb-search' %}">
+                        {{ form.verbs }}
+                    </div>
+                    <div class="form-text mt-1">Введите первые буквы глагола для поиска. Можно выбрать несколько.</div>
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-5">
+                    <a href="{% url 'web-teacher-dashboard' %}" class="btn btn-outline-secondary px-4">Abbrechen</a>
+                    <button type="submit" class="btn btn-primary px-5">Speichern</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<script src="{% static 'js/verb-selection.js' %}"></script>
 {% endblock %}

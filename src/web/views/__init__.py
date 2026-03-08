@@ -33,6 +33,7 @@ from src.web.views.learning_unit import (
     UnitCreateView,
     UnitUpdateView,
     UnitDeleteView,
+    VerbLookupView,
 )
 
 __all__ = [
@@ -63,4 +64,5 @@ __all__ = [
     'UnitCreateView',
     'UnitUpdateView',
     'UnitDeleteView',
+    'VerbLookupView',
 ]
