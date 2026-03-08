@@ -6,10 +6,10 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{% url 'web-teacher-dashboard' %}?tab=students">Ученики</a></li>
-                <li class="breadcrumb-item active">{{ student.username }}</li>
+                <li class="breadcrumb-item active">{{ student.display_name }}</li>
             </ol>
         </nav>
-        <h2 class="fw-bold">Kurse von {{ student.username }}</h2>
+        <h2 class="fw-bold">Kurse von {{ student.display_name }}</h2>
         <p class="text-muted">Общая точность ученика: {{ global_stats.accuracy }}%</p>
     </div>
 </div>
@@ -26,7 +26,16 @@
                     <small class="text-muted">{{ item.unit_count }} Einheiten</small>
                 </div>
                 <h4 class="fw-bold mb-3">{{ item.course.title }}</h4>
-                
+
+                <div class="small text-muted mb-3">
+                    <i class="bi bi-person-circle"></i>
+                    {% if item.course.author == request.user %}
+                        <span class="text-primary fw-medium">Von Ihnen (Sie)</span>
+                    {% else %}
+                        Autor: {{ item.course.author.display_name }}
+                    {% endif %}
+                </div>
+
                 <div class="mt-auto">
                     <div class="d-flex justify-content-between mb-1 small">
                         <span>Прогресс курса</span>

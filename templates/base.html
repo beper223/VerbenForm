@@ -43,7 +43,7 @@
                         <!-- Меню Профиля -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ user.username }}
+                                {{ user.display_name }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="{% url 'profile-settings' %}">⚙️ Настройки</a></li>
