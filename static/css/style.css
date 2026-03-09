@@ -229,6 +229,22 @@ body {
     padding: 10px 15px;
 }
 
+/* Выравнивание элементов в переключателе языков */
+.dropdown-item.active {
+    background-color: var(--primary-color);
+}
+
+.dropdown-item {
+    padding: 0.5rem 1.25rem;
+    transition: background 0.2s;
+}
+
+#langDropdown {
+    /* Чтобы иконка глобуса не мешала, мы её убрали и заменили на флаг */
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+}
+
 .rounded-4 { border-radius: 1.5rem !important; }
 .rounded-5 { border-radius: 2rem !important; }
 .lh-1 { line-height: 1.1; }

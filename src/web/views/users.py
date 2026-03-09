@@ -18,22 +18,10 @@ class UserLoginView(LoginView):
     template_name = 'auth/login.html'
     redirect_authenticated_user = True
 
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        # Устанавливаем язык из профиля пользователя в сессию
-        lang = self.request.user.language
-        translation.activate(lang)
-        self.request.session['_language'] = lang
-        return response
-
     def get_success_url(self):
         user = self.request.user
         lang = user.language or 'de'
 
-        # Сохраняем выбор в сессию для надежности
-        self.request.session['_language'] = lang
-
-        # Генерируем URL с учетом языка пользователя
         with translation.override(lang):
             if user.is_teacher():
                 return reverse('web-teacher-dashboard')
@@ -72,10 +60,3 @@ class ProfileView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         lang = self.object.language # Новый язык из базы
         with translation.override(lang):
             return reverse('web-profile')
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        lang = form.cleaned_data.get('language')
-        # Обновляем язык в сессии
-        self.request.session['_language'] = lang
-        return response

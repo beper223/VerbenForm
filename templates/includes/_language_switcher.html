@@ -1,0 +1,25 @@
+{% load i18n %}
+{% get_current_language as CURRENT_LANG %}
+{% get_available_languages as AVAILABLE_LANGS %}
+
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown">
+        {# Просто выводим код текущего языка: DE, RU, UK #}
+        <i class="bi bi-translate"></i> {{ CURRENT_LANG|upper }}
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+        {% for lang_code, lang_name in AVAILABLE_LANGS %}
+        <li>
+            <form action="{% url 'set_language' %}" method="post">
+                {% csrf_token %}
+                {# Стандарт: при смене языка гостя или юзера кидаем в корень этого языка #}
+                <input name="next" type="hidden" value="/{{ lang_code }}/">
+                <input name="language" type="hidden" value="{{ lang_code }}">
+                <button type="submit" class="dropdown-item {% if lang_code == CURRENT_LANG %}active{% endif %}">
+                    {{ lang_name }}
+                </button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+</li>

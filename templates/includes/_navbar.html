@@ -1,0 +1,27 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+    <div class="container">
+        <!-- Логотип -->
+        <a class="navbar-brand fw-bold" href="{% url 'index' %}">DEUTSCH.CORE</a>
+
+        <!-- Бургер -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Содержимое -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <!-- Блок приветствия (только для десктопа) -->
+                {% if user.is_authenticated %}
+                    <li class="nav-item d-none d-lg-block me-2">
+                        <span class="navbar-text text-light opacity-75 small">Hallo, {{ user.display_name }}</span>
+                    </li>
+                {% endif %}
+
+                <!-- Включаем наши части -->
+                {% include 'includes/_language_switcher.html' %}
+                {% include 'includes/_user_menu.html' %}
+            </ul>
+        </div>
+    </div>
+</nav>
