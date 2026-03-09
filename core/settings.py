@@ -62,11 +62,11 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',# Должен быть ПОСЛЕ Session и ПЕРЕД Common
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
-    'src.users.middleware.UserLanguageMiddleware',
+    # 'src.users.middleware.UserLanguageMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -101,10 +101,10 @@ AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = 'login'
 
 # Куда перенаправлять после успешного входа (если нет параметра ?next=)
-LOGIN_REDIRECT_URL = 'units-list'
+LOGIN_REDIRECT_URL = 'index'
 
 # Куда перенаправлять после выхода
-LOGOUT_REDIRECT_URL = 'login'
+LOGOUT_REDIRECT_URL = 'index'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases

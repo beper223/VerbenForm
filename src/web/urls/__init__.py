@@ -1,15 +1,17 @@
 from django.urls import include, path
 from src.web import views
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     # Auth
     path('login/', views.UserLoginView.as_view(), name='login'),
-    path('logout/', views.UserLogoutView.as_view(), name='logout'),
+    path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', views.UserRegisterView.as_view(), name='register'),
     path('profile/', views.ProfileView.as_view(), name='web-profile'),
 
     # Student
-    path('', views.CourseListView.as_view(), name='units-list'),
+    path('', views.HomeView.as_view(), name='index'),
+    path('dashboard/', views.CourseListView.as_view(), name='units-list'),
     path('course/<uuid:course_id>/', views.CourseDetailView.as_view(), name='course-detail'),
     path('training/<uuid:unit_id>/', views.TrainingSessionView.as_view(), name='training-session'),
     path('training/submit/', views.SubmitAnswerView.as_view(), name='submit-answer'),

@@ -1,6 +1,6 @@
+from src.web.views.home import HomeView
 from src.web.views.users import (
     UserLoginView,
-    UserLogoutView,
     UserRegisterView,
     ProfileView,
 )
@@ -38,7 +38,6 @@ from src.web.views.learning_unit import (
 
 __all__ = [
     'UserLoginView',
-    'UserLogoutView',
     'UserRegisterView',
     'ProfileView',
 
@@ -55,6 +54,7 @@ __all__ = [
     'InvitationUpdateView',
     'InvitationDeleteView',
     'TeacherDashboardView',
+    'HomeView',
 
     'CourseCreateView',
     'CourseAssignmentView',

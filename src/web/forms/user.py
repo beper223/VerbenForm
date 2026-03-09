@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.utils import timezone
+from django.utils import translation
 from django.utils.translation import gettext_lazy as _
 
 from src.users.models import StudentInvitation
@@ -36,6 +37,8 @@ class RegistrationForm(UserCreationForm):
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
         self.fields['email'].required = True
+        # Берем текущий язык из системы и ставим его как начальный для поля language
+        self.initial['language'] = translation.get_language()
 
     def clean(self):
         cleaned_data = super().clean()
