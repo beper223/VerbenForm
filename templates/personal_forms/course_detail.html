@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block content %}
 <!-- Шапка курса -->
@@ -6,7 +7,7 @@
     <div class="col">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'units-list' %}">Kurse</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'units-list' %}">{% trans "Kurse" %}</a></li>
                 <li class="breadcrumb-item active">{{ course.title }}</li>
             </ol>
         </nav>
@@ -15,8 +16,8 @@
         
         <!-- Краткая статистика -->
         <div class="d-flex gap-3 small text-muted">
-            <span><i class="bi bi-star-fill text-warning"></i> {{ stats.total_mastered }} Mastered</span>
-            <span><i class="bi bi-graph-up text-success"></i> {{ stats.accuracy }}% Accuracy</span>
+            <span><i class="bi bi-star-fill text-warning"></i> {{ stats.total_mastered }} {% trans "Beherrscht" %}</span>
+            <span><i class="bi bi-graph-up text-success"></i> {{ stats.accuracy }}% {% trans "Genauigkeit" %}</span>
         </div>
     </div>
 </div>
@@ -36,7 +37,7 @@
             
             <div class="mt-auto">
                 <div class="d-flex justify-content-between mb-1 small">
-                    <span class="text-muted">Fortschritt</span>
+                    <span class="text-muted">{% trans "Fortschritt" %}</span>
                     <span class="fw-bold">{{ unit.percent }}%</span>
                 </div>
                 <div class="progress mb-3" style="height: 6px;">
@@ -45,10 +46,10 @@
                 </div>
                 <div class="d-grid gap-2">
                     <a href="{% url 'training-session' unit.id %}" class="btn {% if unit.completed %}btn-outline-success{% else %}btn-primary{% endif %} w-100 fw-bold py-2">
-                        {% if unit.completed %}Wiederholen{% else %}Lernen{% endif %}
+                        {% if unit.completed %}{% trans "Wiederholen" %}{% else %}{% trans "Lernen" %}{% endif %}
                     </a>
                     <a href="{% url 'web-unit-stats-detail' unit.id %}" class="btn btn-outline-secondary btn-sm fw-bold">
-                        <i class="bi bi-info-circle"></i> Lernstand
+                        <i class="bi bi-info-circle"></i> {% trans "Lernstand" %}
                     </a>
                 </div>
             </div>
@@ -56,7 +57,7 @@
     </div>
     {% empty %}
     <div class="col-12 text-center py-5">
-        <p class="text-muted">In diesem Kurs sind noch keine Einheiten vorhanden.</p>
+        <p class="text-muted">{% trans "In diesem Kurs sind noch keine Einheiten vorhanden." %}</p>
     </div>
     {% endfor %}
 </div>
@@ -64,7 +65,7 @@
 <!-- Мобильная кнопка "Назад" -->
 <div class="text-center mt-5 mb-4">
     <a href="{% url 'units-list' %}" class="btn btn-link text-muted text-decoration-none">
-        <i class="bi bi-chevron-left"></i> Zurück zur Kursübersicht
+        <i class="bi bi-chevron-left"></i> {% trans "Zurück zur Kursübersicht" %}
     </a>
 </div>
 {% endblock %}

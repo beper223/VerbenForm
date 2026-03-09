@@ -19,13 +19,7 @@
 
 {% block content %}
 <h1>{% trans "Niveau für ausgewählte Verben festlegen" %}</h1>
-
-{% blocktrans count count=queryset|length %}
-Sie haben {{ count }} Verb ausgewählt.
-{% plural %}
-Sie haben {{ count }} Verben ausgewählt.
-{% endblocktrans %}
-
+{% blocktrans count count=queryset|length %}Sie haben {{ count }} Verb ausgewählt.{% plural %}Sie haben {{ count }} Verben ausgewählt.{% endblocktrans %}
 <form method="post">
     {% csrf_token %}
 

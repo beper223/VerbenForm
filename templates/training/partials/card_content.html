@@ -1,8 +1,13 @@
+{% load i18n %}
 <div class="text-center animate-fade-in">
     <!-- Индикация результата предыдущего ответа -->
     {% if last_result %}
         <div class="alert {% if last_result.correct %}alert-success{% else %}alert-danger{% endif %} py-2 mb-3">
-            {% if last_result.correct %}Richtig! ⚡ {{ last_result.streak }}{% else %}Falsch! (Korrekt: {{ last_result.correct_answer }}){% endif %}
+            {% if last_result.correct %}
+                {% trans "Richtig! ⚡" %} {{ last_result.streak }}
+            {% else %}
+                {% blocktrans %}Falsch! (Korrekt: {{ last_result.correct_answer }}){% endblocktrans %}
+            {% endif %}
         </div>
     {% endif %}
 
@@ -24,6 +29,6 @@
     </div>
 
     <div class="text-center">
-        <a href="{% url 'units-list' %}" class="btn btn-link text-muted">Beenden</a>
+        <a href="{% url 'units-list' %}" class="btn btn-link text-muted">{% trans "Beenden" %}</a>
     </div>
 </div>

@@ -70,7 +70,8 @@ class VerbForm(models.Model):
     verb = models.ForeignKey(
         Verb,
         on_delete=models.CASCADE,
-        related_name="forms"
+        related_name="forms",
+        verbose_name=_("Verb")
     )
     tense = models.CharField(
         _("Zeitform"),
@@ -101,6 +102,7 @@ class VerbTranslation(models.Model):
         Verb,
         on_delete=models.CASCADE,
         related_name="translations",
+        verbose_name=_("Verb")
     )
     language_code = models.CharField(
         _("Sprache"),
@@ -122,10 +124,11 @@ class VerbTranslation(models.Model):
 
 
 class Preposition(models.Model):
-    text = models.CharField(max_length=20, unique=True)
+    text = models.CharField(max_length=20, unique=True, verbose_name=_("Präposition"))
     case_requirement = models.CharField(
         max_length=5,
         choices=PrepositionCaseRequirement.choices(),
+        verbose_name=_("Kasusforderung")
     )
 
     class Meta:
@@ -141,17 +144,20 @@ class VerbPreposition(models.Model):
         Verb,
         on_delete=models.CASCADE,
         related_name="prepositions",
+        verbose_name=_("Verb")
     )
     preposition = models.ForeignKey(
         Preposition,
         on_delete=models.CASCADE,
         related_name="verbs",
+        verbose_name=_("Präposition")
     )
     case = models.CharField(
         max_length=3,
         choices=GermanCase.choices(),
         blank=True,
         null=True,
+        verbose_name=_("Kasus")
     )
 
     class Meta:

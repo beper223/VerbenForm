@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
+{% load i18n crispy_forms_tags %}
 
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-8 col-lg-6">
         <nav aria-label="breadcrumb" class="mb-4">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'web-teacher-dashboard' %}">Панель учителя</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'web-teacher-dashboard' %}">{% trans "Lehrer-Panel" %}</a></li>
                 <li class="breadcrumb-item"><a href="{% url 'web-course-edit' object.id %}">{{ object.title }}</a></li>
-                <li class="breadcrumb-item active">Участники</li>
+                <li class="breadcrumb-item active">{% trans "Teilnehmer" %}</li>
             </ol>
         </nav>
 
         <div class="card shadow-sm p-4">
-            <h3 class="fw-bold mb-1">Участники курса</h3>
-            <p class="text-muted mb-4 small">Отметьте студентов, которым будет доступен этот приватный курс.</p>
+            <h3 class="fw-bold mb-1">{% trans "Kursteilnehmer" %}</h3>
+            <p class="text-muted mb-4 small">{% trans "Markieren Sie die Schüler, denen dieser private Kurs zugänglich sein soll." %}</p>
 
             <form method="post">
                 {% csrf_token %}
@@ -25,21 +25,21 @@
                             {{ checkbox.tag }}
                             <span class="pt-1 px-2">
                                 <strong class="d-block text-gray-dark">{{ checkbox.choice_label }}</strong>
-                                <small class="text-muted">Ваш ученик</small>
+                                <small class="text-muted">{% trans "Ihr Schüler" %}</small>
                             </span>
                         </label>
                     {% empty %}
                         <div class="p-4 text-center text-muted">
                             <i class="bi bi-emoji-frown fs-2"></i>
-                            <p class="mt-2">У вас пока нет привязанных учеников.<br>Сначала создайте приглашение.</p>
+                            <p class="mt-2">{% trans "Sie haben noch keine zugewiesenen Schüler." %}<br>{% trans "Erstellen Sie zuerst eine Einladung." %}</p>
                         </div>
                     {% endfor %}
                 </div>
 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a href="{% url 'web-course-edit' object.id %}" class="btn btn-outline-secondary px-4">Назад</a>
+                    <a href="{% url 'web-course-edit' object.id %}" class="btn btn-outline-secondary px-4">{% trans "Zurück" %}</a>
                     {% if form.assigned_students.field.queryset.exists %}
-                        <button type="submit" class="btn btn-primary px-4">Сохранить состав</button>
+                        <button type="submit" class="btn btn-primary px-4">{% trans "Zusammensetzung speichern" %}</button>
                     {% endif %}
                 </div>
             </form>

@@ -1,23 +1,30 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
+{% load i18n crispy_forms_tags %}
 
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-5">
         <div class="card p-4 shadow">
-            <h2 class="text-center mb-4">Anmeldung</h2>
+            <h2 class="text-center mb-4">{% trans "Anmeldung" %}</h2>
+
             <form method="post">
                 {% csrf_token %}
                 {{ form|crispy }}
                 
                 <div class="form-check mb-3">
                     <input class="form-check-input" type="checkbox" id="togglePassword">
-                    <label class="form-check-label" for="togglePassword small">Passwort anzeigen</label>
+                    <label class="form-check-label" for="togglePassword small">{% trans "Passwort anzeigen" %}</label>
+
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100 btn-lg">Anmelden</button>
+                <button type="submit" class="btn btn-primary w-100 btn-lg">{% trans "Anmelden" %}</button>
+
             </form>
-            <p class="mt-3 text-center">Kein Account?<a href="{% url 'register' %}">Registrierung</a></p>
+            {% url 'register' as register_url %}
+            <p class="mt-3 text-center">
+                {% blocktrans with url=register_url%}Kein Account? <a href="{{ url }}">Registrierung</a>{% endblocktrans %}
+            </p>
+
         </div>
     </div>
 </div>

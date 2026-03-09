@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
+{% load i18n crispy_forms_tags %}
 
 {% block content %}
 <div class="row justify-content-center">
@@ -7,21 +7,21 @@
         <!-- Навигация (Хлебные крошки) -->
         <nav aria-label="breadcrumb" class="mb-4">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'web-teacher-dashboard' %}?tab=invites">Приглашения</a></li>
-                <li class="breadcrumb-item active">Редактировать приглашение</li>
+                <li class="breadcrumb-item"><a href="{% url 'web-teacher-dashboard' %}?tab=invites">{% trans "Einladungen" %}</a></li>
+                <li class="breadcrumb-item active">{% trans "Einladung bearbeiten" %}</li>
             </ol>
         </nav>
 
         <div class="card shadow-sm border-0">
             <div class="card-header bg-white py-3 border-bottom">
-                <h5 class="mb-0 fw-bold text-primary">Изменение срока действия</h5>
+                <h5 class="mb-0 fw-bold text-primary">{% trans "Gültigkeitsdauer ändern" %}</h5>
             </div>
             <div class="card-body p-4">
                 <div class="mb-4 p-3 bg-light rounded border">
-                    <div class="small text-muted mb-1">Приглашение для:</div>
+                    <div class="small text-muted mb-1">{% trans "Einladung für:" %}</div>
                     <div class="fw-bold fs-5">{{ object.email }}</div>
                     <div class="mt-2 small">
-                        <span class="text-muted">Код:</span> 
+                        <span class="text-muted">{% trans "Code:" %}</span> 
                         <code class="bg-white px-2 py-1 rounded border">{{ object.code }}</code>
                     </div>
                 </div>
@@ -35,12 +35,12 @@
 
                     <div class="alert alert-info small mt-3">
                         <i class="bi bi-info-circle me-2"></i>
-                        Смена email создаст путаницу, если студент уже получил старое письмо. Рекомендуется менять только дату.
+                        {% trans "Eine Änderung der E-Mail-Adresse führt zu Verwirrung, wenn der Schüler bereits die alte E-Mail erhalten hat. Es wird empfohlen, nur das Datum zu ändern." %}
                     </div>
 
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
-                        <a href="{% url 'web-teacher-dashboard' %}?tab=invites" class="btn btn-outline-secondary px-4">Отмена</a>
-                        <button type="submit" class="btn btn-primary px-4">Обновить дату</button>
+                        <a href="{% url 'web-teacher-dashboard' %}?tab=invites" class="btn btn-outline-secondary px-4">{% trans "Abbrechen" %}</a>
+                        <button type="submit" class="btn btn-primary px-4">{% trans "Datum aktualisieren" %}</button>
                     </div>
                 </form>
             </div>
@@ -48,10 +48,10 @@
 
         {% if not object.is_used %}
         <div class="mt-4 text-center">
-            <form method="post" action="{% url 'web-invitation-delete' object.id %}" onsubmit="return confirm('Удалить приглашение?');">
+            <form method="post" action="{% url 'web-invitation-delete' object.id %}" onsubmit="return confirm('{% trans "Einladung löschen?" %}');">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-sm btn-link text-danger text-decoration-none">
-                    Удалить это приглашение полностью
+                    {% trans "Diese Einladung vollständig löschen" %}
                 </button>
             </form>
         </div>

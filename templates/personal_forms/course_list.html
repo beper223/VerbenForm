@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block content %}
 <div class="row mb-4 mt-2">
     <div class="col">
-        <h2 class="fw-bold">Meine Kurse</h2>
-        <p class="text-muted">Wählen Sie einen Kurs aus, чтобы начать обучение.</p>
+        <h2 class="fw-bold">{% trans "Meine Kurse" %}</h2>
+        <p class="text-muted">{% trans "Wählen Sie einen Kurs aus, um mit dem Lernen zu beginnen." %}</p>
     </div>
 </div>
 
@@ -17,15 +18,15 @@
                     <span class="badge {% if course.visibility == 'public' %}bg-success{% else %}bg-primary{% endif %}">
                         {{ course.get_visibility_display }}
                     </span>
-                    <small class="text-muted">{{ course.learning_units.count }} Einheiten</small>
+                    <small class="text-muted">{{ course.learning_units.count }} {% trans "Einheiten" %}</small>
                 </div>
                 <h4 class="fw-bold mb-2">{{ course.title }}</h4>
                 <div class="small text-muted mb-3">
                     <i class="bi bi-person-circle"></i>
                     {% if course.author == request.user %}
-                        <span class="text-primary fw-medium">Von Ihnen</span>
+                        <span class="text-primary fw-medium">{% trans "Von Ihnen" %}</span>
                     {% else %}
-                        Autor: {{ course.author.display_name }}
+                        {% trans "Autor:" %} {{ course.author.display_name }}
                     {% endif %}
                 </div>
                 <p class="text-muted small mb-3">
@@ -39,7 +40,7 @@
     </div>
     {% empty %}
     <div class="col-12 text-center py-5">
-        <p class="text-muted">Bisher sind keine Kurse für Sie verfügbar.</p>
+        <p class="text-muted">{% trans "Bisher sind keine Kurse für Sie verfügbar." %}</p>
     </div>
     {% endfor %}
 </div>

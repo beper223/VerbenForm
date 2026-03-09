@@ -10,15 +10,15 @@
             Deutsch.Core
         </h1>
         <p class="lead fs-4 text-muted mb-4">
-            Meistern Sie deutsche Verben durch intelligentes Training. 
-            Персональный тренажер для тех, кто хочет довести грамматику до автоматизма.
+            {% trans "Meistern Sie deutsche Verben durch intelligentes Training." %}
+            {% trans "Persönlicher Trainer für diejenigen, die ihre Grammatik zur Automatisierung bringen möchten." %}
         </p>
         <div class="d-grid gap-2 d-md-flex justify-content-md-start">
             <a href="{% url 'register' %}" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold shadow">
-                Jetzt starten
+                {% trans "Jetzt starten" %}
             </a>
             <a href="{% url 'login' %}" class="btn btn-outline-secondary btn-lg px-4 fw-bold">
-                Anmelden
+                {% trans "Anmelden" %}
             </a>
         </div>
     </div>
@@ -34,29 +34,29 @@
         <div class="mb-3">
             <i class="bi bi-lightning-charge-fill text-warning fs-1"></i>
         </div>
-        <h3 class="fw-bold">Effektives Training</h3>
-        <p class="text-muted">Интеллектуальный движок подбирает слова, основываясь на вашем прогрессе. Фокусируйтесь на том, что еще не выучено.</p>
+        <h3 class="fw-bold">{% trans "Effektives Training" %}</h3>
+        <p class="text-muted">{% trans "Intelligente Engine wählt Wörter basierend auf Ihrem Fortschritt aus. Konzentrieren Sie sich auf das, was noch nicht gelernt wurde." %}</p>
     </div>
     <div class="col-md-4 text-center border-start border-end border-sm-0">
         <div class="mb-3">
             <i class="bi bi-graph-up-arrow text-success fs-1"></i>
         </div>
-        <h3 class="fw-bold">Detaillierte Analyse</h3>
-        <p class="text-muted">Следите за своим прогрессом по каждому глаголу и времени. Визуальные индикаторы покажут, когда юнит будет освоен на 100%.</p>
+        <h3 class="fw-bold">{% trans "Detaillierte Analyse" %}</h3>
+        <p class="text-muted">{% trans "Verfolgen Sie Ihren Fortschritt bei jedem Verb und jeder Zeit. Visuelle Indikatoren zeigen an, wann die Einheit zu 100% gemeistert ist." %}</p>
     </div>
     <div class="col-md-4 text-center">
         <div class="mb-3">
             <i class="bi bi-people-fill text-primary fs-1"></i>
         </div>
-        <h3 class="fw-bold">Für Lehrer & Schüler</h3>
-        <p class="text-muted">Учителя могут создавать собственные курсы, приглашать учеников и отслеживать их статистику в реальном времени.</p>
+        <h3 class="fw-bold">{% trans "Für Lehrer & Schüler" %}</h3>
+        <p class="text-muted">{% trans "Lehrer können eigene Kurse erstellen, Schüler einladen und deren Statistiken in Echtzeit verfolgen." %}</p>
     </div>
 </div>
 
 <!-- 3. LANGUAGES SECTION -->
 <div class="row py-5">
     <div class="col-12 text-center mb-4">
-        <h2 class="fw-bold">Lernen in deiner Muttersprache</h2>
+        <h2 class="fw-bold">{% trans "Lernen in deiner Muttersprache" %}</h2>
     </div>
     <div class="col-12">
         <div class="d-flex justify-content-center gap-3 flex-wrap">
@@ -72,10 +72,10 @@
 <div class="row py-5 text-center">
     <div class="col-lg-8 mx-auto">
         <div class="card bg-primary text-white p-5 border-0 shadow-lg rounded-5">
-            <h2 class="fw-bold mb-3">Bereit, Deutsch zu meistern?</h2>
-            <p class="mb-4 opacity-75">Присоединяйтесь к нашей платформе и начните тренировку прямо сейчас.</p>
+            <h2 class="fw-bold mb-3">{% trans "Bereit, Deutsch zu meistern?" %}</h2>
+            <p class="mb-4 opacity-75">{% trans "Treten Sie unserer Plattform bei und starten Sie Ihr Training sofort." %}</p>
             <a href="{% url 'register' %}" class="btn btn-light btn-lg px-5 fw-bold text-primary">
-                Kostenlos registrieren
+                {% trans "Kostenlos registrieren" %}
             </a>
         </div>
     </div>

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block content %}
 <div class="mb-4 mt-2">
@@ -6,7 +7,7 @@
         <ol class="breadcrumb">
             {% if is_own_stats %}
                 {# Путь для ученика #}
-                <li class="breadcrumb-item"><a href="{% url 'units-list' %}">Kurse</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'units-list' %}">{% trans "Kurse" %}</a></li>
                 <li class="breadcrumb-item"><a href="{% url 'course-detail' unit.course.id %}">{{ unit.course.title }}</a></li>
             {% else %}
                 {# Путь для учителя, смотрящего ученика #}
@@ -21,13 +22,13 @@
         <div>
             <h2 class="fw-bold mb-0">{{ unit.title }}</h2>
             <p class="text-muted">
-                {% if not is_own_stats %}<strong>Status von {{ target_user.display_name }}:</strong> {% endif %}
+                {% if not is_own_stats %}{% blocktrans %}Status von {{ target_user.display_name }}:{% endblocktrans %} {% endif %}
                 {{ unit.get_skill_type_display }} | {{ unit.level }}
             </p>
         </div>
         <div class="text-end">
             <div class="h4 fw-bold mb-0 {% if completed %}text-success{% endif %}">{{ percent }}%</div>
-            <div class="small text-muted">{{ mastered_atoms }}/{{ total_atoms }} Atoms</div>
+            <div class="small text-muted">{{ mastered_atoms }}/{{ total_atoms }} {% trans "Atome" %}</div>
         </div>
     </div>
 </div>
@@ -37,16 +38,16 @@
         <table class="table table-hover align-middle mb-0">
             <thead class="table-light">
                 <tr>
-                    <th class="ps-3">Verb</th>
+                    <th class="ps-3">{% trans "Verb" %}</th>
                     {% if unit.skill_type == 'translation' %}
-                        <th class="text-center">Status</th>
+                        <th class="text-center">{% trans "Status" %}</th>
                     {% else %}
-                        <th class="text-center small">ich</th>
-                        <th class="text-center small">du</th>
-                        <th class="text-center small">er/sie</th>
-                        <th class="text-center small">wir</th>
-                        <th class="text-center small">ihr</th>
-                        <th class="text-center small">sie/Sie</th>
+                        <th class="text-center small">{% trans "ich" %}</th>
+                        <th class="text-center small">{% trans "du" %}</th>
+                        <th class="text-center small">{% trans "er/sie" %}</th>
+                        <th class="text-center small">{% trans "wir" %}</th>
+                        <th class="text-center small">{% trans "ihr" %}</th>
+                        <th class="text-center small">{% trans "sie/Sie" %}</th>
                     {% endif %}
                 </tr>
             </thead>
@@ -75,16 +76,16 @@
 <div class="mt-4 d-flex justify-content-between align-items-center">
     {% if is_own_stats %}
         <a href="{% url 'course-detail' unit.course.id %}" class="btn btn-outline-secondary">
-            <i class="bi bi-chevron-left"></i> Zurück
+            <i class="bi bi-chevron-left"></i> {% trans "Zurück" %}
         </a>
         <a href="{% url 'training-session' unit.id %}" class="btn btn-primary px-4 fw-bold">
-            Jetzt Lernen
+            {% trans "Jetzt Lernen" %}
         </a>
     {% else %}
         <a href="{% url 'web-teacher-student-course-detail' target_user.id unit.course.id %}" class="btn btn-outline-secondary">
-            <i class="bi bi-chevron-left"></i> Zurück zum Kurs
+            <i class="bi bi-chevron-left"></i> {% trans "Zurück zum Kurs" %}
         </a>
-        <div class="text-muted small">Ansichtsmodus (Lehrer)</div>
+        <div class="text-muted small">{% trans "Ansichtsmodus (Lehrer)" %}</div>
     {% endif %}
 </div>
 {% endblock %}

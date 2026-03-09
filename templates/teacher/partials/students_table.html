@@ -1,12 +1,13 @@
+{% load i18n %}
 <div class="card border-0 shadow-sm overflow-hidden">
     <div class="table-responsive">
         <table class="table table-hover align-middle mb-0">
             <thead class="table-light">
                 <tr>
-                    <th class="ps-4">Ученик</th>
-                    <th class="text-center">Изучено</th>
-                    <th>Точность</th>
-                    <th class="text-end pe-4">Действие</th>
+                    <th class="ps-4">{% trans "Schüler" %}</th>
+                    <th class="text-center">{% trans "Gelernt" %}</th>
+                    <th>{% trans "Genauigkeit" %}</th>
+                    <th class="text-end pe-4">{% trans "Aktion" %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,14 +30,14 @@
                     </td>
                     <td class="text-end pe-4">
                         <a href="{% url 'web-student-detail' item.user.id %}" class="btn btn-sm btn-outline-primary">
-                            Аналитика
+                            {% trans "Analyse" %}
                         </a>
                     </td>
                 </tr>
                 {% empty %}
                 <tr>
                     <td colspan="4" class="text-center py-4 text-muted">
-                        У вас пока нет привязанных учеников.
+                        {% trans "Sie haben noch keine zugewiesenen Schüler." %}
                     </td>
                 </tr>
                 {% endfor %}

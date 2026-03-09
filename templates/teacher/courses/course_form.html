@@ -1,35 +1,35 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
+{% load i18n crispy_forms_tags %}
 
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-8 col-lg-6">
         <nav aria-label="breadcrumb" class="mb-4">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'web-teacher-dashboard' %}">Панель учителя</a></li>
-                <li class="breadcrumb-item active">{% if object %}Редактировать{% else %}Создать{% endif %} курс</li>
+                <li class="breadcrumb-item"><a href="{% url 'web-teacher-dashboard' %}">{% trans "Lehrer-Panel" %}</a></li>
+                <li class="breadcrumb-item active">{% if object %}{% trans "Kurs bearbeiten" %}{% else %}{% trans "Kurs erstellen" %}{% endif %}</li>
             </ol>
         </nav>
 
         <div class="card shadow-sm p-4">
-            <h2 class="fw-bold mb-4">{% if object %}Редактирование{% else %}Создание{% endif %} курса</h2>
+            <h2 class="fw-bold mb-4">{% if object %}{% trans "Kursbearbeitung" %}{% else %}{% trans "Kurserstellung" %}{% endif %}</h2>
             <form method="post">
                 {% csrf_token %}
                 {{ form|crispy }}
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
-                    <a href="{% url 'web-teacher-dashboard' %}" class="btn btn-outline-secondary px-4">Отмена</a>
-                    <button type="submit" class="btn btn-primary px-4">Сохранить курс</button>
+                    <a href="{% url 'web-teacher-dashboard' %}" class="btn btn-outline-secondary px-4">{% trans "Abbrechen" %}</a>
+                    <button type="submit" class="btn btn-primary px-4">{% trans "Kurs speichern" %}</button>
                 </div>
             </form>
         </div>
         
         {% if object %}
         <div class="mt-5 p-3 border rounded border-danger bg-light">
-            <h5 class="text-danger fw-bold">Опасная зона</h5>
-            <p class="small text-muted">Удаление курса приведет к удалению всех связанных уроков и прогресса учеников.</p>
-            <form method="post" action="{% url 'web-course-delete' object.id %}" onsubmit="return confirm('Вы уверены, что хотите удалить этот курс?');">
+            <h5 class="text-danger fw-bold">{% trans "Gefahrenzone" %}</h5>
+            <p class="small text-muted">{% trans "Das Löschen des Kurses führt zur Löschung aller zugehörigen Lektionen und des Schülerfortschritts." %}</p>
+            <form method="post" action="{% url 'web-course-delete' object.id %}" onsubmit="return confirm('{% trans "Sind Sie sicher, dass Sie diesen Kurs löschen möchten?" %}');">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-sm btn-outline-danger">Удалить этот курс полностью</button>
+                <button type="submit" class="btn btn-sm btn-outline-danger">{% trans "Diesen Kurs vollständig löschen" %}</button>
             </form>
         </div>
         {% endif %}

@@ -33,7 +33,7 @@ class CreateInvitationView(LoginRequiredMixin, TeacherRequiredMixin, FormView):
         # Добавляем сообщение в систему Django Messages
         messages.success(
             self.request,
-            f'Приглашение для {email} создано! Код: {invitation.code}',
+            _("Einladung für %(email)s erstellt! Code: %(code)s") % {'email': email, 'code': invitation.code},
             extra_tags='invitation'
         )
 

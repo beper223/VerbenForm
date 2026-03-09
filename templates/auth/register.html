@@ -1,17 +1,16 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
+{% load i18n crispy_forms_tags %}
 
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-md-6 col-lg-5"> <!-- Немного увеличил ширину для двух колонок -->
+    <div class="col-md-6 col-lg-5">
         <div class="card p-4 shadow border-0">
-            <h2 class="text-center fw-bold mb-4">Registrierung</h2>
+            <h2 class="text-center fw-bold mb-4">{% trans "Registrierung" %}</h2>
             <form method="post">
                 {% csrf_token %}
 
                 {{ form.username|as_crispy_field }}
 
-                <!-- Имя и Фамилия в одну строку -->
                 <div class="row">
                     <div class="col-md-6">
                         {{ form.first_name|as_crispy_field }}
@@ -31,11 +30,12 @@
                 {{ form.password2|as_crispy_field }}
 
                 <button type="submit" class="btn btn-success w-100 btn-lg mt-3 shadow-sm">
-                    Registrieren
+                    {% trans "Registrieren" %}
                 </button>
             </form>
+            {% url 'login' as login_url %}
             <p class="mt-4 text-center small text-muted">
-                Haben Sie bereits ein Profil? <a href="{% url 'login' %}" class="fw-bold">Anmelden</a>
+                {% blocktrans with url=login_url%}Haben Sie bereits ein Profil? <a href="{{ url }}" class="fw-bold">Anmelden</a>{% endblocktrans %}
             </p>
         </div>
     </div>

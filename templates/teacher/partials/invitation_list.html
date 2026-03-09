@@ -1,3 +1,4 @@
+{% load i18n %}
 {% if messages %}
     <div class="mb-3">
         {% for message in messages %}
@@ -15,11 +16,11 @@
         <table class="table table-hover align-middle mb-0">
             <thead class="table-light">
                 <tr>
-                    <th class="ps-4">Email</th>
-                    <th>Код</th>
-                    <th class="text-center">Срок действия</th>
-                    <th class="text-center">Статус</th>
-                    <th class="text-end pe-4">Действие</th>
+                    <th class="ps-4">{% trans "E-Mail" %}</th>
+                    <th>{% trans "Code" %}</th>
+                    <th class="text-center">{% trans "Gültig bis" %}</th>
+                    <th class="text-center">{% trans "Status" %}</th>
+                    <th class="text-end pe-4">{% trans "Aktion" %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,21 +28,21 @@
                 <tr id="invite-{{ invite.id }}">
                     <td class="ps-4">
                         <div class="fw-bold">{{ invite.email }}</div>
-                        <div class="small text-muted">Создан: {{ invite.created_at|date:"d.m.y" }}</div>
+                        <div class="small text-muted">{% trans "Erstellt:" %} {{ invite.created_at|date:"d.m.y" }}</div>
                     </td>
                     <td><code class="bg-light p-1 rounded">{{ invite.code }}</code></td>
                     <td class="text-center small">
                         <span class="{% if invite.is_expired %}text-danger fw-bold{% endif %}">
-                            до {{ invite.expires_at|date:"d.m.Y" }}
+                            {% trans "bis" %} {{ invite.expires_at|date:"d.m.Y" }}
                         </span>
                     </td>
                     <td class="text-center">
                         {% if invite.is_used %}
-                            <span class="badge bg-success">Использован</span>
+                            <span class="badge bg-success">{% trans "Verwendet" %}</span>
                         {% elif invite.is_expired %}
-                            <span class="badge bg-danger">Просрочен</span>
+                            <span class="badge bg-danger">{% trans "Abgelaufen" %}</span>
                         {% else %}
-                            <span class="badge bg-warning text-dark">Активен</span>
+                            <span class="badge bg-warning text-dark">{% trans "Aktiv" %}</span>
                         {% endif %}
                     </td>
                     <td class="text-end pe-4">
@@ -53,7 +54,7 @@
                             <!-- Удаление через HTMX -->
                             <button class="btn btn-sm btn-outline-danger"
                                     hx-delete="{% url 'web-invitation-delete' invite.id %}"
-                                    hx-confirm="Удалить это приглашение?"
+                                    hx-confirm="{% trans "Diese Einladung löschen?" %}"
                                     hx-target="#invite-{{ invite.id }}"
                                     hx-swap="outerHTML">
                                 🗑️
@@ -63,7 +64,7 @@
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="5" class="text-center py-4 text-muted">Список пуст</td>
+                    <td colspan="5" class="text-center py-4 text-muted">{% trans "Liste leer" %}</td>
                 </tr>
                 {% endfor %}
             </tbody>

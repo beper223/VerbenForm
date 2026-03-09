@@ -1,27 +1,31 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block content %}
 <div class="container py-4">
-    <h2 class="fw-bold mb-4">Lehrer-Panel</h2>
+    <h2 class="fw-bold mb-4">{% trans "Lehrer-Panel" %}</h2>
 
     <!-- Навигация по вкладкам -->
     <ul class="nav nav-pills mb-4 shadow-sm p-2 bg-white rounded" id="teacherTabs" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link {% if active_tab == 'courses' %}active{% endif %}"
                     id="courses-tab" data-bs-toggle="pill" data-bs-target="#courses-content">
-                📚 Курсы и Юниты
+                📚 {% trans "Kurse und Einheiten" %}
+
             </button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link {% if active_tab == 'invites' %}active{% endif %}"
                     id="invites-tab" data-bs-toggle="pill" data-bs-target="#invites-content">
-                ✉️ Приглашения
+                ✉️ {% trans "Einladungen" %}
+
             </button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link {% if active_tab == 'students' %}active{% endif %}"
                     id="students-tab" data-bs-toggle="pill" data-bs-target="#students-content">
-                👨‍🎓 Мои ученики
+                👨‍🎓 {% trans "Meine Schüler" %}
+
             </button>
         </li>
     </ul>
@@ -33,8 +37,10 @@
         <div class="tab-pane fade {% if active_tab == 'courses' %}show active{% endif %}"
              id="courses-content" role="tabpanel">
             <div class="d-flex justify-content-between mb-3">
-                <h4>Ваши курсы</h4>
-                <a href="{% url 'web-course-create' %}" class="btn btn-sm btn-primary">+ Создать курс</a>
+                <h4>{% trans "Ihre Kurse" %}</h4>
+
+                <a href="{% url 'web-course-create' %}" class="btn btn-sm btn-primary">+ {% trans "Kurs erstellen" %}</a>
+
             </div>
             
             <div class="row g-3">
@@ -49,9 +55,12 @@
                                 </span>
                             </div>
                             <div class="btn-group">
-                                <a href="{% url 'web-course-assign' course.id %}" class="btn btn-sm btn-outline-info">Студенты</a>
-                                <a href="{% url 'web-course-edit' course.id %}" class="btn btn-sm btn-outline-dark">Редактировать</a>
-                                <a href="{% url 'web-unit-create' course.id %}" class="btn btn-sm btn-primary">+ Добавить юнит</a>
+                                <a href="{% url 'web-course-assign' course.id %}" class="btn btn-sm btn-outline-info">{% trans "Schüler" %}</a>
+
+                                <a href="{% url 'web-course-edit' course.id %}" class="btn btn-sm btn-outline-dark">{% trans "Bearbeiten" %}</a>
+
+                                <a href="{% url 'web-unit-create' course.id %}" class="btn btn-sm btn-primary">+ {% trans "Einheit hinzufügen" %}</a>
+
                             </div>
                         </div>
                         <div class="card-body bg-light">
@@ -64,7 +73,8 @@
 {#                                        <a href="{% url 'web-unit-delete' unit.id %}" class="btn btn-sm btn-link text-decoration-none">❌</a>#}
                                         <button class="btn btn-sm btn-link text-decoration-none"
                                                 hx-delete="{% url 'web-unit-delete' unit.id %}"
-                                                hx-confirm="Вы уверены, что хотите удалить урок '{{ unit.title }}'?"
+                                                hx-confirm="{% trans "Sind Sie sicher, dass Sie die Lektion" %} '{{ unit.title }}' {% trans "löschen möchten?" %}"
+
                                                 hx-target="closest .list-group-item"
                                                 hx-swap="outerHTML">
                                             ❌
@@ -72,7 +82,8 @@
                                     </div>
                                 </div>
                                 {% empty %}
-                                <div class="list-group-item text-muted small">В этом курсе еще нет уроков.</div>
+                                <div class="list-group-item text-muted small">{% trans "In diesem Kurs gibt es noch keine Lektionen." %}</div>
+
                                 {% endfor %}
                             </div>
                         </div>
@@ -86,7 +97,8 @@
         <div class="tab-pane fade {% if active_tab == 'invites' %}show active{% endif %}"
              id="invites-content" role="tabpanel">
             <div class="card border-0 shadow-sm p-4 mb-4">
-                <h5>Создать приглашение</h5>
+                <h5>{% trans "Einladung erstellen" %}</h5>
+
                 <form hx-post="{% url 'web-create-invitation' %}"
                       hx-target="#invitation-list-container"
                       hx-swap="outerHTML"
@@ -95,11 +107,13 @@
                     <div class="col-md-5">{{ invite_form.email }}</div>
                     <div class="col-md-4">
                         <div class="input-group">
-                            <span class="input-group-text small">Дней:</span>
+                            <span class="input-group-text small">{% trans "Tage:" %}</span>
+
                             {{ invite_form.days_valid }}
                         </div>
                     </div>
-                    <div class="col-md-3"><button class="btn btn-primary w-100">Создать</button></div>
+                    <div class="col-md-3"><button class="btn btn-primary w-100">{% trans "Erstellen" %}</button></div>
+
                 </form>
             </div>
             <!-- Список кодов (таблица) -->

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load static %}
 {% load crispy_forms_tags %}
 
@@ -9,7 +10,7 @@
 <div class="row justify-content-center">
     <div class="col-md-10 col-lg-8">
         <div class="card shadow-sm p-4 border-0">
-            <h2 class="fw-bold mb-4">Lernschritt bearbeiten</h2>
+            <h2 class="fw-bold mb-4">{% trans "Lernschritt bearbeiten" %}</h2>
 
             <form method="post">
                 {% csrf_token %}
@@ -26,18 +27,18 @@
                 </div>
 
                 <div class="mt-4">
-                    <label class="form-label fw-bold">Verben:</label>
+                    <label class="form-label fw-bold">{% trans "Verben:" %}</label>
                     <!-- Передаем URL поиска через data-атрибут -->
                     <div id="verb-wrapper"
                          data-lookup-url="{% url 'api-verb-search' %}">
                         {{ form.verbs }}
                     </div>
-                    <div class="form-text mt-1">Введите первые буквы глагола для поиска. Можно выбрать несколько.</div>
+                    <div class="form-text mt-1">{% trans "Geben Sie die ersten Buchstaben des Verbs für die Suche ein. Mehrere können ausgewählt werden." %}</div>
                 </div>
 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-5">
-                    <a href="{% url 'web-teacher-dashboard' %}" class="btn btn-outline-secondary px-4">Abbrechen</a>
-                    <button type="submit" class="btn btn-primary px-5">Speichern</button>
+                    <a href="{% url 'web-teacher-dashboard' %}" class="btn btn-outline-secondary px-4">{% trans "Abbrechen" %}</a>
+                    <button type="submit" class="btn btn-primary px-5">{% trans "Speichern" %}</button>
                 </div>
             </form>
         </div>
