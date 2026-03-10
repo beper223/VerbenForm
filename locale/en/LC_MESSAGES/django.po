@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-28 13:52+0100\n"
+"POT-Creation-Date: 2026-03-10 17:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,37 +18,37 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\src\api\views.py:37
+#: .\src\api\views\auth.py:27
 msgid "Registrierung erfolgreich"
 msgstr "Registration successful"
 
-#: .\src\api\views.py:51
+#: .\src\api\views\auth.py:44
 #, fuzzy
 #| msgid "Falsche Antworten"
 msgid "Falsche Anmeldedaten"
 msgstr "Wrong answers"
 
-#: .\src\api\views.py:58
+#: .\src\api\views\auth.py:51
 msgid "Erfolgreich abgemeldet"
 msgstr "Successfully logged out"
 
-#: .\src\api\views.py:64 .\src\api\views.py:77
-msgid "E-Mail-Adresse erforderlich"
-msgstr "Email address required"
-
-#: .\src\api\views.py:68
-msgid "Einladung erstellt"
-msgstr "Invitation created"
-
-#: .\src\api\views.py:94
+#: .\src\api\views\auth.py:65
 msgid "Lehrer wurde Ihrem Konto hinzugefügt"
 msgstr "Teacher has been added to your account"
 
-#: .\src\api\views.py:101
+#: .\src\api\views\auth.py:72
 msgid "Konto erstellt und mit dem Lehrer verknüpft"
 msgstr "Account created and linked with teacher"
 
-#: .\src\api\views.py:173
+#: .\src\api\views\invitation.py:16 .\src\api\views\invitation.py:29
+msgid "E-Mail-Adresse erforderlich"
+msgstr "Email address required"
+
+#: .\src\api\views\invitation.py:20
+msgid "Einladung erstellt"
+msgstr "Invitation created"
+
+#: .\src\api\views\training.py:25
 msgid "learning_unit_id erforderlich"
 msgstr "learning_unit_id required"
 
@@ -88,8 +88,8 @@ msgstr "semi-reflexive"
 msgid "echte reflexiv"
 msgstr "truly reflexive"
 
-#: .\src\common\choices.py:174 .\src\personal_forms\models\VerbForms.py:111
-#: .\src\personal_forms\models\VerbForms.py:116
+#: .\src\common\choices.py:174 .\src\personal_forms\models\VerbForms.py:113
+#: .\src\personal_forms\models\VerbForms.py:118
 msgid "Übersetzung"
 msgstr "Translation"
 
@@ -101,22 +101,22 @@ msgstr "Present"
 msgid "Präteritum"
 msgstr "Simple past"
 
-#: .\src\common\choices.py:177 .\src\personal_forms\admin.py:311
+#: .\src\common\choices.py:177 .\src\personal_forms\admin.py:313
 msgid "Perfekt"
 msgstr "Perfect"
 
-#: .\src\personal_forms\admin.py:116 .\src\personal_forms\admin.py:122
+#: .\src\personal_forms\admin.py:118 .\src\personal_forms\admin.py:124
 #: .\src\personal_forms\models\VerbForms.py:24
 msgid "Konjugation"
 msgstr "Conjugation"
 
-#: .\src\personal_forms\admin.py:218
+#: .\src\personal_forms\admin.py:220
 #: .\src\personal_forms\models\VerbForms.py:30
-#: .\src\personal_forms\models\learning.py:10
+#: .\src\personal_forms\models\learning.py:20
 msgid "Niveau"
 msgstr "Level"
 
-#: .\src\personal_forms\admin.py:223
+#: .\src\personal_forms\admin.py:225
 msgid ""
 "Dieses Niveau wird für alle ausgewählten Verben gesetzt und überschreibt das "
 "bisherige Niveau."
@@ -124,25 +124,43 @@ msgstr ""
 "This level will be set for all selected verbs and will overwrite the "
 "previous level."
 
-#: .\src\personal_forms\admin.py:242
+#: .\src\personal_forms\admin.py:244
 #, python-format
 msgid "Das Niveau %(level)s wurde für %(count)d Verben gesetzt."
 msgstr "The level %(level)s has been set for %(count)d verbs."
 
-#: .\src\personal_forms\admin.py:267 .\templates\admin\set_level_action.html:16
-#: .\templates\admin\set_level_action.html:51
+#: .\src\personal_forms\admin.py:269 .\templates\admin\set_level_action.html:16
+#: .\templates\admin\set_level_action.html:45
 msgid "Niveau festlegen"
 msgstr "Set level"
 
-#: .\src\personal_forms\admin.py:301
+#: .\src\personal_forms\admin.py:303
 msgid "Grundform"
 msgstr "Base form"
 
-#: .\src\personal_forms\admin.py:313
+#: .\src\personal_forms\admin.py:315
 msgid "Nur für Perfekt erforderlich"
 msgstr "Required only for the perfect"
 
-#: .\src\personal_forms\apps.py:8 .\src\personal_forms\models\VerbForms.py:92
+#: .\src\personal_forms\admin.py:440
+#, fuzzy
+#| msgid "Weitere Informationen"
+msgid "Grundinformationen"
+msgstr "Additional information"
+
+#: .\src\personal_forms\admin.py:448
+msgid "Schülerzuweisung"
+msgstr "Student assignment"
+
+#: .\src\personal_forms\admin.py:450
+msgid "Nur für private Kurse sichtbar"
+msgstr "Visible only for private courses"
+
+#: .\src\personal_forms\admin.py:481 .\src\personal_forms\models\learning.py:46
+msgid "Lerneinheiten"
+msgstr "Learning units"
+
+#: .\src\personal_forms\apps.py:8 .\src\personal_forms\models\VerbForms.py:93
 msgid "Personalformen"
 msgstr "Personal forms"
 
@@ -171,7 +189,11 @@ msgid "Partizip 2"
 msgstr "Past participle"
 
 #: .\src\personal_forms\models\VerbForms.py:63
-#: .\src\personal_forms\models\learning.py:50
+#: .\src\personal_forms\models\VerbForms.py:74
+#: .\src\personal_forms\models\VerbForms.py:105
+#: .\src\personal_forms\models\VerbForms.py:147
+#: .\src\personal_forms\models\learning.py:128
+#: .\templates\personal_forms\unit_stats.html:41
 msgid "Verb"
 msgstr "Verb"
 
@@ -179,113 +201,164 @@ msgstr "Verb"
 msgid "Verben"
 msgstr "Verbs"
 
-#: .\src\personal_forms\models\VerbForms.py:76
+#: .\src\personal_forms\models\VerbForms.py:77
 msgid "Zeitform"
 msgstr "Tense"
 
-#: .\src\personal_forms\models\VerbForms.py:81
-#: .\src\personal_forms\models\learning.py:64
+#: .\src\personal_forms\models\VerbForms.py:82
+#: .\src\personal_forms\models\learning.py:142
 msgid "Pronomen"
 msgstr "Pronoun"
 
-#: .\src\personal_forms\models\VerbForms.py:86
-#: .\src\personal_forms\models\VerbForms.py:91
+#: .\src\personal_forms\models\VerbForms.py:87
+#: .\src\personal_forms\models\VerbForms.py:92
 msgid "Personalform"
 msgstr "Personal form"
 
-#: .\src\personal_forms\models\VerbForms.py:106 .\src\users\models.py:10
+#: .\src\personal_forms\models\VerbForms.py:108 .\src\users\models.py:21
 msgid "Sprache"
 msgstr "Language"
 
-#: .\src\personal_forms\models\VerbForms.py:117
+#: .\src\personal_forms\models\VerbForms.py:119
 msgid "Übersetzungen"
 msgstr "Translations"
 
-#: .\src\personal_forms\models\VerbForms.py:132
+#: .\src\personal_forms\models\VerbForms.py:127
+#: .\src\personal_forms\models\VerbForms.py:135
+#: .\src\personal_forms\models\VerbForms.py:153
 msgid "Präposition"
 msgstr "Preposition"
 
-#: .\src\personal_forms\models\VerbForms.py:133
+#: .\src\personal_forms\models\VerbForms.py:131
+#, fuzzy
+#| msgid "Kasusrektion"
+msgid "Kasusforderung"
+msgstr "Case government"
+
+#: .\src\personal_forms\models\VerbForms.py:136
 msgid "Präpositionen"
 msgstr "Prepositions"
 
-#: .\src\personal_forms\models\VerbForms.py:158
+#: .\src\personal_forms\models\VerbForms.py:160
+msgid "Kasus"
+msgstr "Case"
+
+#: .\src\personal_forms\models\VerbForms.py:164
 msgid "Verb mit Präposition"
 msgstr "Verb with preposition"
 
-#: .\src\personal_forms\models\VerbForms.py:159
+#: .\src\personal_forms\models\VerbForms.py:165
 msgid "Verben mit Präposition"
 msgstr "Verbs with preposition"
 
-#: .\src\personal_forms\models\learning.py:16
-#: .\src\personal_forms\models\learning.py:56
+#: .\src\personal_forms\models\learning.py:17
+#: .\src\personal_forms\models\learning.py:96
+msgid "Kurs"
+msgstr "Course"
+
+#: .\src\personal_forms\models\learning.py:26
+#: .\src\personal_forms\models\learning.py:134
 msgid "Fähigkeit"
 msgstr "Skill"
 
-#: .\src\personal_forms\models\learning.py:23
+#: .\src\personal_forms\models\learning.py:33
 msgid "Überschrift"
 msgstr "Heading"
 
-#: .\src\personal_forms\models\learning.py:35
+#: .\src\personal_forms\models\learning.py:45
 msgid "Lerneinheit"
 msgstr "Learning unit"
 
-#: .\src\personal_forms\models\learning.py:36
-msgid "Lerneinheiten"
-msgstr "Learning units"
+#: .\src\personal_forms\models\learning.py:54
+msgid "Öffentlich"
+msgstr "Public"
 
-#: .\src\personal_forms\models\learning.py:43 .\src\users\models.py:26
-#: .\src\users\models.py:27
+#: .\src\personal_forms\models\learning.py:55
+msgid "Privat"
+msgstr "Private"
+
+#: .\src\personal_forms\models\learning.py:59
+msgid "Kurstitel"
+msgstr "Course title"
+
+#: .\src\personal_forms\models\learning.py:63
+msgid "Beschreibung"
+msgstr "Description"
+
+#: .\src\personal_forms\models\learning.py:70
+msgid "Autor"
+msgstr "Author"
+
+#: .\src\personal_forms\models\learning.py:77
+msgid "Sichtbarkeit"
+msgstr "Visibility"
+
+#: .\src\personal_forms\models\learning.py:83
+msgid "Zugewiesene Schüler"
+msgstr "Assigned students"
+
+#: .\src\personal_forms\models\learning.py:88
+#: .\src\personal_forms\models\learning.py:177
+msgid "Erstellt am"
+msgstr "Created at"
+
+#: .\src\personal_forms\models\learning.py:92
+#: .\src\personal_forms\models\learning.py:182
+msgid "Aktualisiert am"
+msgstr "Updated at"
+
+#: .\src\personal_forms\models\learning.py:97
+#: .\templates\personal_forms\course_detail.html:10
+#: .\templates\personal_forms\unit_stats.html:10
+msgid "Kurse"
+msgstr "Courses"
+
+#: .\src\personal_forms\models\learning.py:121 .\src\users\models.py:58
+#: .\src\users\models.py:59
 msgid "Benutzer"
 msgstr "User"
 
-#: .\src\personal_forms\models\learning.py:65
+#: .\src\personal_forms\models\learning.py:143
 #, fuzzy
 #| msgid "Übersetzungen"
 msgid "Leer bei Übersetzungsaufgaben"
 msgstr "Empty for translation tasks"
 
-#: .\src\personal_forms\models\learning.py:70
+#: .\src\personal_forms\models\learning.py:148
 msgid "Richtige Antworten"
 msgstr "Correct answers"
 
-#: .\src\personal_forms\models\learning.py:75
+#: .\src\personal_forms\models\learning.py:153
 msgid "Falsche Antworten"
 msgstr "Wrong answers"
 
-#: .\src\personal_forms\models\learning.py:81
+#: .\src\personal_forms\models\learning.py:159
 msgid "Aktuelle Serie"
 msgstr "Current streak"
 
-#: .\src\personal_forms\models\learning.py:82
+#: .\src\personal_forms\models\learning.py:160
 msgid "Anzahl der richtigen Antworten in Folge"
 msgstr "Number of correct answers in a row"
 
-#: .\src\personal_forms\models\learning.py:87
+#: .\src\personal_forms\models\learning.py:165
+#: .\templates\personal_forms\course_detail.html:19
+#: .\templates\training\partials\finished.html:11
 msgid "Beherrscht"
 msgstr "Mastered"
 
-#: .\src\personal_forms\models\learning.py:88
+#: .\src\personal_forms\models\learning.py:166
 msgid "Wird als gelernt betrachtet"
 msgstr "Considered as learned"
 
-#: .\src\personal_forms\models\learning.py:94
+#: .\src\personal_forms\models\learning.py:172
 msgid "Letzte Antwort"
 msgstr "Last answer"
 
-#: .\src\personal_forms\models\learning.py:99
-msgid "Erstellt am"
-msgstr "Created at"
-
-#: .\src\personal_forms\models\learning.py:104
-msgid "Aktualisiert am"
-msgstr "Updated at"
-
-#: .\src\personal_forms\models\learning.py:108
+#: .\src\personal_forms\models\learning.py:186
 msgid "Verbfortschritt"
 msgstr "Verb progress"
 
-#: .\src\personal_forms\models\learning.py:109
+#: .\src\personal_forms\models\learning.py:187
 msgid "Verbfortschritte"
 msgstr "Verb progresses"
 
@@ -293,25 +366,112 @@ msgstr "Verb progresses"
 msgid "Weitere Informationen"
 msgstr "Additional information"
 
-#: .\src\users\admin.py:32
-msgid "Permissions"
-msgstr "Permissions"
-
-#: .\src\users\admin.py:32
-msgid "Important dates"
-msgstr "Important dates"
-
-#: .\src\users\admin.py:45 .\src\users\admin.py:57 .\src\users\models.py:22
+#: .\src\users\admin.py:56 .\src\users\admin.py:68 .\src\users\models.py:16
+#: .\src\users\models.py:33
 msgid "Lehrer"
 msgstr "Teacher"
 
-#: .\src\users\models.py:31
+#: .\src\users\models.py:15 .\templates\teacher\dashboard_main.html:58
+#: .\templates\teacher\partials\students_table.html:7
+#: .\templates\teacher\student_course_list.html:9
+msgid "Schüler"
+msgstr "Student"
+
+#: .\src\users\models.py:39
+msgid "Rolle"
+msgstr "Role"
+
+#: .\src\users\models.py:40
+msgid "Bestimmt die Benutzerrolle im System."
+msgstr "Determines the user role in the system."
+
+#: .\src\users\models.py:45
+msgid "Geburtsdatum"
+msgstr "Birth date"
+
+#: .\src\users\models.py:46
+msgid "Geburtsdatum des Benutzers."
+msgstr "User's birth date."
+
+#: .\src\users\models.py:53
+msgid "Profilbild"
+msgstr "Profile picture"
+
+#: .\src\users\models.py:54
+msgid "Profilbild des Benutzers."
+msgstr "User's profile picture."
+
+#: .\src\users\models.py:77
+#: .\templates\teacher\partials\invitation_list.html:19
 msgid "E-Mail"
 msgstr "Email"
 
-#: .\src\users\models.py:32
+#: .\src\users\models.py:78
 msgid "Einladungscode"
 msgstr "Invitation code"
+
+#: .\src\users\models.py:83
+msgid "Ablaufdatum"
+msgstr "Expiration date"
+
+#: .\src\users\models.py:85
+msgid "Nach diesem Datum verliert der Code seine Gültigkeit"
+msgstr "After this date, the code loses its validity"
+
+#: .\src\web\forms\learning.py:21
+msgid "Kursteilnehmer (Ihre Studenten)"
+msgstr "Course participants (your students)"
+
+#: .\src\web\forms\user.py:74
+msgid "Vorname"
+msgstr "First name"
+
+#: .\src\web\forms\user.py:75
+msgid "Nachname"
+msgstr "Last name"
+
+#: .\src\web\forms\user.py:76
+#, fuzzy
+#| msgid "E-Mail-Adresse erforderlich"
+msgid "E-Mail-Adresse"
+msgstr "Email address required"
+
+#: .\src\web\forms\user.py:77
+#, fuzzy
+#| msgid "Sprache"
+msgid "Lernsprache"
+msgstr "Language"
+
+#: .\src\web\forms\user.py:82
+msgid "Gültig für (Tage)"
+msgstr "Valid for (days)"
+
+#: .\src\web\forms\user.py:102
+#, fuzzy
+#| msgid "E-Mail-Adresse erforderlich"
+msgid "E-Mail-Adresse des Studenten"
+msgstr "Email address required"
+
+#: .\src\web\views\teacher\invitations.py:36
+#, python-format
+msgid "Einladung für %(email)s erstellt! Code: %(code)s"
+msgstr "Invitation for %(email)s created! Code: %(code)s"
+
+#: .\src\web\views\teacher\invitations.py:60
+msgid "Das Ablaufdatum der Einladung wurde aktualisiert"
+msgstr "The expiration date of the invitation has been updated"
+
+#: .\src\web\views\users.py:54
+msgid "Ihr Profil wurde erfolgreich aktualisiert!"
+msgstr "Your profile has been successfully updated!"
+
+#: .\templates\404.html:6
+msgid "Seite nicht gefunden."
+msgstr "Page not found."
+
+#: .\templates\404.html:7
+msgid "Zur Startseite zurückkehren"
+msgstr "Return to home page"
 
 #: .\templates\admin\set_level_action.html:6
 msgid "Startseite"
@@ -321,14 +481,16 @@ msgstr "Home"
 msgid "Niveau für ausgewählte Verben festlegen"
 msgstr "Set level for selected verbs"
 
-#: .\templates\admin\set_level_action.html:23
-#, python-format
-msgid ""
-"\n"
-"Sie haben %(count)s Verb ausgewählt.\n"
-msgid_plural ""
-"\n"
-"Sie haben %(count)s Verben ausgewählt.\n"
+#: .\templates\admin\set_level_action.html:22
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "Sie haben %(count)s Verb ausgewählt.\n"
+#| msgid_plural ""
+#| "\n"
+#| "Sie haben %(count)s Verben ausgewählt.\n"
+msgid "Sie haben %(count)s Verb ausgewählt."
+msgid_plural "Sie haben %(count)s Verben ausgewählt."
 msgstr[0] ""
 "\n"
 "You have selected %(count)s verb.\n"
@@ -336,6 +498,617 @@ msgstr[1] ""
 "\n"
 "You have selected %(count)s verbs.\n"
 
-#: .\templates\admin\set_level_action.html:55
+#: .\templates\admin\set_level_action.html:49 .\templates\auth\profile.html:25
+#: .\templates\teacher\courses\course_form.html:20
+#: .\templates\teacher\partials\invitation_edit.html:42
+#: .\templates\teacher\units\unit_form.html:40
 msgid "Abbrechen"
 msgstr "Cancel"
+
+#: .\templates\auth\login.html:8
+msgid "Anmeldung"
+msgstr "Login"
+
+#: .\templates\auth\login.html:16
+msgid "Passwort anzeigen"
+msgstr "Show password"
+
+#: .\templates\auth\login.html:20 .\templates\includes\_user_menu.html:23
+#: .\templates\landing.html:21
+msgid "Anmelden"
+msgstr "Log in"
+
+#: .\templates\auth\login.html:25
+#, python-format
+msgid "Kein Account? <a href=\"%(url)s\">Registrierung</a>"
+msgstr "No account? <a href=\"%(url)s\">Register</a>"
+
+#: .\templates\auth\profile.html:8
+msgid "Profileinstellungen"
+msgstr "Profile settings"
+
+#: .\templates\auth\profile.html:24
+msgid "Änderungen speichern"
+msgstr "Save changes"
+
+#: .\templates\auth\register.html:8
+#, fuzzy
+#| msgid "Registrierung erfolgreich"
+msgid "Registrierung"
+msgstr "Registration"
+
+#: .\templates\auth\register.html:33 .\templates\includes\_user_menu.html:24
+msgid "Registrieren"
+msgstr "Register"
+
+#: .\templates\auth\register.html:38
+#, python-format
+msgid ""
+"Haben Sie bereits ein Profil? <a href=\"%(url)s\" class=\"fw-"
+"bold\">Anmelden</a>"
+msgstr ""
+"Do you already have a profile? <a href=\"%(url)s\" class=\"fw-"
+"bold\">Log in</a>"
+
+#: .\templates\includes\_navbar.html:19
+#, python-format
+msgid "Hallo, %(name)s"
+msgstr "Hello, %(name)s"
+
+#: .\templates\includes\_user_menu.html:3
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#: .\templates\includes\_user_menu.html:5
+#: .\templates\teacher\courses\assign_form.html:9
+#: .\templates\teacher\courses\course_form.html:9
+#: .\templates\teacher\dashboard_main.html:6
+#, fuzzy
+#| msgid "Lehrer"
+msgid "Lehrer-Panel"
+msgstr "Teacher"
+
+#: .\templates\includes\_user_menu.html:8
+msgid "Profil"
+msgstr "Profile"
+
+#: .\templates\includes\_user_menu.html:16
+#: .\templates\includes\_user_menu.html:18
+msgid "Abmelden"
+msgstr "Log out"
+
+#: .\templates\landing.html:13
+msgid "Meistern Sie deutsche Verben durch intelligentes Training."
+msgstr "Master German verbs through intelligent training."
+
+#: .\templates\landing.html:14
+msgid ""
+"Persönlicher Trainer für diejenigen, die ihre Grammatik zur Automatisierung "
+"bringen möchten."
+msgstr "Personal trainer for those who want to automate their grammar."
+
+#: .\templates\landing.html:18
+msgid "Jetzt starten"
+msgstr "Start now"
+
+#: .\templates\landing.html:37
+msgid "Effektives Training"
+msgstr "Effective training"
+
+#: .\templates\landing.html:38
+msgid ""
+"Intelligente Engine wählt Wörter basierend auf Ihrem Fortschritt aus. "
+"Konzentrieren Sie sich auf das, was noch nicht gelernt wurde."
+msgstr ""
+"Intelligent engine selects words based on your progress. Focus on what "
+"hasn't been learned yet."
+
+#: .\templates\landing.html:44
+msgid "Detaillierte Analyse"
+msgstr "Detailed analysis"
+
+#: .\templates\landing.html:45
+#, python-format
+msgid ""
+"Verfolgen Sie Ihren Fortschritt bei jedem Verb und jeder Zeit. Visuelle "
+"Indikatoren zeigen an, wann die Einheit zu 100%% gemeistert ist."
+msgstr ""
+"Track your progress on every verb and tense. Visual indicators show when the "
+"unit is mastered at 100%%."
+
+#: .\templates\landing.html:51
+msgid "Für Lehrer & Schüler"
+msgstr "For teachers & students"
+
+#: .\templates\landing.html:52
+msgid ""
+"Lehrer können eigene Kurse erstellen, Schüler einladen und deren Statistiken "
+"in Echtzeit verfolgen."
+msgstr ""
+"Teachers can create their own courses, invite students and track their "
+"statistics in real time."
+
+#: .\templates\landing.html:59
+msgid "Lernen in deiner Muttersprache"
+msgstr "Learn in your native language"
+
+#: .\templates\landing.html:75
+msgid "Bereit, Deutsch zu meistern?"
+msgstr "Ready to master German?"
+
+#: .\templates\landing.html:76
+msgid "Treten Sie unserer Plattform bei und starten Sie Ihr Training sofort."
+msgstr "Join our platform and start your training immediately."
+
+#: .\templates\landing.html:78
+msgid "Kostenlos registrieren"
+msgstr "Register for free"
+
+#: .\templates\personal_forms\course_detail.html:20
+#: .\templates\teacher\partials\students_table.html:9
+#, fuzzy
+#| msgid "Trennbarkeit"
+msgid "Genauigkeit"
+msgstr "Separability"
+
+#: .\templates\personal_forms\course_detail.html:40
+#: .\templates\teacher\student_course_detail.html:29
+#, fuzzy
+#| msgid "Verbfortschritt"
+msgid "Fortschritt"
+msgstr "Verb progress"
+
+#: .\templates\personal_forms\course_detail.html:49
+msgid "Wiederholen"
+msgstr "Repeat"
+
+#: .\templates\personal_forms\course_detail.html:49
+#, fuzzy
+#| msgid "Lerneinheit"
+msgid "Lernen"
+msgstr "Learning unit"
+
+#: .\templates\personal_forms\course_detail.html:52
+msgid "Lernstand"
+msgstr "Learning status"
+
+#: .\templates\personal_forms\course_detail.html:60
+msgid "In diesem Kurs sind noch keine Einheiten vorhanden."
+msgstr "No units are available in this course yet."
+
+#: .\templates\personal_forms\course_detail.html:68
+msgid "Zurück zur Kursübersicht"
+msgstr "Back to course overview"
+
+#: .\templates\personal_forms\course_list.html:7
+msgid "Meine Kurse"
+msgstr "My courses"
+
+#: .\templates\personal_forms\course_list.html:8
+msgid "Wählen Sie einen Kurs aus, um mit dem Lernen zu beginnen."
+msgstr "Select a course to start learning."
+
+#: .\templates\personal_forms\course_list.html:21
+#: .\templates\teacher\student_course_list.html:27
+#, fuzzy
+#| msgid "Lerneinheiten"
+msgid "Einheiten"
+msgstr "Learning units"
+
+#: .\templates\personal_forms\course_list.html:27
+msgid "Von Ihnen"
+msgstr "From you"
+
+#: .\templates\personal_forms\course_list.html:29
+#: .\templates\teacher\student_course_list.html:36
+msgid "Autor:"
+msgstr "Author:"
+
+#: .\templates\personal_forms\course_list.html:43
+msgid "Bisher sind keine Kurse für Sie verfügbar."
+msgstr "No courses are available for you yet."
+
+#: .\templates\personal_forms\unit_stats.html:25
+#, python-format
+msgid "Status von %(target_user.display_name)s:"
+msgstr "Status of %(target_user.display_name)s:"
+
+#: .\templates\personal_forms\unit_stats.html:31
+msgid "Atome"
+msgstr "Atoms"
+
+#: .\templates\personal_forms\unit_stats.html:43
+#: .\templates\teacher\partials\invitation_list.html:22
+msgid "Status"
+msgstr "Status"
+
+#: .\templates\personal_forms\unit_stats.html:45
+msgid "ich"
+msgstr "I"
+
+#: .\templates\personal_forms\unit_stats.html:46
+msgid "du"
+msgstr "you"
+
+#: .\templates\personal_forms\unit_stats.html:47
+msgid "er/sie"
+msgstr "he/she"
+
+#: .\templates\personal_forms\unit_stats.html:48
+msgid "wir"
+msgstr "we"
+
+#: .\templates\personal_forms\unit_stats.html:49
+msgid "ihr"
+msgstr "you"
+
+#: .\templates\personal_forms\unit_stats.html:50
+msgid "sie/Sie"
+msgstr "they/You"
+
+#: .\templates\personal_forms\unit_stats.html:79
+#: .\templates\teacher\courses\assign_form.html:40
+msgid "Zurück"
+msgstr "Back"
+
+#: .\templates\personal_forms\unit_stats.html:82
+msgid "Jetzt Lernen"
+msgstr "Learn now"
+
+#: .\templates\personal_forms\unit_stats.html:86
+#, fuzzy
+#| msgid "Zurück zur Kursübersicht"
+msgid "Zurück zum Kurs"
+msgstr "Back to course overview"
+
+#: .\templates\personal_forms\unit_stats.html:88
+msgid "Ansichtsmodus (Lehrer)"
+msgstr "View mode (Teacher)"
+
+#: .\templates\teacher\courses\assign_form.html:11
+msgid "Teilnehmer"
+msgstr "Participants"
+
+#: .\templates\teacher\courses\assign_form.html:16
+#, fuzzy
+#| msgid "Kursteilnehmer (Ihre Studenten)"
+msgid "Kursteilnehmer"
+msgstr "Course participants (your students)"
+
+#: .\templates\teacher\courses\assign_form.html:17
+msgid "Markieren Sie die Schüler, denen dieser private Kurs zugänglich sein soll."
+msgstr "Mark the students who should have access to this private course."
+
+#: .\templates\teacher\courses\assign_form.html:28
+#, fuzzy
+#| msgid "Schüler"
+msgid "Ihr Schüler"
+msgstr "Your students"
+
+#: .\templates\teacher\courses\assign_form.html:34
+#: .\templates\teacher\partials\students_table.html:40
+#, fuzzy
+#| msgid "Zugewiesene Schüler"
+msgid "Sie haben noch keine zugewiesenen Schüler."
+msgstr "You have no assigned students yet."
+
+#: .\templates\teacher\courses\assign_form.html:34
+msgid "Erstellen Sie zuerst eine Einladung."
+msgstr "Create an invitation first."
+
+#: .\templates\teacher\courses\assign_form.html:42
+#, fuzzy
+#| msgid "Änderungen speichern"
+msgid "Zusammensetzung speichern"
+msgstr "Save changes"
+
+#: .\templates\teacher\courses\course_form.html:10
+#, fuzzy
+#| msgid "Lerneinheiten"
+msgid "Kurs bearbeiten"
+msgstr "Edit course"
+
+#: .\templates\teacher\courses\course_form.html:10
+#: .\templates\teacher\dashboard_main.html:42
+#, fuzzy
+#| msgid "Erstellt am"
+msgid "Kurs erstellen"
+msgstr "Create course"
+
+#: .\templates\teacher\courses\course_form.html:15
+#, fuzzy
+#| msgid "Lerneinheiten"
+msgid "Kursbearbeitung"
+msgstr "Course editing"
+
+#: .\templates\teacher\courses\course_form.html:15
+#, fuzzy
+#| msgid "Erstellt am"
+msgid "Kurserstellung"
+msgstr "Create course"
+
+#: .\templates\teacher\courses\course_form.html:21
+#, fuzzy
+#| msgid "Speichern"
+msgid "Kurs speichern"
+msgstr "Save course"
+
+#: .\templates\teacher\courses\course_form.html:28
+msgid "Gefahrenzone"
+msgstr "Danger zone"
+
+#: .\templates\teacher\courses\course_form.html:29
+msgid "Das Löschen des Kurses führt zur Löschung aller zugehörigen Lektionen und des Schülerfortschritts."
+msgstr "Deleting the course will delete all associated lessons and student progress."
+
+#: .\templates\teacher\courses\course_form.html:30
+msgid "Sind Sie sicher, dass Sie diesen Kurs löschen möchten?"
+msgstr "Are you sure you want to delete this course?"
+
+#: .\templates\teacher\courses\course_form.html:32
+msgid "Diesen Kurs vollständig löschen"
+msgstr "Delete this course completely"
+
+#: .\templates\teacher\dashboard_main.html:13
+#, fuzzy
+#| msgid "Lerneinheiten"
+msgid "Kurse und Einheiten"
+msgstr "Learning units"
+
+#: .\templates\teacher\dashboard_main.html:20
+#: .\templates\teacher\partials\invitation_edit.html:10
+#, fuzzy
+#| msgid "Einladungscode"
+msgid "Einladungen"
+msgstr "Invitation code"
+
+#: .\templates\teacher\dashboard_main.html:27
+msgid "Meine Schüler"
+msgstr "My students"
+
+#: .\templates\teacher\dashboard_main.html:40
+msgid "Ihre Kurse"
+msgstr "Your courses"
+
+#: .\templates\teacher\dashboard_main.html:60
+#, fuzzy
+#| msgid "Lerneinheiten"
+msgid "Bearbeiten"
+msgstr "Learning units"
+
+#: .\templates\teacher\dashboard_main.html:62
+msgid "Einheit hinzufügen"
+msgstr "Add unit"
+
+#: .\templates\teacher\dashboard_main.html:76
+#, fuzzy, python-format
+#| msgid "Sind Sie sicher, dass Sie diesen Kurs löschen möchten?"
+msgid "Sind Sie sicher, dass Sie die Lektion %(unit.title)s löschen möchten?"
+msgstr "Are you sure you want to delete this course?"
+
+#: .\templates\teacher\dashboard_main.html:84
+msgid "In diesem Kurs gibt es noch keine Lektionen."
+msgstr "There are no lessons in this course yet."
+
+#: .\templates\teacher\dashboard_main.html:99
+#, fuzzy
+#| msgid "Einladung erstellt"
+msgid "Einladung erstellen"
+msgstr "Invitation created"
+
+#: .\templates\teacher\dashboard_main.html:109
+msgid "Tage:"
+msgstr "Days:"
+
+#: .\templates\teacher\dashboard_main.html:114
+#, fuzzy
+#| msgid "Erstellt am"
+msgid "Erstellen"
+msgstr "Create"
+
+#: .\templates\teacher\partials\invitation_edit.html:11
+#, fuzzy
+#| msgid "Einladung erstellt"
+msgid "Einladung bearbeiten"
+msgstr "Edit invitation"
+
+#: .\templates\teacher\partials\invitation_edit.html:17
+msgid "Gültigkeitsdauer ändern"
+msgstr "Change validity period"
+
+#: .\templates\teacher\partials\invitation_edit.html:21
+#, fuzzy
+#| msgid "Einladung erstellt"
+msgid "Einladung für:"
+msgstr "Invitation for:"
+
+#: .\templates\teacher\partials\invitation_edit.html:24
+msgid "Code:"
+msgstr "Code:"
+
+#: .\templates\teacher\partials\invitation_edit.html:38
+msgid ""
+"Eine Änderung der E-Mail-Adresse führt zu Verwirrung, wenn der Schüler "
+"bereits die alte E-Mail erhalten hat. Es wird empfohlen, nur das Datum zu "
+"ändern."
+msgstr ""
+"Changing the email address will cause confusion if the student has already "
+"received the old email. It is recommended to change only the date."
+
+#: .\templates\teacher\partials\invitation_edit.html:43
+msgid "Datum aktualisieren"
+msgstr "Update date"
+
+#: .\templates\teacher\partials\invitation_edit.html:51
+#, fuzzy
+#| msgid "Einladungscode"
+msgid "Einladung löschen?"
+msgstr "Delete invitation?"
+
+#: .\templates\teacher\partials\invitation_edit.html:54
+msgid "Diese Einladung vollständig löschen"
+msgstr "Delete this invitation completely"
+
+#: .\templates\teacher\partials\invitation_list.html:20
+msgid "Code"
+msgstr "Code"
+
+#: .\templates\teacher\partials\invitation_list.html:21
+msgid "Gültig bis"
+msgstr "Valid until"
+
+#: .\templates\teacher\partials\invitation_list.html:23
+#: .\templates\teacher\partials\students_table.html:10
+msgid "Aktion"
+msgstr "Action"
+
+#: .\templates\teacher\partials\invitation_list.html:31
+#, fuzzy
+#| msgid "Erstellt am"
+msgid "Erstellt:"
+msgstr "Created:"
+
+#: .\templates\teacher\partials\invitation_list.html:36
+msgid "bis"
+msgstr "to"
+
+#: .\templates\teacher\partials\invitation_list.html:41
+msgid "Verwendet"
+msgstr "Used"
+
+#: .\templates\teacher\partials\invitation_list.html:43
+msgid "Abgelaufen"
+msgstr "Expired"
+
+#: .\templates\teacher\partials\invitation_list.html:45
+msgid "Aktiv"
+msgstr "Active"
+
+#: .\templates\teacher\partials\invitation_list.html:57
+#, fuzzy
+#| msgid "Einladungscode"
+msgid "Diese Einladung löschen?"
+msgstr "Delete this invitation?"
+
+#: .\templates\teacher\partials\invitation_list.html:67
+msgid "Liste leer"
+msgstr "List is empty"
+
+#: .\templates\teacher\partials\students_table.html:8
+msgid "Gelernt"
+msgstr "Learned"
+
+#: .\templates\teacher\partials\students_table.html:33
+msgid "Analyse"
+msgstr "Analysis"
+
+#: .\templates\teacher\student_course_detail.html:40
+msgid "Statistik im Detail"
+msgstr "Statistics in detail"
+
+#: .\templates\teacher\student_course_list.html:13
+msgid "Kurse von"
+msgstr "Courses from"
+
+#: .\templates\teacher\student_course_list.html:14
+msgid "Gesamte Genauigkeit des Schülers:"
+msgstr "Overall accuracy of the student:"
+
+#: .\templates\teacher\student_course_list.html:34
+msgid "Von Ihnen (Sie)"
+msgstr "From you (you)"
+
+#: .\templates\teacher\student_course_list.html:42
+#, fuzzy
+#| msgid "Verbfortschritt"
+msgid "Kursfortschritt"
+msgstr "Verb progress"
+
+#: .\templates\teacher\units\unit_form.html:13
+msgid "Lernschritt bearbeiten"
+msgstr "Edit learning step"
+
+#: .\templates\teacher\units\unit_form.html:30
+#, fuzzy
+#| msgid "Verben"
+msgid "Verben:"
+msgstr "Verbs"
+
+#: .\templates\teacher\units\unit_form.html:36
+msgid ""
+"Geben Sie die ersten Buchstaben des Verbs für die Suche ein. Mehrere können "
+"ausgewählt werden."
+msgstr ""
+"Enter the first letters of the verb for search. Multiple can be selected."
+
+#: .\templates\teacher\units\unit_form.html:41
+msgid "Speichern"
+msgstr "Save"
+
+#: .\templates\training\partials\card_content.html:7
+msgid "Richtig! ⚡"
+msgstr "Correct! ⚡"
+
+#: .\templates\training\partials\card_content.html:9
+#, python-format
+msgid "Falsch! (Korrekt: %(last_result.correct_answer)s)"
+msgstr "Wrong! (Correct: %(last_result.correct_answer)s)"
+
+#: .\templates\training\partials\card_content.html:32
+msgid "Beenden"
+msgstr "End"
+
+#: .\templates\training\partials\finished.html:6
+msgid "Hervorragend!"
+msgstr "Excellent!"
+
+#: .\templates\training\partials\finished.html:7
+#, python-format
+msgid "Die Lektion „%(unit.title)s“ ist vollständig gemeistert."
+msgstr "The lesson „%(unit.title)s“ is fully mastered."
+
+#: .\templates\training\partials\finished.html:11
+msgid "Alle Wörter in dieser Lektion sind in die Kategorie"
+msgstr "All words in this lesson have been moved to the category"
+
+#: .\templates\training\partials\finished.html:11
+msgid "<br>Sie können nun Ihr Wissen in der nächsten Lektion festigen."
+msgstr "<br>You can now consolidate your knowledge in the next lesson."
+
+#: .\templates\training\partials\finished.html:18
+msgid "Zum Kurs zurück"
+msgstr "Back to course"
+
+#: .\templates\training\partials\finished.html:22
+msgid "Noch einmal wiederholen (Review)"
+msgstr "Repeat once more (review)"
+
+#: .\templates\training\partials\finished.html:25
+msgid "Zur Kursliste"
+msgstr "To course list"
+
+#~ msgid "Sind Sie sicher, dass Sie die Lektion"
+#~ msgstr "Are you sure you want to delete the lesson"
+
+#~ msgid "löschen möchten?"
+#~ msgstr "?"
+
+#, python-format
+#~ msgid ""
+#~ "                                Hallo, %(name)s\n"
+#~ "                            "
+#~ msgstr ""
+#~ "                                Hello, %(name)s\n"
+#~ "                            "
+
+#~ msgid "Falsch! (Korrekt:"
+#~ msgstr "Wrong! (Correct:"
+
+#~ msgid ")"
+#~ msgstr ")"
+
+#~ msgid "Permissions"
+#~ msgstr "Permissions"
+
+#~ msgid "Important dates"
+#~ msgstr "Important dates"

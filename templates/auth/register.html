@@ -35,7 +35,9 @@
             </form>
             {% url 'login' as login_url %}
             <p class="mt-4 text-center small text-muted">
-                {% blocktrans with url=login_url%}Haben Sie bereits ein Profil? <a href="{{ url }}" class="fw-bold">Anmelden</a>{% endblocktrans %}
+                {% blocktrans trimmed with url=login_url %}
+                Haben Sie bereits ein Profil? <a href="{{ url }}" class="fw-bold">Anmelden</a>
+                {% endblocktrans %}
             </p>
         </div>
     </div>

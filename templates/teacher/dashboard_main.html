@@ -73,8 +73,7 @@
 {#                                        <a href="{% url 'web-unit-delete' unit.id %}" class="btn btn-sm btn-link text-decoration-none">❌</a>#}
                                         <button class="btn btn-sm btn-link text-decoration-none"
                                                 hx-delete="{% url 'web-unit-delete' unit.id %}"
-                                                hx-confirm="{% trans "Sind Sie sicher, dass Sie die Lektion" %} '{{ unit.title }}' {% trans "löschen möchten?" %}"
-
+                                                hx-confirm="{% blocktrans %}Sind Sie sicher, dass Sie die Lektion {{ unit.title }} löschen möchten?{% endblocktrans %}"
                                                 hx-target="closest .list-group-item"
                                                 hx-swap="outerHTML">
                                             ❌
