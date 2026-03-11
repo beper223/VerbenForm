@@ -18,7 +18,10 @@
                     <span class="badge {% if course.visibility == 'public' %}bg-success{% else %}bg-primary{% endif %}">
                         {{ course.get_visibility_display }}
                     </span>
-                    <small class="text-muted">{{ course.learning_units.count }} {% trans "Einheiten" %}</small>
+{#                    <small class="text-muted">{{ course.learning_units.count }} {% trans "Lerneinheiten" %}</small>#}
+                    <small class="text-muted">
+                    {% blocktrans count units=course.learning_units.count %}{{ units }} Lerneinheit{% plural %}{{ units }} Lerneinheiten{% endblocktrans %}
+                    </small>
                 </div>
                 <h4 class="fw-bold mb-2">{{ course.title }}</h4>
                 <div class="small text-muted mb-3">

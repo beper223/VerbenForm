@@ -28,7 +28,7 @@
                 <tr id="invite-{{ invite.id }}">
                     <td class="ps-4">
                         <div class="fw-bold">{{ invite.email }}</div>
-                        <div class="small text-muted">{% trans "Erstellt:" %} {{ invite.created_at|date:"d.m.y" }}</div>
+                        <div class="small text-muted">{% trans "Erstellt am:" %} {{ invite.created_at|date:"d.m.y" }}</div>
                     </td>
                     <td><code class="bg-light p-1 rounded">{{ invite.code }}</code></td>
                     <td class="text-center small">

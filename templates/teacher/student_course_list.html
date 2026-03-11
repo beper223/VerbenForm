@@ -24,7 +24,7 @@
                     <span class="badge {% if item.course.visibility == 'public' %}bg-success{% else %}bg-primary{% endif %}">
                         {{ item.course.get_visibility_display }}
                     </span>
-                    <small class="text-muted">{{ item.unit_count }} {% trans "Einheiten" %}</small>
+                    <small class="text-muted">{{ item.unit_count }} {% trans "Lerneinheiten" %}</small>
                 </div>
                 <h4 class="fw-bold mb-3">{{ item.course.title }}</h4>
 
