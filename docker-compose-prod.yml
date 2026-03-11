@@ -43,7 +43,7 @@ services:
     container_name: verben_db
     restart: always
     env_file:
-      - .env
+      - .env_prod
     volumes:
       - verben_postgres_data:/var/lib/postgresql
     ports:
