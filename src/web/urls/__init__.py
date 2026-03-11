@@ -20,4 +20,7 @@ urlpatterns = [
     # Teacher
     path('teacher/', include('src.web.urls.teacher')),
     path('api/verbs/search/', views.VerbLookupView.as_view(), name='api-verb-search'),
+
+    path('impressum/', views.ImpressumView.as_view(), name='web-impressum'),
+    path('datenschutz/', views.PrivacyView.as_view(), name='web-privacy'),
 ]

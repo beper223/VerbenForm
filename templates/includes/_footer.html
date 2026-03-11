@@ -1,0 +1,12 @@
+{% load i18n %}
+<footer class="container mt-auto py-4 border-top">
+    <div class="row align-items-center">
+        <div class="col-md-6 text-center text-md-start small text-muted">
+            &copy; {% now "Y" %} Deutsch.Core. {% trans "Alle Rechte vorbehalten." %}
+        </div>
+        <div class="col-md-6 text-center text-md-end small">
+            <a href="{% url 'web-impressum' %}" class="text-muted text-decoration-none me-3">{% trans "Impressum" %}</a>
+            <a href="{% url 'web-privacy' %}" class="text-muted text-decoration-none">{% trans "Datenschutz" %}</a>
+        </div>
+    </div>
+</footer>

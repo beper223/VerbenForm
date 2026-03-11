@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="card shadow-sm p-4 p-md-5 border-0">
+    <h1 class="fw-bold mb-4">{% trans "Datenschutzerklärung" %}</h1>
+
+    <h5 class="fw-bold">1. {% trans "Datenschutz auf einen Blick" %}</h5>
+    <p>{% trans "Wir nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Wir speichern Ihre E-Mail-Adresse für die Registrierung und Ihren Lernfortschritt für die Bedienung des Simulators." %}</p>
+
+    <h5 class="fw-bold">2. {% trans "Cookies & Sessions" %}</h5>
+    <p>{% trans "Diese Website verwendet technische Cookies (Sitzungs-Cookies), um Sie angemeldet zu halten. Wir verwenden keine Werbe- oder Tracking-Cookies." %}</p>
+
+    <p class="small text-muted mt-5">{% trans "Der vollständige Text der DSGVO muss an Ihr Hosting angepasst werden." %}</p>
+</div>
+{% endblock %}

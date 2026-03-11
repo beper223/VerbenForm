@@ -1,3 +1,22 @@
+{% load i18n %}
 {% load static %}
 <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <!-- Сюда можно добавлять другие глобальные JS библиотеки -->
+<div id="cookie-banner" class="fixed-bottom bg-dark text-white p-3 shadow-lg" style="display: none; z-index: 2000;">
+    <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between">
+        <div class="small me-md-4 mb-2 mb-md-0">
+            {% trans "Wir verwenden technisch notwendige Cookies, um die Funktionalität der Website sicherzustellen." %}
+        </div>
+        <button onclick="acceptCookies()" class="btn btn-primary btn-sm px-4">OK</button>
+    </div>
+</div>
+
+<script>
+    function acceptCookies() {
+        localStorage.setItem('cookiesAccepted', 'true');
+        document.getElementById('cookie-banner').style.display = 'none';
+    }
+    if (!localStorage.getItem('cookiesAccepted')) {
+        document.getElementById('cookie-banner').style.display = 'block';
+    }
+</script>

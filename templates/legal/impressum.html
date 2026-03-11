@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="card shadow-sm p-4 p-md-5 border-0">
+    <h1 class="fw-bold mb-4">{% trans "Impressum" %}</h1>
+    
+    <div class="mb-4">
+        <h5 class="fw-bold">{% trans "Angaben gemäß § 5 TMG" %}</h5>
+        <p>
+            Deutsch.Core<br>
+            Karl-Friedrich-str. 32<br>
+            79312 Emmendingen
+        </p>
+    </div>
+
+    <div class="mb-4">
+        <h5 class="fw-bold">{% trans "Kontakt" %}</h5>
+        <p>
+            E-Mail: sfox3733@gmail.com<br>
+        </p>
+    </div>
+
+    <div class="mb-4">
+        <h5 class="fw-bold">{% trans "Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV" %}</h5>
+        <p>Deutsch.Core</p>
+    </div>
+</div>
+{% endblock %}

@@ -36,6 +36,11 @@ from src.web.views.learning_unit import (
     VerbLookupView,
 )
 
+from src.web.views.legal import (
+    ImpressumView,
+    PrivacyView,
+)
+
 __all__ = [
     'UserLoginView',
     'UserRegisterView',
@@ -65,4 +70,7 @@ __all__ = [
     'UnitUpdateView',
     'UnitDeleteView',
     'VerbLookupView',
+
+    'ImpressumView',
+    'PrivacyView',
 ]
