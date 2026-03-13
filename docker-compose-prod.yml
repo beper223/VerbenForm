@@ -77,6 +77,7 @@ services:
       --log-format=COMBINED
       --output=/opt/goaccess/out/stats.html
       --real-time-html
+      --port=7890
       --ws-url=wss://deutsch-core.de/ws
       --persist
 
