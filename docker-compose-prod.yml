@@ -73,7 +73,7 @@ services:
       - ./logs/nginx:/opt/goaccess/logs:ro      # Читает логи отсюда
       - ./logs/report:/opt/goaccess/out         # Пишет отчет сюда
     command: >
-      goaccess /opt/goaccess/logs/access.log
+      /opt/goaccess/logs/access.log
       --log-format=COMBINED
       --output=/opt/goaccess/out/stats.html
       --real-time-html
