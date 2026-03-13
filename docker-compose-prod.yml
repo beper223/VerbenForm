@@ -58,9 +58,26 @@ services:
     volumes:
       - static_data:/app/staticfiles
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/.htpasswd:/etc/nginx/.htpasswd:ro # Файл с паролем
       - /etc/letsencrypt:/etc/letsencrypt:ro
+      - ./logs/nginx:/var/log/nginx             # Папка для логов Nginx
+      - ./logs/report:/app/report:ro            # Папка, где лежит отчет для просмотра
     depends_on:
       - web
+
+  goaccess:
+    image: allinurl/goaccess:1.9.4
+    container_name: verben_goaccess
+    restart: always
+    volumes:
+      - ./logs/nginx:/opt/goaccess/logs:ro      # Читает логи отсюда
+      - ./logs/report:/opt/goaccess/out         # Пишет отчет сюда
+    command: >
+      goaccess /opt/goaccess/logs/access.log
+      --log-format=COMBINED
+      --output=/opt/goaccess/out/stats.html
+      --real-time-html
+      --persist
 
 volumes:
   verben_postgres_data:
