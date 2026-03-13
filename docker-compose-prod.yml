@@ -80,11 +80,7 @@ services:
       --ws-url=wss://deutsch-core.de/ws
       --persist
 
-# --port=443
-# --origin=https://deutsch-core.de
-
 volumes:
   verben_postgres_data:
   redis_data:
   static_data:
-  #  verben_logs:
