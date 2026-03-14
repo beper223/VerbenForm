@@ -75,7 +75,7 @@ services:
       - ./logs/report:/opt/goaccess/out         # Пишет отчет сюда
     command: >
       sh -c "
-      /opt/goaccess/logs/access.log
+      goaccess /opt/goaccess/logs/access.log
       --log-format=COMBINED
       --output=/opt/goaccess/out/stats.html
       --real-time-html
