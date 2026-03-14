@@ -2,6 +2,7 @@ from django.contrib.auth.views import LoginView
 from django.views.generic import FormView, UpdateView
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
@@ -13,6 +14,10 @@ from src.web.forms import RegistrationForm, ProfileForm
 from src.users.models import User, StudentInvitation
 
 
+class MyPasswordChangeView(SuccessMessageMixin, PasswordChangeView):
+    template_name = 'auth/pwd_change.html'
+    success_url = reverse_lazy('web-profile')
+    success_message = _("Ihr Passwort wurde erfolgreich geändert.")
 
 class UserLoginView(LoginView):
     template_name = 'auth/login.html'

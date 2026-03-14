@@ -3,6 +3,7 @@ from src.web.views.users import (
     UserLoginView,
     UserRegisterView,
     ProfileView,
+    MyPasswordChangeView,
 )
 from src.web.views.learning import (
     CourseListView,
@@ -45,6 +46,7 @@ __all__ = [
     'UserLoginView',
     'UserRegisterView',
     'ProfileView',
+    'MyPasswordChangeView',
 
     'CourseListView',
     'CourseDetailView',

@@ -14,6 +14,14 @@
             <ul class="navbar-nav ms-auto align-items-center">
                 <!-- Блок приветствия (только для десктопа) -->
                 {% if user.is_authenticated %}
+                    <!-- Ссылка в админку для администраторов -->
+                    {% if user.is_staff %}
+                    <li class="nav-item me-3">
+                        <a class="nav-link badge bg-danger text-white" href="{% url 'admin:index' %}" target="_blank">
+                            {% trans "Admin Panel" %}
+                        </a>
+                    </li>
+                    {% endif %}
                     <li class="nav-item d-none d-lg-block me-2">
                         <span class="navbar-text text-light opacity-75 small">
                             {% blocktrans with name=user.display_name%}Hallo, {{ name }}{% endblocktrans %}

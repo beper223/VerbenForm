@@ -27,7 +27,8 @@ class CourseAssignmentView(LoginRequiredMixin, TeacherRequiredMixin, UpdateView)
 
     def get_success_url(self):
         # После сохранения состава возвращаемся к редактированию курса
-        return reverse_lazy('web-course-edit', kwargs={'pk': self.object.id})
+        # return reverse_lazy('web-course-edit', kwargs={'pk': self.object.id})
+        return reverse_lazy('web-teacher-dashboard')
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()

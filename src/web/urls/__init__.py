@@ -1,13 +1,17 @@
 from django.urls import include, path
 from src.web import views
-from django.contrib.auth.views import LogoutView
+from django.contrib.auth.views import LogoutView, PasswordChangeView, PasswordChangeDoneView
+from django.urls import reverse_lazy
 
 urlpatterns = [
     # Auth
     path('login/', views.UserLoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', views.UserRegisterView.as_view(), name='register'),
+
+    # Profile
     path('profile/', views.ProfileView.as_view(), name='web-profile'),
+    path('password-change/', views.MyPasswordChangeView.as_view(), name='password_change'),
 
     # Student
     path('', views.HomeView.as_view(), name='index'),

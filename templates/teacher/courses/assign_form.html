@@ -7,8 +7,7 @@
         <nav aria-label="breadcrumb" class="mb-4">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{% url 'web-teacher-dashboard' %}">{% trans "Lehrer-Panel" %}</a></li>
-                <li class="breadcrumb-item"><a href="{% url 'web-course-edit' object.id %}">{{ object.title }}</a></li>
-                <li class="breadcrumb-item active">{% trans "Teilnehmer" %}</li>
+                <li class="breadcrumb-item active">{{ object.title }}</li>
             </ol>
         </nav>
 
@@ -37,7 +36,7 @@
                 </div>
 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a href="{% url 'web-course-edit' object.id %}" class="btn btn-outline-secondary px-4">{% trans "Zurück" %}</a>
+                    <a href="{% url 'web-teacher-dashboard' %}" class="btn btn-outline-secondary px-4">{% trans "Zurück" %}</a>
                     {% if form.assigned_students.field.queryset.exists %}
                         <button type="submit" class="btn btn-primary px-4">{% trans "Zusammensetzung speichern" %}</button>
                     {% endif %}
