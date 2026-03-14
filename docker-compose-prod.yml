@@ -73,16 +73,16 @@ services:
     volumes:
       - ./logs/nginx:/opt/goaccess/logs:ro      # Читает логи отсюда
       - ./logs/report:/opt/goaccess/out         # Пишет отчет сюда
-    command: |
+    command: >
       sh -c "goaccess /opt/goaccess/logs/access.log \
-        --log-format=COMBINED \
-        --date-format=%d/%b/%Y \
-        --time-format=%H:%M:%S \
-        --output=/opt/goaccess/out/stats.html \
-        --real-time-html \
-        --ws-url=wss://deutsch-core.de/ws \
-        --addr=0.0.0.0 \
-        --persist"
+      --log-format=COMBINED \
+      --date-format=%d/%b/%Y \
+      --time-format=%H:%M:%S \
+      --output=/opt/goaccess/out/stats.html \
+      --real-time-html \
+      --ws-url=wss://deutsch-core.de/ws \
+      --addr=0.0.0.0 \
+      --persist"
 
 volumes:
   verben_postgres_data:
