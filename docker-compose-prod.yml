@@ -74,7 +74,7 @@ services:
       - ./logs/nginx:/opt/goaccess/logs:ro      # Читает логи отсюда
       - ./logs/report:/opt/goaccess/out         # Пишет отчет сюда
     command: >
-      sh -c " /opt/goaccess/logs/access.log
+      /opt/goaccess/logs/access.log
       --log-format=COMBINED
       --output=/opt/goaccess/out/stats.html
       --real-time-html
@@ -82,7 +82,7 @@ services:
       --addr=0.0.0.0
       --port=7890
       --origin=https://deutsch-core.de
-      --persist"
+      --persist
 
 volumes:
   verben_postgres_data:
