@@ -79,7 +79,7 @@ services:
       /opt/goaccess/logs/access.log
       --log-format=COMBINED
       --real-time-html
-      --ws-url=/ws
+      --ws-url=wss://deutsch-core.de:443/ws
       --output=/opt/goaccess/out/stats.html
       --persist
 
