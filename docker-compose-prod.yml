@@ -78,11 +78,11 @@ services:
       --log-format=COMBINED
       --output=/opt/goaccess/out/stats.html
       --real-time-html
-      --ws-url=wss://deutsch-core.de/ws
+      --ws-url=wss://0.0.0.0:7890/ws
       --addr=0.0.0.0
       --port=7890
-      --origin=https://deutsch-core.de
-      --persist
+#      --origin=https://deutsch-core.de
+#      --persist
 
 volumes:
   verben_postgres_data:
