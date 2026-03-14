@@ -77,6 +77,8 @@ services:
       sh -c "
       goaccess /opt/goaccess/logs/access.log
       --log-format=COMBINED
+      --date-format=%d/%b/%Y
+      --time-format=%H:%M:%S
       --output=/opt/goaccess/out/stats.html
       --real-time-html
       --ws-url=wss://deutsch-core.de/ws
