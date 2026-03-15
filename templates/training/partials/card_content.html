@@ -6,7 +6,7 @@
             {% if last_result.correct %}
                 {% trans "Richtig! ⚡" %} {{ last_result.streak }}
             {% else %}
-                {% blocktrans %}Falsch! (Korrekt: {{ last_result.correct_answer }}){% endblocktrans %}
+                {% blocktrans with ans=last_result.correct_answer %}Falsch! (Korrekt: {{ ans }}){% endblocktrans %}
             {% endif %}
         </div>
     {% endif %}
