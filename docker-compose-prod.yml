@@ -77,7 +77,7 @@ services:
       - ./logs/report:/opt/goaccess/out         # Пишет отчет сюда
       - ./goaccess/goaccess.conf:/etc/goaccess/goaccess.conf
       - ./goaccess/db:/opt/goaccess/db
-#      - ./goaccess/geoip:/opt/goaccess/geoip
+      - ./goaccess/geoip:/opt/goaccess/geoip
     command: --config-file=/etc/goaccess/goaccess.conf
 
 volumes:
