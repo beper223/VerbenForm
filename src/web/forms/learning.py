@@ -1,4 +1,6 @@
+import json
 from django import forms
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
@@ -10,9 +12,51 @@ class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
         fields = ['title', 'description', 'visibility']
-        widgets = {
-            'description': forms.Textarea(attrs={'rows': 3}),
-        }
+        # widgets = {
+        #     'description': forms.Textarea(attrs={'rows': 3}),
+        # }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Получаем текущие значения из JSON
+        try:
+            current_data = json.loads(self.instance.description or '{}')
+        except ValueError:
+            current_data = {}
+
+        # Динамически создаем поля для каждого языка в форме
+        for lang_code, lang_name in settings.LANGUAGES:
+            field_name = f'desc_{lang_code}'
+            self.fields[field_name] = forms.CharField(
+                label="",#_("Beschreibung") + f" ({lang_name})",
+                widget=forms.Textarea(attrs={
+                    'rows': 4,
+                    'class': 'form-control',  # Явно добавляем класс
+                    'placeholder': _("Kursbeschreibung eingeben...")
+                }),
+                initial=current_data.get(lang_code, ''),
+                required=False
+            )
+
+        # Скрываем основное поле description, так как мы будем собирать его из desc_...
+        self.fields['description'].widget = forms.HiddenInput()
+        self.fields['description'].required = False
+
+    def clean(self):
+        cleaned_data = super().clean()
+        description_json = {}
+
+        # Собираем данные из всех языковых полей в один словарь
+        for lang_code, _ in settings.LANGUAGES:
+            field_name = f'desc_{lang_code}'
+            value = cleaned_data.get(field_name)
+            if value:
+                description_json[lang_code] = value
+
+        # Записываем JSON-строку в основное поле
+        cleaned_data['description'] = json.dumps(description_json, ensure_ascii=False)
+        return cleaned_data
 
 class CourseAssignmentForm(forms.ModelForm):
     assigned_students = forms.ModelMultipleChoiceField(

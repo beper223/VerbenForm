@@ -75,13 +75,10 @@ services:
     volumes:
       - ./logs/nginx:/opt/goaccess/logs:ro      # Читает логи отсюда
       - ./logs/report:/opt/goaccess/out         # Пишет отчет сюда
-    command: >
-      /opt/goaccess/logs/access.log
-      --log-format=COMBINED
-      --real-time-html
-      --ws-url=wss://deutsch-core.de:443/ws
-      --output=/opt/goaccess/out/stats.html
-      --persist
+      - ./goaccess/goaccess.conf:/etc/goaccess/goaccess.conf
+      - ./goaccess/db:/opt/goaccess/db
+#      - ./goaccess/geoip:/opt/goaccess/geoip
+    command: --config-file=/etc/goaccess/goaccess.conf
 
 volumes:
   verben_postgres_data:

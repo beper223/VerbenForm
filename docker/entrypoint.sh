@@ -10,7 +10,9 @@ echo "PostgreSQL started"
 
 # Права на static
 mkdir -p /app/staticfiles /app/logs
-chown -R django:django /app/staticfiles /app/logs
+if [ "$(stat -c '%U:%G' /app/staticfiles)" != "django:django" ]; then
+    chown -R django:django /app/staticfiles /app/logs
+fi
 
 # Миграции
 python manage.py migrate --noinput

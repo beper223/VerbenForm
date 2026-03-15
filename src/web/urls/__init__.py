@@ -1,7 +1,6 @@
 from django.urls import include, path
 from src.web import views
-from django.contrib.auth.views import LogoutView, PasswordChangeView, PasswordChangeDoneView
-from django.urls import reverse_lazy
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     # Auth

@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     # Local apps
     'src.personal_forms.apps.PersonalFormsConfig',
     'src.users.apps.UsersConfig',
+    'src.common',# form_utils
     # 3-rd party
     'rest_framework',
     'rest_framework.authtoken',
@@ -84,6 +85,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.i18n',
             ],
         },
     },

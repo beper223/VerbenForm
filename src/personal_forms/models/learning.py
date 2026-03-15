@@ -1,8 +1,12 @@
 import uuid
+import json
 
 from django.conf import settings
 from django.db import models
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import (
+    gettext_lazy as _,
+    get_language,
+)
 
 from src.common.choices import CEFRLevel, SkillType
 from src.personal_forms.models import Verb
@@ -61,6 +65,7 @@ class Course(models.Model):
     )
     description = models.TextField(
         verbose_name=_("Beschreibung"),
+        default='{}',
         blank=True,
     )
     author = models.ForeignKey(
@@ -112,6 +117,30 @@ class Course(models.Model):
         if self.visibility == self.Visibility.PRIVATE:
             return self.assigned_students.filter(id=user.id).exists()
         return False
+
+    @property
+    def translated_description(self):
+        """Возвращает описание на текущем языке пользователя или на английском/первом доступном"""
+        try:
+            data = json.loads(self.description)
+        except (ValueError, TypeError):
+            return self.description  # Если в базе не JSON, возвращаем как есть
+
+        curr_lang = get_language()
+        return data.get(curr_lang) or data.get(settings.LANGUAGE_CODE) or next(iter(data.values()), "")
+
+    @property
+    def description_preview(self):
+        """Возвращает первые две непустые строки описания"""
+        text = self.translated_description
+        if not text:
+            return ""
+
+        # Разрезаем текст на строки, убираем лишние пробелы и пустые строки
+        lines = [line.strip() for line in text.splitlines() if line.strip()]
+
+        # Берем только первые две строки и соединяем их обратно
+        return "\n".join(lines[:2])
 
 class UserVerbProgress(models.Model):
     user = models.ForeignKey(
