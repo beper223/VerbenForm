@@ -1,6 +1,6 @@
 {% load i18n %}
 {% if user.is_authenticated %}
-    <li class="nav-item"><a class="nav-link" href="{% url 'units-list' %}">{% trans "Dashboard" %}</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'units-list' %}">{% trans "Lernübersicht" %}</a></li>
     {% if user.is_teacher_admin %}
         <li class="nav-item"><a class="nav-link" href="{% url 'web-teacher-dashboard' %}">{% trans "Lehrer-Panel" %}</a></li>
     {% endif %}

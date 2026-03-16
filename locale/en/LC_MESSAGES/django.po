@@ -573,7 +573,7 @@ msgstr ""
 "website."
 
 #: .\templates\includes\_user_menu.html:3
-msgid "Dashboard"
+msgid "Lernübersicht"
 msgstr "Dashboard"
 
 #: .\templates\includes\_user_menu.html:5

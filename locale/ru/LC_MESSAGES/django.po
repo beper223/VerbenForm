@@ -575,8 +575,8 @@ msgstr ""
 "функциональности веб-сайта."
 
 #: .\templates\includes\_user_menu.html:3
-msgid "Dashboard"
-msgstr "Панель управления"
+msgid "Lernübersicht"
+msgstr "Мои курсы"
 
 #: .\templates\includes\_user_menu.html:5
 #: .\templates\teacher\courses\assign_form.html:9

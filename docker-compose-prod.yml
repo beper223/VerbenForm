@@ -7,6 +7,7 @@ services:
       - static_data:/app/staticfiles
       # - media_volume:/app/mediafiles # Если используете
       - ./logs:/app/logs    # Bind Mount для логов
+      - ./import:/app/import
     expose:
       - "8000"
     env_file:
@@ -77,6 +78,7 @@ services:
       - ./logs/report:/opt/goaccess/out         # Пишет отчет сюда
       - ./goaccess/goaccess.conf:/etc/goaccess/goaccess.conf
       - ./goaccess/db:/opt/goaccess/db
+      - ./goaccess/html:/var/www/goaccess       # ничего не хранит, но создает volume
       - ./goaccess/geoip:/opt/goaccess/geoip
     command: --config-file=/etc/goaccess/goaccess.conf
 
