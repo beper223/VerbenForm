@@ -26,4 +26,5 @@ urlpatterns = [
 
     path('impressum/', views.ImpressumView.as_view(), name='web-impressum'),
     path('datenschutz/', views.PrivacyView.as_view(), name='web-privacy'),
+    path("docs/", views.markdown_page, name="web-markdown_page"),
 ]

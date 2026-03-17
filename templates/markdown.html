@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Работы по 1С</title>
+
+    <!-- Prism.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-coy.css">
+
+    <!-- Prism.js core -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
+
+    <!-- Prism.js BSL язык -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bsl.min.js"></script>
+</head>
+<body>
+
+    <!-- Контент с Markdown -->
+    {{ content|safe }}
+
+    <!-- Инициализация подсветки -->
+    <script>
+        Prism.highlightAll();
+    </script>
+
+</body>
+</html>

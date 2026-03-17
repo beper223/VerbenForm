@@ -63,8 +63,8 @@ class Command(BaseCommand):
         allowed_cases = {
             GermanCase.AKK.name,
             GermanCase.DAT.name,
-            GermanCase.AKK.value,
-            GermanCase.DAT.value,
+            # GermanCase.AKK.value,
+            # GermanCase.DAT.value,
         }
         allowed_levels = {l.value for l in CEFRLevel}
 

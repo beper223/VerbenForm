@@ -42,6 +42,8 @@ from src.web.views.legal import (
     PrivacyView,
 )
 
+from src.web.views.my_markdown import markdown_page
+
 __all__ = [
     'UserLoginView',
     'UserRegisterView',
@@ -75,4 +77,5 @@ __all__ = [
 
     'ImpressumView',
     'PrivacyView',
+    'markdown_page',
 ]
