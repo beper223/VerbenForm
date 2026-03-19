@@ -97,7 +97,7 @@ class UnitForm(forms.ModelForm):
         if user:
             self.fields['course'].queryset = Course.objects.filter(author=user)
             self.fields['verb_group'].queryset = VerbGroup.objects.filter(
-                course__author=user
+                author=user
             ).order_by('title')
 
         # Делаем выбор набора обязательным
@@ -107,7 +107,7 @@ class UnitForm(forms.ModelForm):
 class VerbGroupForm(forms.ModelForm):
     class Meta:
         model = VerbGroup
-        fields = ['course', 'title', 'verbs']
+        fields = ['title', 'verbs']
         widgets = {
             'verbs': forms.SelectMultiple(attrs={'id': 'verb-select'}),
         }
@@ -116,5 +116,4 @@ class VerbGroupForm(forms.ModelForm):
         user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
         if user:
-            # Показываем только курсы этого учителя
-            self.fields['course'].queryset = Course.objects.filter(author=user)
+            pass

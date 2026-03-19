@@ -38,7 +38,7 @@ class TeacherDashboardView(LoginRequiredMixin, TeacherRequiredMixin, TemplateVie
 
         # Данные для вкладки 4: Списки глаголов
         context['verb_groups'] = VerbGroup.objects.filter(
-            course__author=self.request.user
-        ).prefetch_related('verbs', 'course')
+            author=self.request.user
+        ).prefetch_related('verbs').order_by('title')
 
         return context

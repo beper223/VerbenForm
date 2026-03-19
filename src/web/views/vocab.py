@@ -21,6 +21,10 @@ class VerbGroupCreateView(LoginRequiredMixin, TeacherRequiredMixin, CreateView):
         kwargs['user'] = self.request.user
         return kwargs
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user  # Назначаем текущего учителя
+        return super().form_valid(form)
+
 
 class VerbGroupUpdateView(LoginRequiredMixin, TeacherRequiredMixin, UpdateView):
     model = VerbGroup
@@ -31,7 +35,7 @@ class VerbGroupUpdateView(LoginRequiredMixin, TeacherRequiredMixin, UpdateView):
         return reverse('web-teacher-dashboard') + "?tab=vocab"
 
     def get_queryset(self):
-        return self.model.objects.filter(course__author=self.request.user)
+        return self.model.objects.filter(author=self.request.user)
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -43,7 +47,7 @@ class VerbGroupDeleteView(LoginRequiredMixin, TeacherRequiredMixin, DeleteView):
     model = VerbGroup
 
     def get_queryset(self):
-        return self.model.objects.filter(course__author=self.request.user)
+        return self.model.objects.filter(author=self.request.user)
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()

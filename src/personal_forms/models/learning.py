@@ -15,12 +15,19 @@ from src.personal_forms.models.VerbForms import Verb
 class VerbGroup(models.Model):
     """Контейнер для глаголов, который можно использовать в разных типах тренировок"""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    course = models.ForeignKey(
-        'Course',
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="verb_groups",
-        verbose_name=_("Kurse")
+        verbose_name=_("Autor"),
+        default='fdd5cf8e-3605-4a30-bbd5-c8f68738f9be'
     )
+    # course = models.ForeignKey(
+    #     'Course',
+    #     on_delete=models.CASCADE,
+    #     related_name="verb_groups",
+    #     verbose_name=_("Kurse")
+    # )
     title = models.CharField(_("Titel des Wortschatzes"), max_length=200)
     verbs = models.ManyToManyField(
         Verb,

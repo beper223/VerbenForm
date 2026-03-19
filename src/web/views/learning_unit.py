@@ -34,7 +34,7 @@ class UnitUpdateView(LoginRequiredMixin, TeacherRequiredMixin, UpdateView):
 
     def get_queryset(self):
         # Только юниты в курсах, где пользователь — автор
-        return self.model.objects.filter(course__author=self.request.user)
+        return self.model.objects.filter(author=self.request.user)
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()

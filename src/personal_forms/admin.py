@@ -392,7 +392,7 @@ class LearningUnitAdmin(admin.ModelAdmin):
         if request.user.is_teacher_admin():
             return qs
         # Для других пользователей показываем только их курсы
-        return qs.filter(course__author=request.user)
+        return qs.filter(author=request.user)
 
 
 class LearningUnitInline(admin.TabularInline):
