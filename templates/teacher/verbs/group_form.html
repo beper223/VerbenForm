@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static i18n crispy_forms_tags %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'web-teacher-dashboard' %}?tab=vocab">{% trans "Wortschatz" %}</a></li>
+                <li class="breadcrumb-item active">{% trans "Wortschatz bearbeiten" %}</li>
+            </ol>
+        </nav>
+
+        <div class="card shadow-sm p-4 border-0">
+            <h2 class="fw-bold mb-4">{% trans "Wortschatz" %}</h2>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6">{{ form.course|as_crispy_field }}</div>
+                    <div class="col-md-6">{{ form.title|as_crispy_field }}</div>
+                </div>
+
+                <div class="mt-4">
+                    <label class="form-label fw-bold">{% trans "Verben" %}:</label>
+                    <div id="verb-wrapper" data-lookup-url="{% url 'api-verb-search' %}">
+                        {{ form.verbs }}
+                    </div>
+                    <div class="form-text">{% trans "Geben Sie die ersten Buchstaben ein, um Verben zu finden." %}</div>
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-5">
+                    <a href="{% url 'web-teacher-dashboard' %}?tab=vocab" class="btn btn-outline-secondary px-4">
+                        {% trans "Abbrechen" %}
+                    </a>
+                    <button type="submit" class="btn btn-primary px-5 fw-bold">
+                        {% trans "Speichern" %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Подключаем Tom Select (библиотеки уже должны быть в static/vendor/) -->
+<link rel="stylesheet" href="{% static 'vendor/tom-select/tom-select.bootstrap5.min.css' %}">
+<script src="{% static 'vendor/tom-select/tom-select.complete.min.js' %}"></script>
+<script src="{% static 'js/verb-selection.js' %}"></script>
+{% endblock %}

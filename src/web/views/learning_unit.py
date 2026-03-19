@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.http import JsonResponse
 
-from src.personal_forms.models import Course, LearningUnit, Verb
+from src.personal_forms.models import Course, LearningUnit, Verb, VerbGroup
 from src.web.forms import UnitForm
 from src.web.views.mixins import TeacherRequiredMixin
 
@@ -66,3 +66,17 @@ class VerbLookupView(LoginRequiredMixin, View):
         verbs = Verb.objects.filter(infinitive__icontains=query).order_by('infinitive')[:20]
         results = [{'id': v.id, 'text': v.infinitive} for v in verbs]
         return JsonResponse({'results': results})
+
+
+class VerbGroupCreateView(LoginRequiredMixin, TeacherRequiredMixin, CreateView):
+    model = VerbGroup
+    fields = ['course', 'title', 'verbs']
+    template_name = 'teacher/verbs/group_form.html'
+    success_url = reverse_lazy('web-teacher-dashboard')
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        # Ограничиваем курсы только своими
+        form.fields['course'].queryset = Course.objects.filter(author=self.request.user)
+        # Здесь также можно подключить Tom Select для поля verbs через виджет
+        return form

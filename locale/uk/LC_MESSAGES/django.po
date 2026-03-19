@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-15 19:31+0100\n"
+"POT-Creation-Date: 2026-03-19 13:59+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -113,7 +113,7 @@ msgstr "Дієвідміна"
 
 #: .\src\personal_forms\admin.py:220
 #: .\src\personal_forms\models\VerbForms.py:30
-#: .\src\personal_forms\models\learning.py:24
+#: .\src\personal_forms\models\learning.py:43
 msgid "Niveau"
 msgstr "Рівень"
 
@@ -155,7 +155,7 @@ msgstr "Призначення учнів"
 msgid "Nur für private Kurse sichtbar"
 msgstr "Видно тільки для приватних курсів"
 
-#: .\src\personal_forms\admin.py:481 .\src\personal_forms\models\learning.py:50
+#: .\src\personal_forms\admin.py:481 .\src\personal_forms\models\learning.py:73
 #: .\templates\teacher\student_course_list.html:27
 msgid "Lerneinheiten"
 msgstr "Навчальні модулі"
@@ -192,12 +192,15 @@ msgstr "Дієприкметник II"
 #: .\src\personal_forms\models\VerbForms.py:74
 #: .\src\personal_forms\models\VerbForms.py:105
 #: .\src\personal_forms\models\VerbForms.py:147
-#: .\src\personal_forms\models\learning.py:157
+#: .\src\personal_forms\models\learning.py:186
 #: .\templates\personal_forms\unit_stats.html:41
 msgid "Verb"
 msgstr "Дієслово"
 
 #: .\src\personal_forms\models\VerbForms.py:64
+#: .\src\personal_forms\models\learning.py:28
+#: .\templates\teacher\partials\verbgroup_list.html:9
+#: .\templates\teacher\verbs\group_form.html:25
 msgid "Verben"
 msgstr "Дієслова"
 
@@ -206,7 +209,7 @@ msgid "Zeitform"
 msgstr "Час"
 
 #: .\src\personal_forms\models\VerbForms.py:82
-#: .\src\personal_forms\models\learning.py:171
+#: .\src\personal_forms\models\learning.py:200
 msgid "Pronomen"
 msgstr "Займенник"
 
@@ -249,113 +252,127 @@ msgstr "Дієслово з прийменником"
 msgid "Verben mit Präposition"
 msgstr "Дієслова з прийменником"
 
-#: .\src\personal_forms\models\learning.py:21
-#: .\src\personal_forms\models\learning.py:101
-msgid "Kurs"
-msgstr "Курс"
-
-#: .\src\personal_forms\models\learning.py:30
-#: .\src\personal_forms\models\learning.py:163
-msgid "Fähigkeit"
-msgstr "Навичка"
-
-#: .\src\personal_forms\models\learning.py:37
-msgid "Überschrift"
-msgstr "Заголовок"
-
-#: .\src\personal_forms\models\learning.py:49
-msgid "Lerneinheit"
-msgstr "Навчальний модуль"
-
-#: .\src\personal_forms\models\learning.py:58
-msgid "Öffentlich"
-msgstr "Публічний"
-
-#: .\src\personal_forms\models\learning.py:59
-msgid "Privat"
-msgstr "Приватний"
-
-#: .\src\personal_forms\models\learning.py:63
-msgid "Kurstitel"
-msgstr "Назва курсу"
-
-#: .\src\personal_forms\models\learning.py:67
-msgid "Beschreibung"
-msgstr "Опис"
-
-#: .\src\personal_forms\models\learning.py:75
-msgid "Autor"
-msgstr "Автор"
-
-#: .\src\personal_forms\models\learning.py:82
-msgid "Sichtbarkeit"
-msgstr "Видимість"
-
-#: .\src\personal_forms\models\learning.py:88
-msgid "Zugewiesene Schüler"
-msgstr "Призначені учні"
-
-#: .\src\personal_forms\models\learning.py:93
-#: .\src\personal_forms\models\learning.py:206
-msgid "Erstellt am"
-msgstr "Створено"
-
-#: .\src\personal_forms\models\learning.py:97
-#: .\src\personal_forms\models\learning.py:211
-msgid "Aktualisiert am"
-msgstr "Оновлено"
-
-#: .\src\personal_forms\models\learning.py:102
+#: .\src\personal_forms\models\learning.py:22
+#: .\src\personal_forms\models\learning.py:131
 #: .\templates\personal_forms\course_detail.html:10
 #: .\templates\personal_forms\unit_stats.html:10
 #: .\templates\teacher\dashboard_main.html:13
 msgid "Kurse"
 msgstr "Курси"
 
-#: .\src\personal_forms\models\learning.py:150 .\src\users\models.py:58
+#: .\src\personal_forms\models\learning.py:24
+#: .\templates\teacher\partials\verbgroup_list.html:7
+msgid "Titel des Wortschatzes"
+msgstr ""
+
+#: .\src\personal_forms\models\learning.py:40
+#: .\src\personal_forms\models\learning.py:130
+#: .\templates\teacher\partials\verbgroup_list.html:8
+msgid "Kurs"
+msgstr "Курс"
+
+#: .\src\personal_forms\models\learning.py:49
+#: .\src\personal_forms\models\learning.py:192
+msgid "Fähigkeit"
+msgstr "Навичка"
+
+#: .\src\personal_forms\models\learning.py:56
+msgid "Überschrift"
+msgstr "Заголовок"
+
+#: .\src\personal_forms\models\learning.py:68 .\src\web\forms\learning.py:105
+#: .\templates\teacher\dashboard_main.html:34
+#: .\templates\teacher\verbs\group_form.html:9
+#: .\templates\teacher\verbs\group_form.html:15
+msgid "Wortschatz"
+msgstr "Словник"
+
+#: .\src\personal_forms\models\learning.py:72
+msgid "Lerneinheit"
+msgstr "Навчальний модуль"
+
+#: .\src\personal_forms\models\learning.py:87
+msgid "Öffentlich"
+msgstr "Публічний"
+
+#: .\src\personal_forms\models\learning.py:88
+msgid "Privat"
+msgstr "Приватний"
+
+#: .\src\personal_forms\models\learning.py:92
+msgid "Kurstitel"
+msgstr "Назва курсу"
+
+#: .\src\personal_forms\models\learning.py:96
+msgid "Beschreibung"
+msgstr "Опис"
+
+#: .\src\personal_forms\models\learning.py:104
+msgid "Autor"
+msgstr "Автор"
+
+#: .\src\personal_forms\models\learning.py:111
+msgid "Sichtbarkeit"
+msgstr "Видимість"
+
+#: .\src\personal_forms\models\learning.py:117
+msgid "Zugewiesene Schüler"
+msgstr "Призначені учні"
+
+#: .\src\personal_forms\models\learning.py:122
+#: .\src\personal_forms\models\learning.py:235
+msgid "Erstellt am"
+msgstr "Створено"
+
+#: .\src\personal_forms\models\learning.py:126
+#: .\src\personal_forms\models\learning.py:240
+msgid "Aktualisiert am"
+msgstr "Оновлено"
+
+#: .\src\personal_forms\models\learning.py:179 .\src\users\models.py:58
 #: .\src\users\models.py:59
 msgid "Benutzer"
 msgstr "Користувач"
 
-#: .\src\personal_forms\models\learning.py:172
+#: .\src\personal_forms\models\learning.py:201
 msgid "Leer bei Übersetzungsaufgaben"
 msgstr "Порожньо в завданнях на переклад"
 
-#: .\src\personal_forms\models\learning.py:177
+#: .\src\personal_forms\models\learning.py:206
 msgid "Richtige Antworten"
 msgstr "Правильні відповіді"
 
-#: .\src\personal_forms\models\learning.py:182
+#: .\src\personal_forms\models\learning.py:211
 msgid "Falsche Antworten"
 msgstr "Неправильні відповіді"
 
-#: .\src\personal_forms\models\learning.py:188
+#: .\src\personal_forms\models\learning.py:217
 msgid "Aktuelle Serie"
 msgstr "Поточна серія"
 
-#: .\src\personal_forms\models\learning.py:189
+#: .\src\personal_forms\models\learning.py:218
 msgid "Anzahl der richtigen Antworten in Folge"
 msgstr "Кількість правильних відповідей поспіль"
 
-#: .\src\personal_forms\models\learning.py:194
+#: .\src\personal_forms\models\learning.py:223
 #: .\templates\personal_forms\course_detail.html:19
 #: .\templates\training\partials\finished.html:11
 msgid "Beherrscht"
 msgstr "Опановано"
 
-#: .\src\personal_forms\models\learning.py:195
+#: .\src\personal_forms\models\learning.py:224
 msgid "Wird als gelernt betrachtet"
 msgstr "Вважається вивченим"
 
-#: .\src\personal_forms\models\learning.py:201
+#: .\src\personal_forms\models\learning.py:230
 msgid "Letzte Antwort"
 msgstr "Остання відповідь"
 
-#: .\src\personal_forms\models\learning.py:215
+#: .\src\personal_forms\models\learning.py:244
 msgid "Verbfortschritt"
 msgstr "Прогрес дієслова"
 
-#: .\src\personal_forms\models\learning.py:216
+#: .\src\personal_forms\models\learning.py:245
 msgid "Verbfortschritte"
 msgstr "Прогрес дієслів"
 
@@ -368,7 +385,7 @@ msgstr "Додаткова інформація"
 msgid "Lehrer"
 msgstr "Вчитель"
 
-#: .\src\users\models.py:15 .\templates\teacher\dashboard_main.html:58
+#: .\src\users\models.py:15 .\templates\teacher\dashboard_main.html:64
 #: .\templates\teacher\partials\students_table.html:7
 #: .\templates\teacher\student_course_list.html:9
 msgid "Schüler"
@@ -492,7 +509,8 @@ msgstr[2] "Ви обрали %(count)s дієслів"
 #: .\templates\auth\pwd_change.html:22
 #: .\templates\teacher\courses\course_form.html:69
 #: .\templates\teacher\partials\invitation_edit.html:42
-#: .\templates\teacher\units\unit_form.html:40
+#: .\templates\teacher\units\unit_form.html:44
+#: .\templates\teacher\verbs\group_form.html:34
 msgid "Abbrechen"
 msgstr "Скасувати"
 
@@ -582,6 +600,7 @@ msgstr "Огляд курсів"
 #: .\templates\teacher\courses\assign_form.html:9
 #: .\templates\teacher\courses\course_form.html:9
 #: .\templates\teacher\dashboard_main.html:6
+#: .\templates\teacher\units\unit_form.html:10
 msgid "Lehrer-Panel"
 msgstr "Кабінет вчителя"
 
@@ -715,6 +734,7 @@ msgstr "точність"
 
 #: .\templates\personal_forms\course_detail.html:40
 #: .\templates\teacher\student_course_detail.html:29
+#: .\templates\teacher\units\unit_form.html:16
 msgid "Fortschritt"
 msgstr "Прогрес"
 
@@ -845,7 +865,7 @@ msgid "Kurs bearbeiten"
 msgstr "Редагувати курс"
 
 #: .\templates\teacher\courses\course_form.html:10
-#: .\templates\teacher\dashboard_main.html:42
+#: .\templates\teacher\dashboard_main.html:48
 msgid "Kurs erstellen"
 msgstr "Створити курс"
 
@@ -888,42 +908,42 @@ msgstr "Повністю видалити цей курс"
 #: .\templates\teacher\dashboard_main.html:20
 #: .\templates\teacher\partials\invitation_edit.html:10
 msgid "Einladungen"
-msgstr "Код запрошення"
+msgstr "Запрошення"
 
 #: .\templates\teacher\dashboard_main.html:27
 msgid "Meine Schüler"
-msgstr "Мої учні"
+msgstr "Учні"
 
-#: .\templates\teacher\dashboard_main.html:40
+#: .\templates\teacher\dashboard_main.html:46
 msgid "Ihre Kurse"
 msgstr "Ваші курси"
 
-#: .\templates\teacher\dashboard_main.html:60
+#: .\templates\teacher\dashboard_main.html:66
 msgid "Bearbeiten"
 msgstr "Редагувати"
 
-#: .\templates\teacher\dashboard_main.html:62
+#: .\templates\teacher\dashboard_main.html:68
 msgid "Einheit hinzufügen"
 msgstr "Додати одиницю"
 
-#: .\templates\teacher\dashboard_main.html:76
+#: .\templates\teacher\dashboard_main.html:81
 #, python-format
 msgid "Sind Sie sicher, dass Sie die Lektion %(unit.title)s löschen möchten?"
 msgstr "Ви впевнені, що хочете видалити курс %(unit.title)s?"
 
-#: .\templates\teacher\dashboard_main.html:84
+#: .\templates\teacher\dashboard_main.html:89
 msgid "In diesem Kurs gibt es noch keine Lektionen."
 msgstr "У цьому курсі ще немає уроків."
 
-#: .\templates\teacher\dashboard_main.html:99
+#: .\templates\teacher\dashboard_main.html:104
 msgid "Einladung erstellen"
 msgstr "Створити запрошення"
 
-#: .\templates\teacher\dashboard_main.html:109
+#: .\templates\teacher\dashboard_main.html:114
 msgid "Tage:"
 msgstr "Дні:"
 
-#: .\templates\teacher\dashboard_main.html:114
+#: .\templates\teacher\dashboard_main.html:119
 msgid "Erstellen"
 msgstr "Створити"
 
@@ -974,6 +994,7 @@ msgstr "Дійсний до"
 
 #: .\templates\teacher\partials\invitation_list.html:23
 #: .\templates\teacher\partials\students_table.html:10
+#: .\templates\teacher\partials\verbgroup_list.html:10
 msgid "Aktion"
 msgstr "Дія"
 
@@ -1013,6 +1034,15 @@ msgstr "Вивчено"
 msgid "Analyse"
 msgstr "Аналіз"
 
+#: .\templates\teacher\partials\verbgroup_list.html:32
+#, python-format
+msgid "Möchten Sie den Wortschatz '%(group.title)s' wirklich löschen?"
+msgstr "Ви дійсно хочете видалити словник '%(group.title)s'?"
+
+#: .\templates\teacher\partials\verbgroup_list.html:43
+msgid "Keine Wortschätze vorhanden."
+msgstr "Словників немає"
+
 #: .\templates\teacher\student_course_detail.html:40
 msgid "Statistik im Detail"
 msgstr "Детальніше"
@@ -1037,23 +1067,30 @@ msgstr "Автор:"
 msgid "Kursfortschritt"
 msgstr "Прогрес курса"
 
-#: .\templates\teacher\units\unit_form.html:13
+#: .\templates\teacher\units\unit_form.html:11
 msgid "Lernschritt bearbeiten"
 msgstr "Редагувати крок навчання"
 
-#: .\templates\teacher\units\unit_form.html:30
-msgid "Verben:"
-msgstr "Дієслова:"
-
-#: .\templates\teacher\units\unit_form.html:36
+#: .\templates\teacher\units\unit_form.html:39
 msgid ""
-"Geben Sie die ersten Buchstaben des Verbs für die Suche ein. Mehrere können "
-"ausgewählt werden."
-msgstr "Введіть перші букви дієслова для пошуку. Можна вибрати кілька."
+"Wählen Sie ein Set aus dem Bereich 'Wortschatz'. Falls Sie das benötigte Set "
+"nicht besitzen, erstellen Sie es im Reiter 'Wortschatz'."
+msgstr ""
+"Виберіть набір із розділу 'Словник'. Якщо у вас немає потрібного набору, "
+"створіть його на вкладці 'Словник'."
 
-#: .\templates\teacher\units\unit_form.html:41
+#: .\templates\teacher\units\unit_form.html:45
+#: .\templates\teacher\verbs\group_form.html:37
 msgid "Speichern"
 msgstr "Зберегти"
+
+#: .\templates\teacher\verbs\group_form.html:10
+msgid "Wortschatz bearbeiten"
+msgstr "Редагувати словник"
+
+#: .\templates\teacher\verbs\group_form.html:29
+msgid "Geben Sie die ersten Buchstaben ein, um Verben zu finden."
+msgstr "Введіть перші літери дієслова для пошуку."
 
 #: .\templates\training\partials\card_content.html:7
 msgid "Richtig! ⚡"
@@ -1096,6 +1133,14 @@ msgstr "Повторити ще раз (огляд)"
 #: .\templates\training\partials\finished.html:25
 msgid "Zur Kursliste"
 msgstr "До списку курсів"
+
+#~ msgid "Verben:"
+#~ msgstr "Дієслова:"
+
+#~ msgid ""
+#~ "Geben Sie die ersten Buchstaben des Verbs für die Suche ein. Mehrere "
+#~ "können ausgewählt werden."
+#~ msgstr "Введіть перші букви дієслова для пошуку. Можна вибрати кілька."
 
 #, python-format
 #~ msgid "Falsch! (Korrekt: %(last_result.correct_answer)s)"

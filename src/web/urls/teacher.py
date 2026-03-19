@@ -23,4 +23,7 @@ urlpatterns = [
     path('unit/<uuid:pk>/edit/', views.UnitUpdateView.as_view(), name='web-unit-edit'),
     path('unit/<uuid:pk>/delete/', views.UnitDeleteView.as_view(), name='web-unit-delete'),
 
+    path('vocab/add/', views.VerbGroupCreateView.as_view(), name='web-verbgroup-create'),
+    path('vocab/<uuid:pk>/edit/', views.VerbGroupUpdateView.as_view(), name='web-verbgroup-edit'),
+    path('vocab/<uuid:pk>/delete/', views.VerbGroupDeleteView.as_view(), name='web-verbgroup-delete'),
 ]

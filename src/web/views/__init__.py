@@ -37,6 +37,12 @@ from src.web.views.learning_unit import (
     VerbLookupView,
 )
 
+from src.web.views.vocab import (
+    VerbGroupCreateView,
+    VerbGroupUpdateView,
+    VerbGroupDeleteView,
+)
+
 from src.web.views.legal import (
     ImpressumView,
     PrivacyView,
@@ -50,8 +56,6 @@ __all__ = [
     'ProfileView',
     'MyPasswordChangeView',
 
-    'CourseListView',
-    'CourseDetailView',
     'TrainingSessionView',
     'SubmitAnswerView',
 
@@ -65,6 +69,8 @@ __all__ = [
     'TeacherDashboardView',
     'HomeView',
 
+    'CourseListView',
+    'CourseDetailView',
     'CourseCreateView',
     'CourseAssignmentView',
     'CourseUpdateView',
@@ -74,6 +80,10 @@ __all__ = [
     'UnitUpdateView',
     'UnitDeleteView',
     'VerbLookupView',
+
+    'VerbGroupCreateView',
+    'VerbGroupUpdateView',
+    'VerbGroupDeleteView',
 
     'ImpressumView',
     'PrivacyView',

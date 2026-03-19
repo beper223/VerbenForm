@@ -28,6 +28,12 @@
 
             </button>
         </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link {% if active_tab == 'vocab' %}active{% endif %}"
+                    id="vocab-tab" data-bs-toggle="pill" data-bs-target="#vocab-content">
+                {% trans "Wortschatz" %}
+            </button>
+        </li>
     </ul>
 
     <!-- Контент вкладок -->
@@ -70,7 +76,6 @@
                                     <span>{{ unit.order }}. <strong>{{ unit.title }}</strong> <small class="text-muted">({{ unit.level }})</small></span>
                                     <div class="btn-group">
                                         <a href="{% url 'web-unit-edit' unit.id %}" class="btn btn-sm btn-link text-decoration-none">📝</a>
-{#                                        <a href="{% url 'web-unit-delete' unit.id %}" class="btn btn-sm btn-link text-decoration-none">❌</a>#}
                                         <button class="btn btn-sm btn-link text-decoration-none"
                                                 hx-delete="{% url 'web-unit-delete' unit.id %}"
                                                 hx-confirm="{% blocktrans %}Sind Sie sicher, dass Sie die Lektion {{ unit.title }} löschen möchten?{% endblocktrans %}"
@@ -123,6 +128,15 @@
         <div class="tab-pane fade {% if active_tab == 'students' %}show active{% endif %}"
              id="students-content" role="tabpanel">
              {% include 'teacher/partials/students_table.html' %}
+        </div>
+
+        <div class="tab-pane fade {% if active_tab == 'vocab' %}show active{% endif %}"
+             id="vocab-content" role="tabpanel">
+            <div class="d-flex justify-content-between mb-3">
+                <h4>Ваши наборы слов</h4>
+                <a href="{% url 'web-verbgroup-create' %}" class="btn btn-sm btn-primary">+ Создать набор</a>
+            </div>
+            {% include 'teacher/partials/verbgroup_list.html' %}
         </div>
     </div>
 </div>

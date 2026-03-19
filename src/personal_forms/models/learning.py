@@ -9,8 +9,27 @@ from django.utils.translation import (
 )
 
 from src.common.choices import CEFRLevel, SkillType
-from src.personal_forms.models import Verb
+from src.personal_forms.models.VerbForms import Verb
 
+
+class VerbGroup(models.Model):
+    """Контейнер для глаголов, который можно использовать в разных типах тренировок"""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    course = models.ForeignKey(
+        'Course',
+        on_delete=models.CASCADE,
+        related_name="verb_groups",
+        verbose_name=_("Kurse")
+    )
+    title = models.CharField(_("Titel des Wortschatzes"), max_length=200)
+    verbs = models.ManyToManyField(
+        Verb,
+        related_name="verb_groups",
+        verbose_name=_("Verben")
+    )
+
+    def __str__(self):
+        return f"{self.title} ({self.course.title})"
 
 class LearningUnit(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -39,10 +58,14 @@ class LearningUnit(models.Model):
     )
     order = models.PositiveIntegerField()
 
-    verbs = models.ManyToManyField(
-        Verb,
+    verb_group = models.ForeignKey(
+        VerbGroup,
+        # on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
+        related_name="units",
+        null=True,
         blank=True,
-        related_name="learning_units"
+        verbose_name=_("Wortschatz")
     )
 
     class Meta:
@@ -52,6 +75,12 @@ class LearningUnit(models.Model):
             models.Index(fields=["course", "order"]),
             models.Index(fields=["course", "level"]),
         ]
+
+    @property
+    def verbs(self):
+        if self.verb_group:
+            return self.verb_group.verbs
+        return Verb.objects.none()
 
 class Course(models.Model):
     class Visibility(models.TextChoices):

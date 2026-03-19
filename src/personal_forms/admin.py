@@ -384,7 +384,7 @@ class LearningUnitAdmin(admin.ModelAdmin):
     ordering = ("course", "order")
     list_per_page = 20
 
-    filter_horizontal = ("verbs",)
+    #filter_horizontal = ("verbs",)
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
@@ -399,7 +399,7 @@ class LearningUnitInline(admin.TabularInline):
     model = LearningUnitModel
     extra = 0
     fields = ("title", "level", "skill_type", "order", "verbs")
-    filter_horizontal = ("verbs",)
+    #filter_horizontal = ("verbs",)
     ordering = ("order",)
 
     def get_queryset(self, request):

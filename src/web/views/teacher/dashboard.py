@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 
-from src.personal_forms.models import Course
+from src.personal_forms.models import Course, VerbGroup
 from src.users.models import StudentInvitation
 
 from src.personal_forms.services import LearningUnitProgressService
@@ -35,5 +35,10 @@ class TeacherDashboardView(LoginRequiredMixin, TeacherRequiredMixin, TemplateVie
                 'stats': service.get_global_stats(student)
             })
         context['students_data'] = students_data
+
+        # Данные для вкладки 4: Списки глаголов
+        context['verb_groups'] = VerbGroup.objects.filter(
+            course__author=self.request.user
+        ).prefetch_related('verbs', 'course')
 
         return context

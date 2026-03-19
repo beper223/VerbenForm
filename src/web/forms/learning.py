@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
-from src.personal_forms.models import Course, LearningUnit
+from src.personal_forms.models import Course, LearningUnit, VerbGroup
 
 User = get_user_model()
 
@@ -83,12 +83,12 @@ class CourseAssignmentForm(forms.ModelForm):
 class UnitForm(forms.ModelForm):
     class Meta:
         model = LearningUnit
-        fields = ['course', 'title', 'level', 'skill_type', 'order', 'verbs']
+        fields = ['course', 'title', 'level', 'skill_type', 'order', 'verb_group']
         widgets = {
             # Оставляем курс выпадающим списком, но отфильтруем его в __init__
             'course': forms.Select(attrs={'class': 'form-select'}),
             # Используем обычный селект, Tom Select превратит его в продвинутый поиск
-            'verbs': forms.SelectMultiple(attrs={'id': 'verb-select'}),
+            'verb_group': forms.Select(attrs={'class': 'form-select'}),
         }
     def __init__(self, *args, **kwargs):
         # Можно передать пользователя в форму, если нужно отфильтровать список курсов
@@ -96,5 +96,25 @@ class UnitForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if user:
             self.fields['course'].queryset = Course.objects.filter(author=user)
-            # Сортируем глаголы по алфавиту для удобства поиска
-        self.fields['verbs'].queryset = self.fields['verbs'].queryset.order_by('infinitive')
+            self.fields['verb_group'].queryset = VerbGroup.objects.filter(
+                course__author=user
+            ).order_by('title')
+
+        # Делаем выбор набора обязательным
+        self.fields['verb_group'].required = True
+        self.fields['verb_group'].label = _("Wortschatz")
+
+class VerbGroupForm(forms.ModelForm):
+    class Meta:
+        model = VerbGroup
+        fields = ['course', 'title', 'verbs']
+        widgets = {
+            'verbs': forms.SelectMultiple(attrs={'id': 'verb-select'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            # Показываем только курсы этого учителя
+            self.fields['course'].queryset = Course.objects.filter(author=user)
