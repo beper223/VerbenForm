@@ -36,7 +36,7 @@ class VerbGroup(models.Model):
     )
 
     def __str__(self):
-        return f"{self.title} ({self.course.title})"
+        return f"{self.title} ({self.author.display_name})"
 
 class LearningUnit(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
