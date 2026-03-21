@@ -21,8 +21,11 @@
         <a href="{% url 'training-session' unit.id %}" class="btn btn-outline-success fw-bold">
             <i class="bi bi-arrow-repeat"></i> {% trans "Noch einmal wiederholen (Review)" %}
         </a>
-        <a href="{% url 'units-list' %}" class="btn btn-link text-muted">
-            {% trans "Zur Kursliste" %}
+{#        <a href="{% url 'units-list' %}" class="btn btn-link text-muted">#}
+{#            {% trans "Zur Kursliste" %}#}
+{#        </a>#}
+        <a href="{% url 'course-detail' course_id=unit.course_id %}" class="btn btn-link text-muted">
+            {% trans "Zurück zum Kurs" %}
         </a>
     </div>
 </div>

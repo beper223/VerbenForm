@@ -29,6 +29,9 @@
     </div>
 
     <div class="text-center">
-        <a href="{% url 'units-list' %}" class="btn btn-link text-muted">{% trans "Beenden" %}</a>
+{#        <a href="{% url 'units-list' %}" class="btn btn-link text-muted">{% trans "Beenden" %}</a>#}
+        <a href="{% url 'course-detail' course_id=unit.course_id %}" class="btn btn-link text-muted">
+            {% trans "Zurück zum Kurs" %}
+        </a>
     </div>
 </div>
