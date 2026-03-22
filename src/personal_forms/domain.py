@@ -1,14 +1,14 @@
-# src/personal_forms/domain.py
 from __future__ import annotations
-
 from dataclasses import dataclass
+
+from src.common.choices import Pronoun
 
 
 @dataclass(frozen=True)
 class LearningAtom:
     verb_id: int
     skill_type: str
-    pronoun: str | None
+    pronoun: Pronoun | None
 
 
 @dataclass(frozen=True)

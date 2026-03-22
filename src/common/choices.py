@@ -105,28 +105,30 @@ class AuxiliaryVerb(Enum):
     def choices(cls):
         return [(i.value, i.value) for i in cls]
 
-class Pronoun(Enum):
-    ICH = "ich"
-    DU = "du"
-    ER = "er/sie/es"
-    WIR = "wir"
-    IHR = "ihr"
-    SIE = "sie"
+class Pronoun(models.TextChoices):
 
-    @classmethod
-    def choices(cls):
-        return [(i.value, i.value) for i in cls]
-
-    @classmethod
-    def get_attr_by_value(cls, value: str):
-        for attr in cls:
-            if attr.value == value:
-                return attr
-        return None
+    ICH = "ich", "ich"
+    DU = "du", "du"
+    ER = "er/sie/es", "er/sie/es"
+    WIR = "wir", "wir"
+    IHR = "ihr", "ihr"
+    SIE = "sie", "sie/Sie"
 
     @classmethod
     def get_available_values(cls):
-        return [attr.value for attr in cls]
+        return cls.values
+
+    # @classmethod
+    # def choices(cls):
+    #     return cls.choices
+
+    @classmethod
+    def get_attr_by_value(cls, value: str):
+        try:
+            return cls(value)
+        except ValueError:
+            return None
+
 
 class AuxiliaryConjugation:
     _forms = {
@@ -151,24 +153,6 @@ class AuxiliaryConjugation:
     @classmethod
     def get(cls, auxiliary: AuxiliaryVerb, pronoun: Pronoun) -> str:
         return cls._forms[auxiliary][pronoun]
-
-# class SkillType(Enum):
-#     TRANS = "translation"
-#     RU = "praesens"
-#     UK = "uk"
-#
-#     @classmethod
-#     def choices(cls):
-#         return [
-#             (cls.EN.value, _("Englisch")),
-#             (cls.RU.value, _("Präsens")),
-#             (cls.UK.value, _("Ukrainisch")),
-#             (cls.UK.value, _("Ukrainisch")),
-#         ]
-#
-#     @classmethod
-#     def get_available_values(cls):
-#         return [attr.value for attr in cls]
 
 class SkillType(models.TextChoices):
     TRANSLATION = "translation", _("Übersetzung")

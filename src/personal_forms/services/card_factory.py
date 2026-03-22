@@ -36,4 +36,5 @@ class CardFactory:
     def _get_question(verb, atom) -> str:
         if atom.skill_type == "translation":
             return verb.infinitive
-        return f"{verb.infinitive}\n({atom.pronoun})"
+        pronoun_display = atom.pronoun.label if atom.pronoun else ""
+        return f"{verb.infinitive}\n({pronoun_display})"

@@ -81,7 +81,7 @@ class VerbForm(models.Model):
     pronoun = models.CharField(
         _("Pronomen"),
         max_length=20,
-        choices=Pronoun.choices(),
+        choices=Pronoun.choices,
     )
     form = models.CharField(
         _("Personalform"),

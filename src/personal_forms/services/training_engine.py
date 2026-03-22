@@ -84,7 +84,7 @@ class CachedTrainingEngine:
         return LearningAtom(
             verb_id=verb_id,
             skill_type=skill_type,
-            pronoun=pronoun
+            pronoun=Pronoun(pronoun) if pronoun else None
         )
 
     # Вспомогательные методы
