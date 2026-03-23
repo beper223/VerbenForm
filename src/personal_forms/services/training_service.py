@@ -76,7 +76,7 @@ class TrainingService:
         cache_data = {
             "verb_id": atom.verb_id,
             "skill_type": atom.skill_type,
-            "pronoun": atom.pronoun,
+            "pronoun": atom.pronoun.value if atom.pronoun else None,
             "unit_id": unit_id,  # Сохраняем ID юнита, чтобы потом сбросить его кеш
             "correct_answer": correct_answer,
         }
